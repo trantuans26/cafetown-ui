@@ -5,12 +5,12 @@
   },
   "sidebar": {
     "overview": "Tổng quan",
-    "cash": "Tiền mặt",
+    "employee": "Nhân viên",
     "banking": "Tiền gửi",
     "purchase": "Mua hàng",
     "sales": "Bán hàng",
     "manage_invoice": "Quản lý hóa đơn",
-    "manage_stock": "Quản lý kho",
+    "manage_stock": "Quản lý hàng hóa",
     "equipment": "Công cụ",
     "fixed_asset": "Tài sản cố định",
     "tax": "Thuế",
@@ -100,8 +100,8 @@
     "less_than_or_equal": "Nhỏ hơn hoặc bằng"
   },
   "action_form": {
-    "save": "Cất",
-    "save_and_add": "Cất và thêm",
+    "save": "Lưu",
+    "save_and_add": "Lưu và Thêm mới",
     "cancel": "Hủy",
     "close": "Đóng",
     "help": "Trợ giúp"
@@ -151,7 +151,7 @@
     "page_developing": "Trang {0} đang được phát triển!",
     "confirm_delete": "Bạn có thực sự muốn xóa nhân viên <b>&lt{0}&gt</b> không?",
     "confirm_delete_many": "Bạn có thực sự muốn xóa những nhân viên đã chọn không?",
-    "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?"
+    "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn Lưu không?"
   },
   "confirm_popup": {
     "yes": "Có",
@@ -185,8 +185,8 @@
       "show_keyboard_shortcut": "Ctrl + F1"
     },
     "key_label": {
-      "save": "Cất và đóng",
-      "save_and_add": "Cất và thêm mới",
+      "save": "Lưu và đóng",
+      "save_and_add": "Lưu và Thêm mới",
       "add": "Thêm mới",
       "close": "Đóng",
       "delete": "Xóa",

@@ -7,7 +7,7 @@ function lazyLoad(view) {
 const router = [
   {
     path: "/",
-    redirect: "/quan-ly-kho",
+    redirect: "/tong-quan",
   },
   {
     path: "/tong-quan",
@@ -28,33 +28,9 @@ const router = [
       title: "Nhân viên",
     },
     sideBar: {
-      icon: "ms-icon ms-icon-cash",
-      title: "cash",
+      icon: "ms-icon ms-icon-employee",
+      title: "employee",
       order: 2,
-    },
-  },
-  {
-    path: "/tien-gui",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Tiền gửi",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-bank",
-      title: "banking",
-      order: 3,
-    },
-  },
-  {
-    path: "/mua-hang",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Mua hàng",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-buy",
-      title: "purchase",
-      order: 4,
     },
   },
   {
@@ -82,10 +58,10 @@ const router = [
     },
   },
   {
-    path: "/quan-ly-kho",
+    path: "/quan-ly-hang-hoa",
     component: lazyLoad("warehouse/WarehousePage"),
     meta: {
-      title: "Quản lý kho",
+      title: "Quản lý hàng hóa",
     },
     sideBar: {
       icon: "ms-icon ms-icon-warehouse",
@@ -119,109 +95,6 @@ const router = [
     component: lazyLoad("warehouse/inventory/InventoryPage"),
     meta: {
       title: "Vật tư / Hàng hóa",
-    },
-  },
-  {
-    path: "/cong-cu",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Công cụ",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-tool",
-      title: "equipment",
-      order: 8,
-    },
-  },
-  {
-    path: "/tai-san-co-dinh",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Tài sản cố định",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-fixed-asset",
-      title: "fixed_asset",
-      order: 9,
-    },
-  },
-  {
-    path: "/thue",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Thuế",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-tax",
-      title: "tax",
-      order: 10,
-    },
-  },
-  {
-    path: "/gia-thanh",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Giá thành",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-price",
-      title: "price",
-      order: 11,
-    },
-  },
-  {
-    path: "/tong-hop",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Tổng hợp",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-summary",
-      title: "general_ledger",
-      order: 12,
-    },
-  },
-  {
-    path: "/ngan-sach",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Ngân sách",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-budget",
-      title: "budget",
-      order: 13,
-    },
-  },
-  {
-    path: "/bao-cao",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Báo cáo",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-report",
-      title: "report",
-      order: 14,
-    },
-  },
-  {
-    path: "/phan-tich-tai-chinh",
-    component: lazyLoad("update/UpdatePage"),
-    meta: {
-      title: "Phân tích tài chính",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-analysis",
-      title: "financial_analysis",
-      order: 15,
-    },
-  },
-  {
-    path: "/:pathMatch(.*)*",
-    component: lazyLoad("error/ErrorPage"),
-    meta: {
-      title: "Không tìm thấy trang",
     },
   },
 ];

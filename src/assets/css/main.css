@@ -1839,6 +1839,9 @@ button:focus {
 .ms-icon-cash {
   background-position: -74px -1588px;
 }
+.ms-icon-employee {
+  background-position: -120px -1664px;
+}
 .ms-icon-bank {
   background-position: -118px -1588px;
 }
@@ -2416,7 +2419,7 @@ button:focus {
   width: auto;
   height: 100%;
   color: #ffffff;
-  background-color: #393a3d;
+  background-color: #393a3d; 
   overflow-y: auto;
   flex-shrink: 0;
 }

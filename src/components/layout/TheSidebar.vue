@@ -11,7 +11,7 @@
         <div class="sidebar__header">
             <div class="ms-24 ms-icon ms-icon-nine-dots ml-r-2"></div>
             <div class="sidebar__logo">
-                <img src="@/assets/img/Logo_Module_TiengViet_White.66947422.svg" alt="logo" />
+                <img src="@/assets/img/coffee.png" alt="logo" />
             </div>
         </div>
         <div class="sidebar__content">
