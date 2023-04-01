@@ -5,9 +5,9 @@
                 <div class="ms-24 ms-icon ms-icon-three-stripes ml-x-2" @click="toggleSidebar"></div>
             </v-tooltip>
             <v-dropdown icon="ms-16 ms-icon ms-icon-chevron-big-down" :backgroundActive="false"
-                :items="[{ 'key': '', 'value': 'CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC' }]">
-                <v-tooltip content="CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC">
-                    CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC
+                :items="[{ 'key': '', 'value': 'CỬA HÀNG CAFÉ THÁI TUẤN' }]">
+                <v-tooltip content="CỬA HÀNG CAFÉ THÁI TUẤN">
+                    CỬA HÀNG CAFÉ THÁI TUẤN
                 </v-tooltip>
             </v-dropdown>
         </div>
