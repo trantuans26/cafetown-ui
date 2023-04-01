@@ -1,0 +1,199 @@
+{
+  "common": {
+    "select_lang": "Select Language",
+    "notification": "Notification"
+  },
+  "sidebar": {
+    "overview": "Overview",
+    "cash": "Cash",
+    "banking": "Banking",
+    "purchase": "Purchase",
+    "sales": "Sales",
+    "manage_invoice": "Invoice Managing",
+    "manage_stock": "Inventory",
+    "equipment": "Equipments",
+    "fixed_asset": "Fixed Assets",
+    "tax": "Tax",
+    "price": "Cost of Production",
+    "general_ledger": "General",
+    "budget": "Budget",
+    "report": "Report",
+    "financial_analysis": "Financial Analysis",
+    "menu_action": {
+      "collapse": "Collapse",
+      "expand": "Expand"
+    }
+  },
+  "employee_page": {
+    "title": "Employee List",
+    "add_employee": "Add Employee",
+    "search_function": "Search By Employee ID, Name"
+  },
+  "employee_table": {
+    "code": "Subject ID",
+    "name": "Subject's Name",
+    "gender": "Gender",
+    "date_of_birth": "Birth Date",
+    "identity_card": "Personal ID Card",
+    "job_title": "Job Title",
+    "department": "Unit's Name",
+    "bank_number": "Bank Account",
+    "bank_name": "Bank's Name",
+    "bank_branch": "Bank's Branch",
+    "action": "Action"
+  },
+  "employee_info": {
+    "title": "Employee's Information",
+    "code": "ID",
+    "name": "Name",
+    "department": "Unit",
+    "job_title": "Job Title",
+    "date_of_birth": "Date of birth",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "identity_card": "Personal ID Number",
+    "identity_card_label": "",
+    "issued_date": "Issued Date",
+    "issued_by": "Issued By",
+    "address": "Address",
+    "phone_number": "Phone Number",
+    "phone_number_label": "",
+    "home_phone_number": "Home Phone Number",
+    "home_phone_number_label": "",
+    "email": "Email",
+    "bank_number": "Bank Account",
+    "bank_name": "Bank's Name",
+    "bank_branch": "Bank's Branch",
+    "is_customer": "Is Customer",
+    "is_supplier": "Is Supplier"
+  },
+  "action": {
+    "export_excel": "Export Excel",
+    "reload_data": "Reload Data",
+    "batch_action": "Perform for a group of transactions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "return": "Return",
+    "duplicate": "Duplicate",
+    "inactive": "Inactive",
+    "active": "Active",
+    "more_action": "More Action",
+    "table_setting": "Theme Setting"
+  },
+  "table_filter": {
+    "filter": "Filter",
+    "cancel": "Cancel",
+    "filter_by_placeholder": "Enter the filter value",
+    "is_null": "(Empty)",
+    "is_not_null": "(Not Empty)",
+    "equal": "Equal",
+    "not_equal": "Not Equal",
+    "contain": "Contain",
+    "not_contain": "Not Contain",
+    "start_with": "Start With",
+    "end_with": "End With",
+    "greater_than": "Greater Than",
+    "greater_than_or_equal": "Greater Than Or Equal",
+    "less_than": "Less Than",
+    "less_than_or_equal": "Less Than Or Equal"
+  },
+  "action_form": {
+    "save": "Save",
+    "save_and_add": "Save and Add",
+    "cancel": "Cancel",
+    "close": "Close",
+    "help": "Help"
+  },
+  "pagination": {
+    "after": "After",
+    "before": "Before",
+    "total": "Total",
+    "record": "Record(s)",
+    "10": "10 Record Per Page",
+    "20": "20 Record Per Page",
+    "30": "30 Record Per Page",
+    "50": "50 Record Per Page",
+    "100": "100 Record Per Page"
+  },
+  "validate_error": {
+    "required": "{0} is required",
+    "invalid": "{0} is invalid",
+    "invalid_number": "{0} must be a number",
+    "invalid_phone_number": "{0} is invalid phone number",
+    "max_length": "{0} must be less than {1} characters",
+    "min_length": "{0} must be greater than {1} characters",
+    "over_current_date": "{0} must be less than current date",
+    "over_value": "{0} must be less than {1}",
+    "less_value": "{0} must be greater than {1}"
+  },
+  "notice_message": {
+    "insert_success": "Insert employee <b>{0}</b> successfully",
+    "insert_fail": "Insert employee <b>{0}</b> fail",
+    "update_success": "Update employee <b>{0}</b> successfully",
+    "update_fail": "Update employee <b>{0}</b> fail",
+    "delete_success": "Delete employee <b>{0}</b> successfully",
+    "delete_fail": "Delete employee <b>{0}</b> fail",
+    "delete_many_success": "Delete <b>{0}</b> employees successfully",
+    "not_found": "Data not found",
+    "unknown_error": "An error occurred, please try again",
+    "get_employee_list_fail": "An error occurred when getting employee list, please try again",
+    "get_employee_info_fail": "An error occurred when getting employee information, please try again",
+    "get_department_list_fail": "An error occurred when getting department list, please try again",
+    "reload_data_success": "Reload data successfully",
+    "reload_data_fail": "Reload data fail",
+    "export_excel_success": "Export employee list to excel successfully",
+    "export_excel_fail": "Export employee list to excel fail",
+    "export_excel_processing": "Exporting employee list to excel, please wait...",
+    "developing": "This function is developing, please wait for the next version",
+    "page_developing": "This page is developing",
+    "confirm_delete": "Are you sure you want to delete employee <br/><b>&lt{0}&gt</b>?",
+    "confirm_delete_many": "Are you sure you want to delete selected employees?",
+    "confirm_data_close": "Data has been changed, are you sure you want to close?"
+  },
+  "confirm_popup": {
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "close": "Close"
+  },
+  "toast": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info"
+  },
+  "quick_key": {
+    "info": {
+      "title": "Quick Key",
+      "description": "List of quick key",
+      "key": "Key",
+      "action": "Action"
+    },
+    "key": {
+      "save": "Ctrl + S",
+      "save_and_add": "Ctrl + Shift + S",
+      "add": "Ctrl + Alt + A",
+      "close": "Esc",
+      "delete": "Delete",
+      "reload": "Ctrl + R",
+      "export_excel": "Ctrl + Alt + E",
+      "change_language": "Ctrl + Alt + L",
+      "collapse": "Ctrl + Alt + C",
+      "show_keyboard_shortcut": "Ctrl + F1"
+    },
+    "key_label": {
+      "save": "Save and close",
+      "save_and_add": "Save and add new",
+      "add": "Add new",
+      "close": "Close",
+      "delete": "Delete",
+      "reload": "Reload data in table",
+      "export_excel": "Export data in table to excel",
+      "change_language": "Change language (English/Vietnamese)",
+      "collapse": "Collapse/Expand menu",
+      "show_keyboard_shortcut": "Show keyboard shortcut"
+    }
+  }
+}

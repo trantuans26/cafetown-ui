@@ -1,0 +1,410 @@
+<template>
+    <div class="unit-container">
+        <div class="content-header">
+            <div class="content-header__info">
+                <div class="content-header__title">Kho</div>
+                <v-dropdown className="primary rounded ms-l-3" icon="ms-16 ms-icon ms-icon-arrow-down-white"
+                    @onClick="showStockForm" :items="[{ key: 'import', value: 'Nhập từ excel' }]" :hasButton="true">
+                    Thêm
+                </v-dropdown>
+            </div>
+            <div class="content-header__breadcumb">
+                <div class="ms-16 ms-icon ms-icon-chevron-left"></div>
+                <router-link to="/quan-ly-kho">Tất cả danh mục</router-link>
+            </div>
+        </div>
+        <div class="unit-body">
+            <div class="unit-toolbar">
+                <div class="unit-toolbar__left d-flex align-item-center">
+                    <v-input placeholder="Tìm kiếm theo đơn vị tính" icon="ms-16 ms-icon ms-icon-search"
+                        v-model="keyword" :outline="true" :styleProps="['width: 240px', 'font-style: italic']"
+                        className="v-input__with-icon" :focus="true" />
+                    <!-- Khu vực hiển thị danh sách filter -->
+                    <VFilter />
+                </div>
+                <div class="unit-toolbar__right">
+                    <div :tooltip="$t('action.reload_data')" class="ms-24 ms-icon ms-icon-reload ms-r-2 ml-l-2"
+                        @click="reloadData">
+                    </div>
+                    <div :tooltip="$t('action.export_excel')" class="ms-24 ms-icon ms-icon-excel ms-x-2"
+                        @click="handleSelectAction(Enum.ACTION.EXPORT)"></div>
+                </div>
+            </div>
+            <div class="unit-table">
+                <v-table :columns="columns" :data="stockResult.data" :tablePadding="false" :isDataLoaded="isDataLoaded"
+                    @action="handleSelectAction">
+                </v-table>
+            </div>
+            <div class="unit-pagination">
+                <!-- Phân trang -->
+                <v-pagination v-model:pageSize="objectFilter.pageSize" v-model:pageNumber="objectFilter.pageNumber"
+                    v-model:totalRecord="stockResult.totalRecord">
+                </v-pagination>
+            </div>
+        </div>
+        <StockForm v-model="isShowStockForm" :entityId="entityId" @newObj="updateFrontEnd" />
+        <v-popup ref="popup"></v-popup>
+        <v-toast ref="toast" :showProgress="true" :maxMessage="10" :timeout="3000"></v-toast>
+    </div>
+</template>
+<script>
+import _ from 'lodash'
+import StockForm from './StockForm.vue'
+import Enum from "@/utils/enum";
+import api from '@/api';
+import { convertStatus } from "@/utils/format";
+export default {
+    name: 'UnitPage',
+    components: {
+        StockForm
+    },
+    data() {
+        return {
+            keyword: '', // Từ khóa tìm kiếm
+            objectFilter: { // Đối tượng lọc
+                pageNumber: 1,
+                pageSize: 20,
+                keyword: "",
+                filter: []
+            },
+            stockResult: {}, // Kết quả trả về từ api
+            isShowStockForm: false, // Hiển thị form
+            entityId: null, // Id của đối tượng,
+            dataFilter: [], // Dữ liệu lọc
+            isDataLoaded: false, // biến này dùng để check xem dữ liệu đã được load chưa
+        }
+    },
+    computed: {
+        /**
+         * @description: Get và set trạng thái của form lưu trữ trong store 
+         * Author: tttuan 08/10/2022
+         */
+        formMode: {
+            set(val) {
+                this.$store.dispatch('setMode', val);
+            },
+            get() {
+                return this.$store.getters.getMode;
+            },
+        },
+        /**
+        * @description: Hàm này dùng để lấy key và condition của filter
+        * @param: {any} 
+        * Author: tttuan 10/11/2022
+        */
+        getListFilterByKeyAndCondition: {
+            get() {
+                return this.$store.getters.getListFilterByKeyAndCondition;
+            },
+        },
+        columns() {
+            return [
+                {
+                    title: "Mã kho",
+                    key: "stockCode",
+                    search: true,
+                    width: "150px",
+                    fixed: true,
+                    left: "150px",
+                    filterable: true,
+                },
+                {
+                    title: "Tên kho",
+                    key: 'stockName',
+                    width: "20%",
+                    filterable: true,
+                },
+                {
+                    title: "Địa chỉ",
+                    key: 'address',
+                    filterable: true,
+                },
+                {
+                    title: "Trạng thái",
+                    key: 'status',
+                    type: 'status',
+                    filterType: 'combobox',
+                    filterOptions: [
+                        {
+                            key: 1,
+                            value: 'Đang sử dụng'
+                        },
+                        {
+                            key: "0",
+                            value: 'Ngừng sử dụng'
+                        }
+                    ],
+                    condition: Enum.FilterConditon.Equal,
+                    width: "150px",
+                    filterable: true,
+                    formatter: (cellValue) => {
+                        return convertStatus(cellValue);
+                    }
+                },
+                {
+                    title: "Chức năng",
+                    key: 'action',
+                    type: 'action',
+                    fixed: true,
+                    textAlign: 'center',
+                    width: "100px",
+
+                },
+            ] // Các cột của bảng kho
+        }
+    },
+    watch: {
+        /**
+         * @description: Xử lý khi objectFilter thay đổi
+         * @param: {any}
+         * Author: tttuan 24/10/2022
+         */
+        objectFilter: {
+            handler: function () {
+                this.getStockList();
+            },
+            deep: true
+        },
+        /**
+         * @description: Xử lý khi keyword thay đổi
+         * @param: {any}
+         * Author: tttuan 24/10/2022
+         */
+        keyword: _.debounce(function (newVal) {
+            this.objectFilter = {
+                ...this.objectFilter,
+                keyword: newVal,
+                pageNumber: 1
+            }
+        }, 500),
+        /**
+         * @description: Theo giõi action key có sẵn
+         * @param: {any} 
+         * Author: tttuan 29/10/2022
+         */
+        '$store.getters.getActionKey': {
+            handler(actionKey) {
+                if (Enum.ACTION.ADD === actionKey && !this.isShowStockForm) {
+                    this.showStockForm(Enum.ACTION.ADD)
+                }
+            },
+            deep: true
+        },
+        /**
+        * @description: Hàm này dùng để call api khi list filter thay đổi
+        * @param: {any} 
+        * Author: tttuan 10/11/2022
+        */
+        getListFilterByKeyAndCondition: {
+            handler: function (value) {
+                this.objectFilter = {
+                    ...this.objectFilter,
+                    pageNumber: 1,
+                    filter: value
+                }
+            },
+            deep: true
+        },
+    },
+    methods: {
+        /**
+         * @description: Hàm này dùng để export ra file excel
+         * @param: {any} 
+         * Author: tttuan 07/11/2022
+         */
+        async exportExcel() {
+            const self = this;
+            try {
+                self.$root.$toast.info(self.$t('notice_message.export_excel_processing'));
+                const res = await api.stock.exportExcel();
+                if (res) {
+                    const link = document.createElement('a'); // tạo thẻ a để download file
+                    link.href = res.request.responseURL; // đường dẫn tải file
+                    link.click();
+                    self.$root.$toast.success(self.$t('notice_message.export_excel_success'));
+                }
+            } catch (error) {
+                self.$root.$toast.error(self.$t('notice_message.export_excel_fail'));
+                console.log(error);
+            }
+        },
+        /**
+         * @description: Hiển thị form đơn vị tính
+         * Author: tttuan 24/10/2022
+         */
+        showStockForm(formMode) {
+            this.formMode = formMode ? formMode : Enum.FORM_MODE.ADD;
+            this.isShowStockForm = true
+        },
+        /**
+         * @description: Hàm này dùng để nhận các action từ table và thực hiện các nghiệp vụ tương ứng
+         * Author: tttuan 27/10/2022
+         */
+        handleSelectAction(action, object) {
+            const self = this;
+            switch (action) {
+                case Enum.ACTION.DELETE:
+                    self.deteteStock(object);
+                    break;
+                case Enum.ACTION.EDIT:
+                    self.entityId = object.stockID;
+                    self.showStockForm(Enum.FORM_MODE.EDIT);
+                    break;
+                case Enum.ACTION.DUPLICATE:
+                    self.entityId = object.stockID;
+                    self.showStockForm(Enum.FORM_MODE.DUPLICATE);
+                    break;
+                case Enum.ACTION.EXPORT:
+                    self.exportExcel();
+                    break;
+                case Enum.ACTION.ACTIVE:
+                    self.activeOrInactiveStock(object, 1);
+                    break;
+                case Enum.ACTION.INACTIVE:
+                    self.activeOrInactiveStock(object, 0);
+                    break;
+            }
+        },
+        /**
+           * @description: Hàm này dùng để active và inactive kho
+           * @param: {any} 
+           * Author: tttuan 10/11/2022
+           */
+        async activeOrInactiveStock(object, status) {
+            try {
+                await api.stock.inactiveAndActive(object.stockID, status);
+                object.status = status;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        /**
+         * @description: Hàm này dùng cập nhật lại danh sách khi thêm mới hoặc sửa đổi bên front-end
+         * Author: tttuan 27/10/2022
+         */
+        updateFrontEnd(object) {
+            const unitId = object.stockID;
+            if (this.formMode === Enum.ACTION.EDIT) {
+                const index = this.stockResult.data.findIndex(item => item.stockID === unitId);
+                this.stockResult.data.splice(index, 1);
+            } else {
+                this.stockResult.totalRecord++;
+            }
+            this.stockResult.data.unshift(object);
+        },
+        /**
+         * @description: Xóa đơn vị tính bên font-end
+         * @param: {any} 
+         * Author: tttuan 24/10/2022
+         */
+        async deteteStock(object) {
+            const self = this;
+            try {
+                const confirm = await self.$refs.popup.show({
+                    message: `Bạn có thực sự muốn xóa Kho <<b>${object.stockCode}</b>> không?`,
+                    icon: Enum.ICON.WARNING,
+                    okButton: self.$t('confirm_popup.yes'),
+                    closeButton: self.$t('confirm_popup.cancel'),
+                });
+                if (confirm == self.$t('confirm_popup.yes')) {
+                    await api.stock.deleteById(object.stockID);
+                    const index = self.stockResult.data.findIndex((item) => item.stockID === object.stockID);
+                    if (index !== -1) {
+                        self.stockResult.data.splice(index, 1);
+                        self.stockResult.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
+                    }
+                    // nếu số lượng bản ghi hiện tại bằng 0 thì trang hiện tại sẽ giảm đi 1
+                    if (self.stockResult.data.length === 0) {
+                        self.objectFilter.pageNumber = 1;
+                    }
+                    self.$root.$toast.success(`Xóa Kho <<b>${object.stockCode}</b>> thành công!`);
+                }
+            } catch (error) {
+                switch (Number(error.message)) {
+                    case Enum.MISAError.ForeignKey:
+                        self.$refs.popup.showError(`<b>Xóa không thành công</b>. </br></br>Danh mục <<b>${object.stockCode}</b>> đã <<b>có phát sinh </b>>. Bạn phải xóa các phát sinh liên quan trước khi xóa danh mục. `);
+                        break;
+                    default:
+                        self.$root.$toast.error(`Xóa Kho <<b>${object.stockCode}</b>> thất bại!`);
+                        break;
+                }
+            }
+        },
+        /**
+         * @description: Lấy danh sách đơn vị tính
+         * @param: {any} 
+         * Author: tttuan 24/10/2022
+         */
+        async getStockList(isReload = false) {
+            const self = this;
+            self.isDataLoaded = false;
+            try {
+                self.stockResult = await api.stock.getAllPaging({
+                    pageNumber: self.objectFilter.pageNumber,
+                    pageSize: self.objectFilter.pageSize,
+                    keyword: self.objectFilter.keyword,
+                    filter: self.objectFilter.filter
+                });
+                if (isReload) {
+                    self.$root.$toast.success(self.$t('notice_message.reload_data_success'))
+                }
+            } catch (error) {
+                self.$refs.popup.showError(`Lấy danh sách kho thất bại`);
+            } finally {
+                self.isDataLoaded = true;
+            }
+        },
+        /**
+         * @description: Reload data
+         * Author: tttuan 24/10/2022
+         */
+        reloadData() {
+            const self = this;
+            self.getStockList(true);
+        }
+    },
+    created() {
+        this.Enum = Enum; // Khởi tạo Enum
+    },
+}
+</script>
+
+<style lang="scss" scoped>
+.unit-container {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.unit-body {
+    padding: 16px;
+    margin-top: 20px;
+    position: relative;
+    background-color: #fff;
+    box-sizing: border-box;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.unit-toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+}
+
+.unit-table {
+    height: 100%;
+    display: flex;
+}
+
+.unit-toolbar__left {}
+
+.unit-toolbar__right {
+    display: flex;
+    align-items: center;
+}
+</style>
