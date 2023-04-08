@@ -8,12 +8,12 @@
                         {{ $t('employee_info.title') }}
                     </div>
                     <div class="col">
-                        <v-input type="checkbox" :label_custom="$t('employee_info.is_customer')"
+                        <v-input type="checkbox" :label_custom="$t('employee_info.is_employee')"
                             v-model="employee.isCustomer" :value="true"></v-input>
                     </div>
                     <div class="col">
-                        <v-input type="checkbox" :label_custom="$t('employee_info.is_supplier')"
-                            v-model="employee.isSupplier" :value="true"></v-input>
+                        <v-input type="checkbox" :label_custom="$t('employee_info.is_manager')"
+                            v-model="employee.isManager" :value="true"></v-input>
                     </div>
                 </div>
             </template>
@@ -33,20 +33,20 @@
                                         :required="true" :errorLabel="$t('employee_info.name')">
                                     </v-input>
                                 </div>
-                                <div class="form-group col l-12 md-12">
-                                    <v-combobox position="bottom" propKey="departmentID" v-model="employee.departmentID"
-                                        @validate="setValid('employeeName', $event)" propValue="departmentName"
-                                        :label="$t('employee_info.department')"
-                                        :errorLabel="$t('employee_info.department')"
-                                        v-model:textInput="employee.departmentName"
-                                        propApi="https://localhost:44365/api/v2/departments" :required="true"
-                                        :columns="[{ key: 'departmentCode', title: 'Mã phòng ban', width: '120px' }, { key: 'departmentName', title: 'Tên phòng ban', width: '250px' }]">
-                                    </v-combobox>
+                                <div class="form-group col l-5 md-5 c-5">
+                                    <v-input :label="$t('employee_info.phone_number')" v-model="employee.phone"
+                                        :isPhoneNumber="true" :isNumber="true" :errorLabel="$t('employee_info.phone_number')"
+                                        :validateCheck="true" :tooltipText="$t('employee_info.phone_number_label')"
+                                        tooltipPosition="right">
+                                    </v-input>
+                                </div>
+                                <div class="form-group col l-7 md-7 c-7">
+                                    <v-input :label="$t('employee_info.email')" v-model="employee.email" :isEmail="true"
+                                        :errorLabel="$t('employee_info.email')" :validateCheck="true"> </v-input>
                                 </div>
                                 <div class="form-group col l-12 md-12">
-                                    <v-input :label="$t('employee_info.job_title')" v-model="employee.jobTitle"
-                                        :maxLength="100" :validateCheck="true"
-                                        :errorLabel="$t('employee_info.job_title')">
+                                    <v-input :label="$t('employee_info.address')" v-model="employee.address"
+                                        :maxLength="255" :validateCheck="true" :errorLabel="$t('employee_info.address')">
                                     </v-input>
                                 </div>
                             </div>
@@ -99,34 +99,14 @@
                     </div>
                     <div class="row sm-gutter">
                         <div class="form-group col l-12 md-12">
-                            <v-input :label="$t('employee_info.address')" v-model="employee.employeeAddress"
+                            <v-input :label="$t('employee_info.address')" v-model="employee.address"
                                 :maxLength="255" :validateCheck="true" :errorLabel="$t('employee_info.address')">
                             </v-input>
                         </div>
                     </div>
                     <div class="row sm-gutter">
                         <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('employee_info.phone_number')" v-model="employee.phoneNumber"
-                                :isPhoneNumber="true" :isNumber="true" :errorLabel="$t('employee_info.phone_number')"
-                                :validateCheck="true" :tooltipText="$t('employee_info.phone_number_label')"
-                                tooltipPosition="right">
-                            </v-input>
-                        </div>
-                        <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('employee_info.home_phone_number')" v-model="employee.telephoneNumber"
-                                :isPhoneNumber="true" :isNumber="true"
-                                :errorLabel="$t('employee_info.home_phone_number')" :validateCheck="true"
-                                :tooltipText="$t('employee_info.home_phone_number_label')" tooltipPosition="right">
-                            </v-input>
-                        </div>
-                        <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('employee_info.email')" v-model="employee.email" :isEmail="true"
-                                :errorLabel="$t('employee_info.email')" :validateCheck="true"> </v-input>
-                        </div>
-                    </div>
-                    <div class="row sm-gutter">
-                        <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('employee_info.bank_number')" v-model="employee.bankAccountNumber">
+                            <v-input :label="$t('employee_info.bank_number')" v-model="employee.bankNumber">
                             </v-input>
                         </div>
                         <div class="form-group col l-3 md-3">
@@ -183,18 +163,15 @@ export default {
                 employeeCode: "",
                 employeeName: "",
                 dateOfBirth: "",
-                employeeAddress: "",
+                address: "",
                 gender: 1,
-                departmentID: "",
-                departmentName: "",
-                jobTitle: "",
                 identityNumber: "",
                 identityDate: "",
                 identityPlace: "",
-                phoneNumber: "",
-                telephoneNumber: "",
+                phone: "",
+                password: "",
                 email: "",
-                bankAccountNumber: "",
+                bankNumber: "",
                 bankName: "",
                 bankBranch: "",
                 isCustomer: false,

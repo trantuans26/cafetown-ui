@@ -32,12 +32,7 @@ export default (axios) => ({
       keyword: "",
     };
     object = Object.assign(defaultObject, object);
-    return axios.get(`${PREFIX_EMPLOYEE}/filter`, {
-      params: {
-        pageNumber: object.pageNumber,
-        pageSize: object.pageSize,
-        keyword: object.keyword,
-      },
+    return axios.get(`${PREFIX_EMPLOYEE}/filter?keyword=${object.keyword}&pageSize=${object.pageSize}&pageNumber=${object.pageNumber}`, {
     });
   },
 
@@ -74,8 +69,8 @@ export default (axios) => ({
    * @description: Export danh sách nhân viên
    * Author: tttuan 5/3/2023
    */
-  exportEmployees() {
-    return axios.get(`${PREFIX_EMPLOYEE}/export`, {
+  exportEmployees(object) {
+    return axios.get(`${PREFIX_EMPLOYEE}/export?keyword=${object.keyword}`, {
       responseType: "blob",
     });
   },

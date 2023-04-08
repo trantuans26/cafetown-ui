@@ -22,14 +22,13 @@
                     <slot name="toolbar-right"></slot>
                     <v-input :placeholder="$t('employee_page.search_function')" icon="ms-16 ms-icon ms-icon-search"
                         v-model="keyword" :outline="true" :styleProps="['width: 240px', 'font-style: italic']"
-                        className="v-input__with-icon" :focus="true" />
+                        className="v-input__with-icon" :focus="true" 
+                    />
                     <div :tooltip="$t('action.reload_data')" class="ms-24 ms-icon ms-icon-reload ms-r-2 ml-l-2"
                         @click="handleAction(Enum.ACTION.RELOAD)">
                     </div>
                     <div :tooltip="$t('action.export_excel')" class="ms-24 ms-icon ms-icon-excel ms-x-2"
                         @click="handleAction(Enum.ACTION.EXPORT)"></div>
-                    <div :tooltip="$t('action.table_setting')" class="ms-24 ms-icon ms-icon-setting ms-x-2"
-                        @click="handleAction(Enum.ACTION.SETTING)"></div>
                 </div>
             </div>
             <!-- Table hiển thị danh sách nhân viên -->
@@ -125,32 +124,21 @@ export default {
                     {
                         title: this.$t(`employee_table.identity_card`),
                         key: 'identityNumber',
-
-                    },
-                    {
-                        title: this.$t(`employee_table.job_title`),
-                        key: 'jobTitle',
-                        width: "250px",
-                    },
-                    {
-                        title: this.$t(`employee_table.department`),
-                        key: 'departmentName',
-                        width: "250px",
                     },
                     {
                         title: this.$t(`employee_table.bank_number`),
-                        key: 'bankAccountNumber',
+                        key: 'bankNumber',
 
                     },
                     {
                         title: this.$t(`employee_table.bank_name`),
                         key: 'bankName',
-                        width: "250px",
+                        width: "160px",
                     },
                     {
                         title: this.$t(`employee_table.bank_branch`),
                         key: 'bankBranch',
-                        width: "250px",
+                        width: "200px",
                     },
                     {
                         title: this.$t(`employee_table.action`),
@@ -224,9 +212,16 @@ export default {
             handler: function (newVal) {
                 const self = this;
                 clearTimeout(self.debounce);
-                self.debounce = setTimeout(() => {
-                    self.pagination.keyword = newVal.trim();
-                }, 500); // triển khai debounce để giảm số lần gọi api
+                if (newVal) {
+                    self.debounce = setTimeout(() => {
+                        self.pagination.keyword = newVal.trim();
+                    }, 500); // triển khai debounce để giảm số lần gọi api
+                } else {
+                    self.debounce = setTimeout(() => {
+                        self.pagination.keyword = "";
+                    }, 500); // triển khai debounce để giảm số lần gọi api
+                }
+
             },
         },
         /**
@@ -382,7 +377,7 @@ export default {
             const self = this;
             try {
                 self.$root.$toast.info(self.$t('notice_message.export_excel_processing'));
-                const res = await self.$api.employee.exportEmployees(); // kiểm tra xem có dữ liệu không
+                const res = await self.$api.employee.exportEmployees(self.pagination); // kiểm tra xem có dữ liệu không
                 if (res.status == Enum.MISA_CODE.SUCCESS) {
                     const link = document.createElement('a'); // tạo thẻ a để download file
                     link.href = res.request.responseURL; // đường dẫn tải file
