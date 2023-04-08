@@ -67,12 +67,15 @@ $border-radius: 2px;
 $bg-white: #ffffff;
 $bg-black: #38393d;
 
+$bg-green-hover: rgb(52, 59, 140);
+$bg-green: rgb(44, 49, 115);
+$bg-green-active: rgb(24, 27, 64);
 // $bg-green: $light-green-500;
-$bg-green: rgb(77, 139, 85);
+//$bg-green: rgb(77, 139, 85);
 // $bg-green-hover: $light-green-400;
-$bg-green-hover: rgb(90, 163, 99);
+//$bg-green-hover: rgb(90, 163, 99);
 // $bg-green-active: $light-green-600;
-$bg-green-active: rgb(48, 87, 53);
+//$bg-green-active: rgb(48, 87, 53);
 
 $bg-warning: #f49342;
 $bg-error: $red-500;
@@ -86,9 +89,10 @@ $bg-grey-bold-hover: $grey-600;
 $bg-grey-bold-active: $grey-700;
 
 /*------ SideBar -------*/
-$bg-sidebar: #393a3d;
+$bg-sidebar: rgb(13, 24, 61);
 $text-sidebar: $white;
 $text-sidebar-hover: rgba(#d4d7dc, 0.2);
+$border-left-sidebar: rgb(227, 193, 120);
 
 /*------ Content -------*/
 $bg-content: #eceef1;
