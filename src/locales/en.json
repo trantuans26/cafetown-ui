@@ -66,9 +66,33 @@
     "bank_number": "Bank Account",
     "bank_name": "Bank's Name",
     "bank_branch": "Bank's Branch",
-    "is_customer": "Is Customer",
-    "is_supplier": "Is Supplier"
+    "is_employee": "Is Employee",
+    "is_manager": "Is Manager"
   },
+
+  "inventory_page": {
+    "title": "Inventory List",
+    "add_inventory": "Add Inventory",
+    "search_function": "Search By Inventory Code, Name"
+  },
+  "inventory_table": {
+    "code": "Inventory Code",
+    "name": "Inventory Name",
+    "quantity": "Quantity",
+    "cost": "Cost",
+    "inventory_category": "Inventory Category"
+  },
+  "inventory_info": {
+    "title": "Inventory Information",
+    "code": "Inventory Code",
+    "name": "Inventory Name",
+    "inventory_category": "Inventory Category",
+    "quantity": "Quantity",
+    "cost": "Cost",
+    "description": "Description",
+    "image": "Image"
+  },
+  
   "action": {
     "export_excel": "Export Excel",
     "reload_data": "Reload Data",

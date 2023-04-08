@@ -24,6 +24,7 @@
       "expand": "Mở rộng"
     }
   },
+
   "employee_page": {
     "title": "Nhân viên",
     "add_employee": "Thêm nhân viên",
@@ -66,9 +67,33 @@
     "bank_number": "Tài khoản ngân hàng",
     "bank_name": "Tên ngân hàng",
     "bank_branch": "Chi nhánh",
-    "is_customer": "Là khách hàng",
-    "is_supplier": "Là nhà cung cấp"
+    "is_employee": "Là nhân viên",
+    "is_manager": "Là quản lý"
   },
+
+  "inventory_page": {
+    "title": "Danh sách hàng hóa",
+    "add_inventory": "Thêm hàng hóa",
+    "search_function": "Tìm theo mã, tên, số điện thoại"
+  },
+  "inventory_table": {
+    "code": "Mã hàng",
+    "name": "Tên hàng",
+    "quantity": "Số lượng",
+    "cost": "Đơn giá",
+    "inventory_category": "Danh mục hàng hóa"
+  },
+  "inventory_info": {
+    "title": "Thông tin hàng hóa",
+    "code": "Mã",
+    "name": "Tên",
+    "inventory_category": "Danh mục hàng hóa",
+    "quantity": "Số lượng",
+    "cost": "Đơn giá",
+    "description": "Mô tả",
+    "image": "Hình ảnh"
+  },
+  
   "action": {
     "export_excel": "Xuất ra Excel",
     "reload_data": "Tải lại dữ liệu",
