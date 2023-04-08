@@ -84,6 +84,8 @@
         height: 18px;
         vertical-align: bottom;
         cursor: pointer;
+        transform: rotate(-90deg);
+        transition: all 0.2s, background 0.2s ease-in-out;
       }
 
       &[type="checkbox"].no-animation + label:before {
@@ -99,7 +101,7 @@
         background: url("@/assets/img/Sprites.64af8f61.svg") no-repeat -1501px -311px;
         width: 18px;
         height: 18px;
-        animation: rotate 0.2s ease-in-out;
+        transform: rotate(0deg);
       }
 
       &[type="checkbox"]:focus + label:before,
