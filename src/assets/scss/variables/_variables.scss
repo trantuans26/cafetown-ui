@@ -32,15 +32,24 @@ $blue-500: #007aff;
 $blue-400: #3395ff;
 $blue-300: #66afff;
 
+/* $green-600: #067933;
+$green-500: #089740;
+$green-400: #39ac66;
+$green-300: #6bc18d; */
 $green-600: #067933;
 $green-500: #089740;
 $green-400: #39ac66;
 $green-300: #6bc18d;
 
-$light-green-600: #409330;
+/* $light-green-600: #409330;
 $light-green-500: #50b83c;
 $light-green-400: #73c663;
-$light-green-300: #96d58a;
+$light-green-300: #96d58a; */
+
+$light-green-600: #0062cc;
+$light-green-500: #007aff;
+$light-green-400: #3395ff;
+$light-green-300: #66afff;
 
 $grey-700: #393a3d;
 $grey-600: #757575;
@@ -57,7 +66,7 @@ $text-grey: $grey-500;
 $border-red: $red-500;
 $border-grey: $grey-400;
 $border-line: $grey-300;
-$border-green: $light-green-500;
+$border-green: $light-green-600;
 
 // $border-radius: 4px;
 $border-radius: 2px;
@@ -95,10 +104,10 @@ $text-sidebar-hover: rgba(#d4d7dc, 0.2);
 $border-left-sidebar: rgb(227, 193, 120);
 
 /*------ Content -------*/
-$bg-content: #eceef1;
+$bg-content: rgb(217, 225, 251);
 
 /*------ Table -------*/
-$bg-table-header: #e5e8ec;
+$bg-table-header: rgb(194, 207, 248);
 $bg-table-body: #ffffff;
 $bg-table-line: #c7c7c7;
 $bg-table-body-hover: #f2f9ff;

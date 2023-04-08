@@ -111,7 +111,7 @@
 
       &[type="radio"]:focus + label:before {
         border-color: $border-green;
-        box-shadow: 0 0 0 1px rgba(1, 145, 96, 0.5);
+        box-shadow: 0 0 0 1px $bg-green-active;
       }
 
       &[type="radio"] + label:before {
