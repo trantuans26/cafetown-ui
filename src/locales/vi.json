@@ -72,7 +72,7 @@
   },
 
   "inventory_page": {
-    "title": "Danh sách hàng hóa",
+    "title": "Quản lý hàng hóa",
     "add_inventory": "Thêm hàng hóa",
     "search_function": "Tìm theo mã, tên, số điện thoại"
   },
@@ -81,7 +81,8 @@
     "name": "Tên hàng",
     "quantity": "Số lượng",
     "cost": "Đơn giá",
-    "inventory_category": "Danh mục hàng hóa"
+    "inventory_category": "Danh mục hàng hóa",
+    "action": "Chức năng"
   },
   "inventory_info": {
     "title": "Thông tin hàng hóa",
@@ -154,28 +155,28 @@
     "less_value": "{0} không được nhỏ hơn {1}!"
   },
   "notice_message": {
-    "insert_success": "Thêm mới nhân viên <b>{0}</b> thành công",
-    "insert_fail": "Thêm mới nhân viên <b>{0}</b> thất bại",
-    "update_success": "Cập nhật nhân viên <b>{0}</b> thành công",
-    "update_fail": "Cập nhật nhân viên <b>{0}</b> thất bại",
-    "delete_success": "Xóa nhân viên <b>{0}</b> thành công",
-    "delete_fail": "Xóa nhân viên <b>{0}</b> thất bại",
-    "delete_many_success": "Xóa <b>{0}</b> nhân viên thành công",
-    "delete_many_fail": "Lỗi khi xóa nhiều nhân viên",
+    "insert_success": "Thêm mới <b>{0}</b> thành công",
+    "insert_fail": "Thêm mới <b>{0}</b> thất bại",
+    "update_success": "Cập nhật <b>{0}</b> thành công",
+    "update_fail": "Cập nhật <b>{0}</b> thất bại",
+    "delete_success": "Xóa <b>{0}</b> thành công",
+    "delete_fail": "Xóa <b>{0}</b> thất bại",
+    "delete_many_success": "Xóa <b>{0}</b> thành công",
+    "delete_many_fail": "Lỗi khi xóa nhiều",
     "not_found": "Không tìm thấy dữ liệu",
     "unknown_error": "Có lỗi xảy ra, vui lòng thử lại sau",
-    "get_employee_list_fail": "Có lỗi xảy ra khi lấy danh sách nhân viên!",
-    "get_employee_info_fail": "Có lỗi xảy ra khi lấy thông tin nhân viên!",
+    "get_employee_list_fail": "Có lỗi xảy ra khi lấy danh sách!",
+    "get_employee_info_fail": "Có lỗi xảy ra khi lấy thông tin!",
     "get_department_list_fail": "Có lỗi xảy ra khi lấy danh sách đơn vị!",
     "reload_data_success": "Tải lại dữ liệu thành công!",
     "reload_data_fail": "Tải lại dữ liệu thất bại!",
-    "export_excel_success": "Xuất danh sách nhân viên ra Excel thành công!",
-    "export_excel_fail": "Xuất danh sách nhân viên ra Excel thất bại!",
-    "export_excel_processing": "Đang xuất danh sách nhân viên ra Excel...",
+    "export_excel_success": "Xuất danh sách ra Excel thành công!",
+    "export_excel_fail": "Xuất danh sách ra Excel thất bại!",
+    "export_excel_processing": "Đang xuất danh sách ra Excel...",
     "developing": "Chức năng <b>{0}</b> đang được phát triển!",
     "page_developing": "Trang {0} đang được phát triển!",
-    "confirm_delete": "Bạn có thực sự muốn xóa nhân viên <b>&lt{0}&gt</b> không?",
-    "confirm_delete_many": "Bạn có thực sự muốn xóa những nhân viên đã chọn không?",
+    "confirm_delete": "Bạn có thực sự muốn xóa <b>&lt{0}&gt</b> không?",
+    "confirm_delete_many": "Bạn có thực sự muốn xóa những đã chọn không?",
     "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn Lưu không?"
   },
   "confirm_popup": {
