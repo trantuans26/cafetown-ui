@@ -9,9 +9,9 @@
             </v-tooltip>
         </div>
         <div class="sidebar__header">
-            <div class="ms-24 ms-icon ms-icon-nine-dots ml-r-2"></div>
+<!--             <div class="ms-24 ms-icon ms-icon-nine-dots ml-r-2"></div> -->
             <div class="sidebar__logo">
-                <img src="@/assets/img/coffee.png" alt="logo" />
+<!--                 <img src="@/assets/img/coffee.png" alt="logo" /> -->
             </div>
         </div>
         <div class="sidebar__content">
