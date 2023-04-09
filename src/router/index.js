@@ -59,7 +59,7 @@ const router = [
   },
   {
     path: "/quan-ly-hang-hoa",
-    component: lazyLoad("warehouse/WarehousePage"),
+    component: lazyLoad("inventory/InventoryList"),
     meta: {
       title: "Quản lý hàng hóa",
     },

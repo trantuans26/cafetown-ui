@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import dialogMode from "./dialogMode";
 import employee from "./employee";
+import inventory from "./inventory";
 import action from "./action";
 import filter from "./filter";
 import table from "./table";
@@ -14,6 +15,7 @@ const store = createStore({
   modules: {
     dialogMode,
     employee,
+    inventory,
     action,
     filter,
     table,
