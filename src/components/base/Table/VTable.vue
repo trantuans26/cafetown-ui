@@ -90,7 +90,8 @@
                             <!-- Nếu như type là hình ảnh -->
                             <template v-else-if="column.type === 'image'">
                                 <div class="image">
-                                    <img class="image__file" :src="row[column.key]" alt=""> 
+                                    <img class="image__file" :src="row[column.key]" v-show="row[column.key]"> 
+                                    <img class="image__file" src="@/assets/img/default-placeholder.png" v-show="!row[column.key]"> 
                                 </div>
                             </template>
                             <!-- Nếu như type là action thì render action -->
@@ -407,8 +408,8 @@ export default {
 @import "@/assets/scss/base/table.scss";
 
 .image {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
 }
 
 .image img {
