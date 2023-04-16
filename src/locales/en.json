@@ -80,7 +80,8 @@
     "name": "Inventory Name",
     "quantity": "Quantity",
     "cost": "Cost",
-    "inventory_category": "Inventory Category"
+    "inventory_category": "Inventory Category",
+    "image": "Image"
   },
   "inventory_info": {
     "title": "Inventory Information",

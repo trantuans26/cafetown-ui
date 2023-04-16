@@ -3,6 +3,7 @@
     "select_lang": "Chọn ngôn ngữ",
     "notification": "Thông báo"
   },
+
   "sidebar": {
     "overview": "Tổng quan",
     "employee": "Nhân viên",
@@ -22,6 +23,145 @@
     "menu_action": {
       "collapse": "Thu gọn",
       "expand": "Mở rộng"
+    }
+  },
+  
+  "action": {
+    "export_excel": "Xuất ra Excel",
+    "reload_data": "Tải lại dữ liệu",
+    "batch_action": "Thực hiện hàng loạt",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "return": "Quay lại",
+    "duplicate": "Nhân bản",
+    "inactive": "Ngưng sử dụng",
+    "active": "Sử dụng",
+    "more_action": "Chức năng khác",
+    "table_setting": "Tùy chỉnh giao diện"
+  },
+
+  "table_filter": {
+    "filter": "Lọc",
+    "cancel": "Bỏ lọc",
+    "filter_by_placeholder": "Nhập giá trị lọc",
+    "is_null": "(Trống)",
+    "is_not_null": "(Không trống)",
+    "equal": "Bằng",
+    "not_equal": "Khác",
+    "contain": "Chứa",
+    "not_contain": "Không chứa",
+    "start_with": "Bắt đầu với",
+    "end_with": "Kết thúc với",
+    "greater_than": "Lớn hơn",
+    "greater_than_or_equal": "Lớn hơn hoặc bằng",
+    "less_than": "Nhỏ hơn",
+    "less_than_or_equal": "Nhỏ hơn hoặc bằng"
+  },
+
+  "action_form": {
+    "save": "Lưu",
+    "save_and_add": "Lưu và Thêm mới",
+    "cancel": "Hủy",
+    "close": "Đóng",
+    "help": "Trợ giúp"
+  },
+
+  "pagination": {
+    "after": "Sau",
+    "before": "Trước",
+    "total": "Tổng số",
+    "record": "bản ghi",
+    "10": "10 bản ghi trên 1 trang",
+    "20": "20 bản ghi trên 1 trang",
+    "30": "30 bản ghi trên 1 trang",
+    "50": "50 bản ghi trên 1 trang",
+    "100": "100 bản ghi trên 1 trang"
+  },
+
+  "validate_error": {
+    "required": "{0} không được để trống!",
+    "invalid": "{0} không hợp lệ!",
+    "invalid_number": "{0} phải là số!",
+    "invalid_phone_number": "{0} không hợp lệ!",
+    "max_length": "{0} không được vượt quá {1} ký tự!",
+    "min_length": "{0} không được nhỏ hơn {1} ký tự!",
+    "over_current_date": "{0} không được lớn hơn ngày hiện tại!",
+    "over_value": "{0} không được lớn hơn {1}!",
+    "less_value": "{0} không được nhỏ hơn {1}!"
+  },
+
+  "notice_message": {
+    "insert_success": "Thêm mới <b>{0}</b> thành công",
+    "insert_fail": "Thêm mới <b>{0}</b> thất bại",
+    "update_success": "Cập nhật <b>{0}</b> thành công",
+    "update_fail": "Cập nhật <b>{0}</b> thất bại",
+    "delete_success": "Xóa <b>{0}</b> thành công",
+    "delete_fail": "Xóa <b>{0}</b> thất bại",
+    "delete_many_success": "Xóa <b>{0}</b> thành công",
+    "delete_many_fail": "Lỗi khi xóa nhiều",
+    "not_found": "Không tìm thấy dữ liệu",
+    "unknown_error": "Có lỗi xảy ra, vui lòng thử lại sau",
+    "get_employee_list_fail": "Có lỗi xảy ra khi lấy danh sách!",
+    "get_employee_info_fail": "Có lỗi xảy ra khi lấy thông tin!",
+    "get_department_list_fail": "Có lỗi xảy ra khi lấy danh sách đơn vị!",
+    "reload_data_success": "Tải lại dữ liệu thành công!",
+    "reload_data_fail": "Tải lại dữ liệu thất bại!",
+    "export_excel_success": "Xuất danh sách ra Excel thành công!",
+    "export_excel_fail": "Xuất danh sách ra Excel thất bại!",
+    "export_excel_processing": "Đang xuất danh sách ra Excel...",
+    "developing": "Chức năng <b>{0}</b> đang được phát triển!",
+    "page_developing": "Trang {0} đang được phát triển!",
+    "confirm_delete": "Bạn có thực sự muốn xóa <b>&lt{0}&gt</b> không?",
+    "confirm_delete_many": "Bạn có thực sự muốn xóa những đã chọn không?",
+    "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn Lưu không?"
+  },
+
+  "confirm_popup": {
+    "yes": "Có",
+    "no": "Không",
+    "cancel": "Hủy",
+    "close": "Đóng"
+  },
+
+  "toast": {
+    "success": "Thành công",
+    "error": "Lỗi",
+    "warning": "Cảnh báo",
+    "info": "Thông tin"
+  },
+
+  "quick_key": {
+    "info": {
+      "title": "Phím tắt",
+      "description": "Danh sách phím tắt",
+      "key": "Phím tắt",
+      "action": "Chức năng"
+    },
+
+    "key": {
+      "save": "Ctrl + S",
+      "save_and_add": "Ctrl + Shift + S",
+      "add": "Ctrl + Alt + A",
+      "close": "Esc",
+      "delete": "Delete",
+      "reload": "Ctrl + R",
+      "export_excel": "Ctrl + Alt + E",
+      "change_language": "Ctrl + Alt + L",
+      "collapse": "Ctrl + Alt + C",
+      "show_keyboard_shortcut": "Ctrl + F1"
+    },
+
+    "key_label": {
+      "save": "Lưu và đóng",
+      "save_and_add": "Lưu và Thêm mới",
+      "add": "Thêm mới",
+      "close": "Đóng",
+      "delete": "Xóa",
+      "reload": "Tải lại dữ liệu trong bảng",
+      "export_excel": "Xuất danh sách nhân viên ra Excel",
+      "change_language": "Thay đổi ngôn ngữ hiển thị (Tiếng Việt/English)",
+      "collapse": "Thu gọn/ Mở rộng menu bên trái",
+      "show_keyboard_shortcut": "Hiển thị bảng phím tắt"
     }
   },
 
@@ -74,7 +214,7 @@
   "inventory_page": {
     "title": "Quản lý hàng hóa",
     "add_inventory": "Thêm hàng hóa",
-    "search_function": "Tìm theo mã, tên, số điện thoại"
+    "search_function": "Tìm theo mã, tên hàng"
   },
   "inventory_table": {
     "code": "Mã hàng",
@@ -82,6 +222,7 @@
     "quantity": "Số lượng",
     "cost": "Đơn giá",
     "inventory_category": "Danh mục hàng hóa",
+    "image": "Hình ảnh",
     "action": "Chức năng"
   },
   "inventory_info": {
@@ -94,133 +235,29 @@
     "description": "Mô tả",
     "image": "Hình ảnh"
   },
-  
-  "action": {
-    "export_excel": "Xuất ra Excel",
-    "reload_data": "Tải lại dữ liệu",
-    "batch_action": "Thực hiện hàng loạt",
-    "edit": "Sửa",
-    "delete": "Xóa",
-    "return": "Quay lại",
-    "duplicate": "Nhân bản",
-    "inactive": "Ngưng sử dụng",
-    "active": "Sử dụng",
-    "more_action": "Chức năng khác",
-    "table_setting": "Tùy chỉnh giao diện"
+
+  "sales_page": {
+    "title": "Bán hàng",
+    "add_sales": "Thêm hóa đơn",
+    "search_function": "Tìm theo mã, tên hàng"
   },
-  "table_filter": {
-    "filter": "Lọc",
-    "cancel": "Bỏ lọc",
-    "filter_by_placeholder": "Nhập giá trị lọc",
-    "is_null": "(Trống)",
-    "is_not_null": "(Không trống)",
-    "equal": "Bằng",
-    "not_equal": "Khác",
-    "contain": "Chứa",
-    "not_contain": "Không chứa",
-    "start_with": "Bắt đầu với",
-    "end_with": "Kết thúc với",
-    "greater_than": "Lớn hơn",
-    "greater_than_or_equal": "Lớn hơn hoặc bằng",
-    "less_than": "Nhỏ hơn",
-    "less_than_or_equal": "Nhỏ hơn hoặc bằng"
+  "sales_table": {
+    "code": "Mã hàng",
+    "name": "Tên hàng",
+    "quantity": "Số lượng",
+    "cost": "Đơn giá",
+    "sales_category": "Danh mục hàng hóa",
+    "image": "Hình ảnh",
+    "action": "Chức năng"
   },
-  "action_form": {
-    "save": "Lưu",
-    "save_and_add": "Lưu và Thêm mới",
-    "cancel": "Hủy",
-    "close": "Đóng",
-    "help": "Trợ giúp"
-  },
-  "pagination": {
-    "after": "Sau",
-    "before": "Trước",
-    "total": "Tổng số",
-    "record": "bản ghi",
-    "10": "10 bản ghi trên 1 trang",
-    "20": "20 bản ghi trên 1 trang",
-    "30": "30 bản ghi trên 1 trang",
-    "50": "50 bản ghi trên 1 trang",
-    "100": "100 bản ghi trên 1 trang"
-  },
-  "validate_error": {
-    "required": "{0} không được để trống!",
-    "invalid": "{0} không hợp lệ!",
-    "invalid_number": "{0} phải là số!",
-    "invalid_phone_number": "{0} không hợp lệ!",
-    "max_length": "{0} không được vượt quá {1} ký tự!",
-    "min_length": "{0} không được nhỏ hơn {1} ký tự!",
-    "over_current_date": "{0} không được lớn hơn ngày hiện tại!",
-    "over_value": "{0} không được lớn hơn {1}!",
-    "less_value": "{0} không được nhỏ hơn {1}!"
-  },
-  "notice_message": {
-    "insert_success": "Thêm mới <b>{0}</b> thành công",
-    "insert_fail": "Thêm mới <b>{0}</b> thất bại",
-    "update_success": "Cập nhật <b>{0}</b> thành công",
-    "update_fail": "Cập nhật <b>{0}</b> thất bại",
-    "delete_success": "Xóa <b>{0}</b> thành công",
-    "delete_fail": "Xóa <b>{0}</b> thất bại",
-    "delete_many_success": "Xóa <b>{0}</b> thành công",
-    "delete_many_fail": "Lỗi khi xóa nhiều",
-    "not_found": "Không tìm thấy dữ liệu",
-    "unknown_error": "Có lỗi xảy ra, vui lòng thử lại sau",
-    "get_employee_list_fail": "Có lỗi xảy ra khi lấy danh sách!",
-    "get_employee_info_fail": "Có lỗi xảy ra khi lấy thông tin!",
-    "get_department_list_fail": "Có lỗi xảy ra khi lấy danh sách đơn vị!",
-    "reload_data_success": "Tải lại dữ liệu thành công!",
-    "reload_data_fail": "Tải lại dữ liệu thất bại!",
-    "export_excel_success": "Xuất danh sách ra Excel thành công!",
-    "export_excel_fail": "Xuất danh sách ra Excel thất bại!",
-    "export_excel_processing": "Đang xuất danh sách ra Excel...",
-    "developing": "Chức năng <b>{0}</b> đang được phát triển!",
-    "page_developing": "Trang {0} đang được phát triển!",
-    "confirm_delete": "Bạn có thực sự muốn xóa <b>&lt{0}&gt</b> không?",
-    "confirm_delete_many": "Bạn có thực sự muốn xóa những đã chọn không?",
-    "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn Lưu không?"
-  },
-  "confirm_popup": {
-    "yes": "Có",
-    "no": "Không",
-    "cancel": "Hủy",
-    "close": "Đóng"
-  },
-  "toast": {
-    "success": "Thành công",
-    "error": "Lỗi",
-    "warning": "Cảnh báo",
-    "info": "Thông tin"
-  },
-  "quick_key": {
-    "info": {
-      "title": "Phím tắt",
-      "description": "Danh sách phím tắt",
-      "key": "Phím tắt",
-      "action": "Chức năng"
-    },
-    "key": {
-      "save": "Ctrl + S",
-      "save_and_add": "Ctrl + Shift + S",
-      "add": "Ctrl + Alt + A",
-      "close": "Esc",
-      "delete": "Delete",
-      "reload": "Ctrl + R",
-      "export_excel": "Ctrl + Alt + E",
-      "change_language": "Ctrl + Alt + L",
-      "collapse": "Ctrl + Alt + C",
-      "show_keyboard_shortcut": "Ctrl + F1"
-    },
-    "key_label": {
-      "save": "Lưu và đóng",
-      "save_and_add": "Lưu và Thêm mới",
-      "add": "Thêm mới",
-      "close": "Đóng",
-      "delete": "Xóa",
-      "reload": "Tải lại dữ liệu trong bảng",
-      "export_excel": "Xuất danh sách nhân viên ra Excel",
-      "change_language": "Thay đổi ngôn ngữ hiển thị (Tiếng Việt/English)",
-      "collapse": "Thu gọn/ Mở rộng menu bên trái",
-      "show_keyboard_shortcut": "Hiển thị bảng phím tắt"
-    }
+  "sales_info": {
+    "title": "Thông tin hàng hóa",
+    "code": "Mã",
+    "name": "Tên",
+    "sales_category": "Danh mục hàng hóa",
+    "quantity": "Số lượng",
+    "cost": "Đơn giá",
+    "description": "Mô tả",
+    "image": "Hình ảnh"
   }
 }
