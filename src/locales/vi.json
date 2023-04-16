@@ -259,5 +259,30 @@
     "cost": "Đơn giá",
     "description": "Mô tả",
     "image": "Hình ảnh"
+  },
+
+  "invoice_page": {
+    "title": "Bán hàng",
+    "add_invoice": "Thêm hóa đơn",
+    "search_function": "Tìm theo mã, tên hàng"
+  },
+  "invoice_table": {
+    "code": "Mã hàng",
+    "name": "Tên hàng",
+    "quantity": "Số lượng",
+    "cost": "Đơn giá",
+    "invoice_category": "Danh mục hàng hóa",
+    "image": "Hình ảnh",
+    "action": "Chức năng"
+  },
+  "invoice_info": {
+    "title": "Thông tin hàng hóa",
+    "code": "Mã",
+    "name": "Tên",
+    "invoice_category": "Danh mục hàng hóa",
+    "quantity": "Số lượng",
+    "cost": "Đơn giá",
+    "description": "Mô tả",
+    "image": "Hình ảnh"
   }
 }

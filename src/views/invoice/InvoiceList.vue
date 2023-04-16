@@ -1,10 +1,7 @@
 <template>
     <div class="employee">
         <div class="employee-header">
-            <div class="employee-title">{{ $t('inventory_page.title') }}</div>
-            <v-button @click="handleAction(Enum.ACTION.ADD)">
-                {{ $t('inventory_page.add_inventory') }}
-            </v-button>
+            <div class="employee-title">{{ $t('invoice_page.title') }}</div>
         </div>
         <div class="employee-body">
             <!-- Các action như search, export, reload -->
@@ -20,7 +17,7 @@
                 </div>
                 <div class="employee-body__toolbar-right">
                     <slot name="toolbar-right"></slot>
-                    <v-input :placeholder="$t('inventory_page.search_function')" icon="ms-16 ms-icon ms-icon-search"
+                    <v-input :placeholder="$t('invoice_page.search_function')" icon="ms-16 ms-icon ms-icon-search"
                         v-model="keyword" :outline="true" :styleProps="['width: 240px', 'font-style: italic']"
                         className="v-input__with-icon" :focus="true" 
                     />
