@@ -2,6 +2,7 @@
 import VButton from "./base/Button/VButton";
 import VInput from "./base/Input/VInput";
 import VCombobox from "./base/Combobox/VCombobox";
+import BCombobox from "./base/Combobox/BCombobox";
 import VTooltip from "./base/Tooltip/VTooltip";
 import VToast from "./base/Toast/VToast";
 import VDialog from "./base/Dialog/VDialog";
@@ -26,6 +27,7 @@ export default {
   VButton,
   VInput,
   VCombobox,
+  BCombobox,
   VTooltip,
   VToast,
   VDialog,
