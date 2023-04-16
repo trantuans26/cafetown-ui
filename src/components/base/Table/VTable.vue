@@ -87,6 +87,12 @@
                             <template v-else-if="column.type === 'currency'">
                                 {{ formatCurrency(row[column.key]) }}
                             </template>
+                            <!-- Nếu như type là hình ảnh -->
+                            <template v-else-if="column.type === 'image'">
+                                <div class="image">
+                                    <img class="image__file" :src="row[column.key]" alt=""> 
+                                </div>
+                            </template>
                             <!-- Nếu như type là action thì render action -->
                             <template v-else-if="column.type === 'action'">
                                 <v-menu :propKey="row" @onSelect="onSelect" :items="actions" :columns="columns">
@@ -399,4 +405,14 @@ export default {
 </script>
 <style  lang="scss" scoped>
 @import "@/assets/scss/base/table.scss";
+
+.image {
+    width: 50px;
+    height: 50px;
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+}
 </style>
