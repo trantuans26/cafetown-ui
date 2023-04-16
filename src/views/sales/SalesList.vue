@@ -1,9 +1,9 @@
 <template>
     <div class="employee sales">
         <div class="employee-header sales-header">
-            <div class="employee-title">{{ $t('inventory_page.title') }}</div>
+            <div class="employee-title">{{ $t('sales_page.title') }}</div>
             <v-button @click="handleAction(Enum.ACTION.ADD)">
-                {{ $t('inventory_page.add_inventory') }}
+                {{ $t('sales_page.add_sales') }}
             </v-button>
         </div>
         <div class="employee-body sales-body">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="employee-body__toolbar-right">
                     <slot name="toolbar-right"></slot>
-                    <v-input :placeholder="$t('inventory_page.search_function')" icon="ms-16 ms-icon ms-icon-search"
+                    <v-input :placeholder="$t('sales_page.search_function')" icon="ms-16 ms-icon ms-icon-search"
                         v-model="keyword" :outline="true" :styleProps="['width: 240px', 'font-style: italic']"
                         className="v-input__with-icon" :focus="true" 
                     />
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <!-- Table hiển thị danh sách hàng hóa -->
-            <v-table v-model:columns="columns" :data="inventoryList.data" @action="handleAction" :actions="tableAction"
+            <v-table v-model:columns="columns" :data="inventoryList.data" @action="handleAction"
                 :isDataLoaded="isDataLoaded">
             </v-table>
             <!-- Phân trang -->
@@ -120,17 +120,13 @@ export default {
                     },
                     {
                         title: this.$t(`inventory_table.inventory_category`),
-                        key: 'image',
-                        type: 'image'
+                        key: 'inventoryCategoryName',
                     },
                     {
-                        title: this.$t(`inventory_table.action`),
-                        key: 'action',
-                        type: 'action',
-                        fixed: true,
-                        textAlign: 'center',
-                        width: "120px",
-                    },
+                        title: this.$t(`inventory_table.image`),
+                        key: 'image',
+                        type: 'image'
+                    }
                 ];
             },
             set(value) {
@@ -147,30 +143,6 @@ export default {
                 return [{ 'key': Enum.ACTION.DELETE_MANY, 'value': this.$t('action.delete') }];
             }
         },
-        /**
-         * @description: Khai báo các action thực hiện trên từng dòng của table
-         * Author: tttuan 11/10/2022
-         */
-        tableAction: {
-            get() {
-                return [
-                    {
-                        'key': Enum.ACTION.DUPLICATE,
-                        'value': this.$t('action.duplicate'),
-                    },
-                    {
-                        'key': Enum.ACTION.DELETE,
-                        'value': this.$t('action.delete'),
-                    },
-                    {
-                        'key': Enum.ACTION.INACTIVE,
-                        'value': this.$t('action.inactive'),
-                    }
-                ]; // Khởi tạo danh sách action trên từng dòng
-            }
-        }
-
-
     },
     watch: {
         /**
@@ -250,12 +222,6 @@ export default {
                 switch (action) {
                     case Enum.ACTION.ADD: // thêm mới hàng hóa
                         self.showAddSalesForm();
-                        break;
-                    case Enum.ACTION.EDIT: // sửa hàng hóa
-                        self.showEditSalesForm(data);
-                        break;
-                    case Enum.ACTION.DELETE: // xóa hàng hóa
-                        self.deleteInventory(data);
                         break;
                     case Enum.ACTION.DELETE_MANY: // xóa nhiều hàng hóa
                         self.deleteInventoryMany(data);
