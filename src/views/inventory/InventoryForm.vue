@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="form--inventory">
         <!-- Khu vực hiển thị dialog form thêm hoặc sửa nhân viên -->
         <v-dialog :isShow="modelValue" @close="closeFormHandle">
             <template #title>
@@ -11,8 +11,8 @@
             </template>
             <template #body>
                 <div class="grid wide v-max-900" ref="InventoryForm">
-                    <div class="row">
-                        <div class="col l-6 md-6">
+                    <div class="row row--inventory">
+                        <div class="col l-7 md-7">
                             <div class="row sm-gutter">
                                 <div class="form-group col l-5 md-5 c-5 focus">
                                     <v-input :label="$t('inventory_info.code')" v-model="inventory.inventoryCode"
@@ -26,40 +26,86 @@
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-12 md-12">
-                                    <v-combobox position="bottom" propKey="departmentID" v-model="employee.departmentID"
-                                        @validate="setValid('employeeName', $event)" propValue="departmentName"
-                                        :label="$t('employee_info.department')"
-                                        :errorLabel="$t('employee_info.department')"
-                                        v-model:textInput="employee.departmentName"
-                                        propApi="https://localhost:44365/api/v2/departments" :required="true"
-                                        :columns="[{ key: 'departmentCode', title: 'Mã phòng ban', width: '120px' }, { key: 'departmentName', title: 'Tên phòng ban', width: '250px' }]">
-                                    </v-combobox>
+                                    <!-- <BCombobox
+                                        :url= "url.inventoryCategory"
+                                        propValue="inventoryCategoryID"
+                                        propCode="inventoryCategoryCode"
+                                        propText="inventoryCategoryName"
+                                        :fieldName="$t('inventory_info.inventory_category')"
+                                        :propPlaceholder="$t('inventory_info.inventory_category')"
+                                        :setID="inventory.inventoryCategoryID" 
+                                        :setValue="inventory.inventoryCategoryName"
+                                        @getID = "inventory.inventoryCategoryID = $event"
+                                        @getCode = "inventory.inventoryCategoryCode = $event"
+                                        @getName = "inventory.inventoryCategoryName = $event"
+                                        :required="this.isShowValidity.emptyDepartmentID"
+                                        @onClick="this.isShowValidity.emptyDepartmentID = $event"
+                                        @onBlur="this.isShowValidity.emptyDepartmentID = $event"
+                                        :addFocus="this.focusDepartment"
+                                        @removeFocus="this.focusDepartment = $event"
+                                        @onChange="checkChangeDepartment($event)"
+                                        >
+                                    </BCombobox> -->
+                                    <div class="v-input__label">
+                                        <label @click="handleInputFocus">
+                                            <!-- :tooltip="tooltipText" :position="tooltipPosition" -->
+                                            {{ $t('inventory_info.inventory_category') }} <span> * </span>
+                                        </label>
+                                    </div>
+
+                                    <BCombobox
+                                        :url= "url.inventoryCategory"
+                                        propValue="inventoryCategoryID"
+                                        propCode="inventoryCategoryCode"
+                                        propText="inventoryCategoryName"
+                                        :fieldName="$t('inventory_info.inventory_category')"
+                                        :propPlaceholder="$t('inventory_info.inventory_category')"
+                                        :setID="inventory.inventoryCategoryID" 
+                                        :setValue="inventory.inventoryCategoryName"
+                                        @getID="inventory.inventoryCategoryID = $event"
+                                        @getCode="inventory.inventoryCategoryCode = $event"
+                                        @getName="inventory.inventoryCategoryName = $event"
+                                        >
+                                    </BCombobox>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col l-6 md-6">
-                            <div class="row sm-gutter">
-                                <div class="form-group col l-12 md-12">
-                                    <v-input type="image"  :label="$t('inventory_info.image')" v-model="inventory.image">
+
+                                <div class="form-group col l-5 md-5">
+                                    <v-input :label="$t('inventory_info.quantity')" v-model="inventory.quantity">
                                     </v-input>
                                 </div>
-                            </div>
-                            <div class="row sm-gutter">
+                                <div class="form-group col l-7 md-7">
+                                    <v-input :label="$t('inventory_info.cost')" v-model="inventory.cost">
+                                    </v-input>
+                                </div>
+
                                 <div class="form-group col l-12 md-12">
                                     <v-input :label="$t('inventory_info.description')" v-model="inventory.description">
                                     </v-input>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row sm-gutter">
-                        <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('inventory_info.quantity')" v-model="inventory.quantity">
-                            </v-input>
-                        </div>
-                        <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('inventory_info.cost')" v-model="inventory.cost">
-                            </v-input>
+                        <div class="image col">
+                            <div class="image__label v-input__label">
+                                <label @click="handleInputFocus">
+                                    <!-- :tooltip="tooltipText" :position="tooltipPosition" -->
+                                    {{ $t('inventory_info.image') }}
+                                </label>
+                            </div>
+                            <div class="image__contain">
+                                <div class="image__item">
+                                    <img class="image__file" :src="inventory.image" alt="" @click="selectImage" v-show="inventory.image"> 
+                                    <img class="image__file" src="@/assets/img/default-placeholder.png" alt="" @click="selectImage" v-show="!inventory.image"> 
+                                </div>
+                                <div class="image__input">
+                                    <input 
+                                        ref="fileImage" 
+                                        type="file" 
+                                        @input="onUploadImage"
+                                        @change="onFileChanged"
+                                        title=" "
+                                    >
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,6 +137,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Enum from "@/utils/enum";
+//import UploadImage from 'vue-upload-image';
 
 export default {
     name: "InventoryForm",
@@ -100,6 +147,10 @@ export default {
             default: false
         },
     },
+/*     components: {
+        UploadImage
+    }, */
+
     data() {
         return {
             inventory: { // dữ liệu nhân viên
@@ -112,7 +163,7 @@ export default {
                 cost: 0,
                 quantity: 0,
                 description: "",
-
+                image: "",
                 createdDate: "",
                 createdBy: "",
                 modifiedDate: "",
@@ -122,6 +173,9 @@ export default {
             Enum: Enum, // dùng để gọi Enum trong template 
             isChaged: false, // dùng để check xem có thay đổi dữ liệu hay không
             inventoryList: [], // danh sách phòng ban
+            url: {
+                inventoryCategory: "http://localhost:59997/api/v1/InventoryCategories"
+            },
         };
     },
     computed: {
@@ -149,7 +203,28 @@ export default {
             set(value) {
                 this.$store.commit('setActionKey', value);
             }
-        }
+        },
+        /* 
+            Format image
+        */
+        formatImage: {
+/*             return 'data:image/jpeg;base64,' + btoa(
+                new Uint8Array(this.inventory.image)
+                .reduce((data, byte) => data + String.fromCharCode(byte), '')
+            ); */
+            get: function() {
+                return this.employeeModal.identityNumber;
+            },
+            
+            set: function(number) {
+                var num = number;
+                
+                num = this.preventText(num);
+                num = "abc";
+                
+                this.employeeModal.identityNumber = num;
+            }
+        },
     },
     watch: {
         /**
@@ -170,22 +245,22 @@ export default {
          */
         formMode: {
             handler: async function (formMode) {
-                const self = this;
+                const me = this;
                 switch (formMode) {
                     case Enum.FORM_MODE.ADD:
-                        await self.resetForm();
+                        await me.resetForm();
                         break;
                     case Enum.FORM_MODE.EDIT:
-                        await self.getInventoryById();
-                        self.isChaged = false;
+                        await me.getInventoryById();
+                        me.isChaged = false;
                         break;
                     case Enum.FORM_MODE.DUPLICATE:
-                        await self.getInventoryById(true);
+                        await me.getInventoryById(true);
                         break;
                     default:
                         break;
                 }
-                self.inputFocus();
+                me.inputFocus();
             },
             deep: true,
         },
@@ -195,17 +270,17 @@ export default {
          */
         action: {
             handler: async function (action) {
-                const self = this;
-                if (self.formMode !== Enum.FORM_MODE.NULL) {
+                const me = this;
+                if (me.formMode !== Enum.FORM_MODE.NULL) {
                     switch (action) {
                         case Enum.ACTION.CLOSE:
-                            self.closeFormHandle();
+                            me.closeFormHandle();
                             break;
                         case Enum.ACTION.SAVE_AND_CLOSE:
-                            self.saveHandler(action);
+                            me.saveHandler(action);
                             break;
                         case Enum.ACTION.SAVE_AND_ADD:
-                            self.saveHandler(action);
+                            me.saveHandler(action);
                             break;
                         default:
                             break;
@@ -233,27 +308,27 @@ export default {
          */
         async closeFormHandle(forceClose = false) {
             try {
-                const self = this;
-                if (forceClose || !self.isChaged) {
-                    self.resetForm(false);
-                    self.$emit("update:modelValue", false);
-                    self.$store.dispatch("setMode", null);
+                const me = this;
+                if (forceClose || !me.isChaged) {
+                    me.resetForm(false);
+                    me.$emit("update:modelValue", false);
+                    me.$store.dispatch("setMode", null);
                     return;
                 }
-                if (self.isChaged) {
-                    const confirm = await self.$refs.popup.show({
-                        message: self.$t("notice_message.confirm_data_close"),
+                if (me.isChaged) {
+                    const confirm = await me.$refs.popup.show({
+                        message: me.$t("notice_message.confirm_data_close"),
                         icon: Enum.ICON.INFO,
-                        okButton: self.$t("confirm_popup.yes"),
-                        cancelButton: self.$t("confirm_popup.no"),
-                        closeButton: self.$t("confirm_popup.cancel"),
+                        okButton: me.$t("confirm_popup.yes"),
+                        cancelButton: me.$t("confirm_popup.no"),
+                        closeButton: me.$t("confirm_popup.cancel"),
                     }); // hiển thị popup cảnh báo
                     switch (confirm) {
-                        case self.$t("confirm_popup.yes"):
-                            self.saveHandler(Enum.ACTION.SAVE_AND_CLOSE);
+                        case me.$t("confirm_popup.yes"):
+                            me.saveHandler(Enum.ACTION.SAVE_AND_CLOSE);
                             break;
-                        case self.$t("confirm_popup.no"):
-                            self.$emit("update:modelValue", false);
+                        case me.$t("confirm_popup.no"):
+                            me.$emit("update:modelValue", false);
                             break;
                         default:
                             break;
@@ -263,33 +338,36 @@ export default {
                 console.log(error);
             }
         },
+
         /**
          * @description: Hàm này dùng để cập nhật nhân viên và emit giá trị inventory vừa cập nhật
          * @param: {enum} action: hành động sau khi cập nhật
          * Author: tttuan 19/09/2022
          */
         async updateInventory() {
-            let self = this;
-            const response = await self.$api.inventory.updateInventory(self.inventory); // gọi api update nhân viên
+            let me = this;
+            const response = await me.$api.inventory.updateInventory(me.inventory); // gọi api update nhân viên
             if (response.status == Enum.MISA_CODE.SUCCESS) {
-                self.$emit("updateInventory", self.inventory); // emit giá trị inventory vừa cập nhật
+                me.$emit("updateInventory", me.inventory); // emit giá trị inventory vừa cập nhật
                 return Promise.resolve(true);
             }
         },
+        
         /**
         * @description: Hàm này dùng để thêm mới nhân viên và emit giá trị inventory vừa thêm mới
         * @param: {enum} action: hành động sau khi thêm mới
         * Author: tttuan 19/09/2022
         */
         async insertInventory() {
-            let self = this;
-            const response = await self.$api.inventory.insertInventory(self.inventory);
+            let me = this;
+            const response = await me.$api.inventory.insertInventory(me.inventory);
             if (response.status == Enum.MISA_CODE.CREATED) {
-                self.inventory.inventoryID = response.data; // gán giá trị inventoryID vừa thêm mới
-                self.$emit("insertInventory", self.inventory); // emit giá trị inventory vừa thêm mới
+                me.inventory.inventoryID = response.data; // gán giá trị inventoryID vừa thêm mới
+                me.$emit("insertInventory", me.inventory); // emit giá trị inventory vừa thêm mới
                 return Promise.resolve(true);
             }
         },
+
         /**
          * @description: Hàm này dùng để reset form về giá trị mặc định
          * @param: {boolean} getNewInventoryCode: có lấy mã nhân viên mới hay không
@@ -297,22 +375,20 @@ export default {
          */
         async resetForm(getNewInventoryCode = true) {
             try { // reset lại form
-                let self = this;
+                let me = this;
                 if (!getNewInventoryCode) return;
-                self.attemptSubmit = false; // reset lại trạng thái submit
-                const response = await self.$api.inventory.getNewInventoryCode(); // lấy mã nhân viên mới
+                me.attemptSubmit = false; // reset lại trạng thái submit
+                const response = await me.$api.inventory.getNewInventoryCode(); // lấy mã nhân viên mới
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
-                    self.inventory = { // gán giá trị mặc định cho inventory
+                    me.inventory = { // gán giá trị mặc định cho inventory
                         inventoryCode: response.data,
-                        gender: 1,
-                        isCustomer: false,
-                        isSupplier: false,
                     };
                 }
             } catch (error) {
                 console.log(error);
             }
         },
+
         /**
          * @description: Hàm này dùng để lấy thông tin chi tiết nhân viên theo id và gán vào inventory
          * @param {boolean} getNewInventoryCode: có lấy mã nhân viên mới hay không ( phục vụ chức năng nhân bản)
@@ -320,14 +396,14 @@ export default {
          */
         async getInventoryById(getNewInventoryCode = false) {
             try {
-                let self = this;
-                const response = await self.$api.inventory.getInventoryById(self.getInventoryId);
+                let me = this;
+                const response = await me.$api.inventory.getInventoryById(me.getInventoryId);
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
-                    self.inventory = response.data;
+                    me.inventory = response.data;
                     if (getNewInventoryCode) {
-                        const res = await self.$api.inventory.getNewInventoryCode(); // lấy mã nhân viên mới
+                        const res = await me.$api.inventory.getNewInventoryCode(); // lấy mã nhân viên mới
                         if (res.status == Enum.MISA_CODE.SUCCESS) {
-                            self.inventory.inventoryCode = res.data;
+                            me.inventory.inventoryCode = res.data;
                         }
                     }
                 }
@@ -345,22 +421,22 @@ export default {
          * Author: tttuan 19/09/2022
          */
         async saveHandler(action) {
-            let self = this;
+            let me = this;
             try {
-                self.attemptSubmit = true; // set trạng thái submit
-                const validateResult = await self.$nextTick(async () => { // đợi cho khi các ô input validate xong thì mới tìm class error
-                    const errorClass = self.$el.querySelectorAll(".error");
+                me.attemptSubmit = true; // set trạng thái submit
+                const validateResult = await me.$nextTick(async () => { // đợi cho khi các ô input validate xong thì mới tìm class error
+                    const errorClass = me.$el.querySelectorAll(".error");
                     if (errorClass.length > 0) { // nếu có lỗi thì focus vào phần tử đầu tiên
                         let count = 1;
                         let htmlMessage = Array.from(errorClass).map((item) => {
                             return `${count++}. ${item.getAttribute("data-error")}`;
                         }).join('<br/>');
-                        await self.$refs.popup.show({
+                        await me.$refs.popup.show({
                             message: htmlMessage,
                             icon: Enum.ICON.ERROR,
                             hideButton: 'true',
                         }).then(() => {
-                            self.inputFocus(true);
+                            me.inputFocus(true);
                         });
                         return false;
                     } else {
@@ -368,32 +444,32 @@ export default {
                     }
                 });
                 if (validateResult) {
-                    Object.keys(self.inventory).forEach((key) => {
+                    Object.keys(me.inventory).forEach((key) => {
                         // xóa các trường là null hoặc ""
-                        if (self.inventory[key] == null || self.inventory[key] === "") {
-                            delete self.inventory[key];
+                        if (me.inventory[key] == null || me.inventory[key] === "") {
+                            delete me.inventory[key];
                         }
                     });
                     let result = true;
-                    switch (self.formMode) {
+                    switch (me.formMode) {
                         case Enum.FORM_MODE.ADD: // nếu action form là add thì thực hiện insert
-                            result = await self.insertInventory();
+                            result = await me.insertInventory();
                             break;
                         case Enum.FORM_MODE.EDIT: // nếu action form là edit thì thực hiện update
-                            result = await self.updateInventory();
+                            result = await me.updateInventory();
                             break;
                         case Enum.FORM_MODE.DUPLICATE: // nếu action form là duplicate thì thực hiện duplicate 
-                            result = await self.insertInventory();
+                            result = await me.insertInventory();
                             break;
                     }
                     if (result) { // nếu insert thành công thì xử lý action form
                         switch (action) {
                             case Enum.ACTION.SAVE_AND_CLOSE: // nếu nhấn cất
-                                self.closeFormHandle(true);
+                                me.closeFormHandle(true);
                                 break;
                             case Enum.ACTION.SAVE_AND_ADD: // nếu nhấn cất và thêm
-                                self.formMode = Enum.FORM_MODE.NULL;
-                                self.formMode = Enum.FORM_MODE.ADD;
+                                me.formMode = Enum.FORM_MODE.NULL;
+                                me.formMode = Enum.FORM_MODE.ADD;
                                 break;
                             default:
                                 break;
@@ -404,13 +480,16 @@ export default {
                 if (error.response) {
                     let { status, data } = error.response;
                     if (status == Enum.MISA_CODE.VALIDATE) {
-                        let htmlMessage = Object.values(data.Data).map((item) => {
-                            return `${item}`;
-                        });
-                        await self.$refs.popup.showError(htmlMessage);
+                        let htmlMessage = null;
+                        if (data.Data != null && data.Data != undefined) {
+                                htmlMessage = Object.values(data.Data).map((item) => {
+                                return `${item}`;
+                            });
+                        }
+                        await me.$refs.popup.showError(htmlMessage);
                     }
                 } else {
-                    self.$refs.popup.showError(self.$t("notice_message.unknown_error"));
+                    me.$refs.popup.showError(me.$t("notice_message.unknown_error"));
                 }
             }
         },
@@ -421,9 +500,9 @@ export default {
         */
         inputFocus(isFocusError = false) {
             try {
-                let self = this;
+                let me = this;
                 if (isFocusError) {
-                    const errorClass = self.$el.querySelector(".error");
+                    const errorClass = me.$el.querySelector(".error");
                     if (errorClass) {
                         if (errorClass.tagName === "INPUT") {
                             errorClass.focus();
@@ -433,7 +512,7 @@ export default {
                         }
                     }
                 } else {
-                    const focusFirst = self.$el.querySelector(".focus").querySelector("input");
+                    const focusFirst = me.$el.querySelector(".focus").querySelector("input");
                     if (focusFirst) {
                         focusFirst.focus();
                     }
@@ -441,7 +520,23 @@ export default {
             } catch (error) {
                 // console.log(error);
             }
-        }
+        },
+
+        selectImage() {
+            this.$refs.fileImage.click();
+        },
+
+        onFileChanged(e) {
+
+            const image = e.target.files[0];
+                const reader = new FileReader();
+                if (image) {
+                    reader.readAsDataURL(image);
+                    reader.onload = e =>{
+                        this.inventory.image = e.target.result;
+                    };
+                }
+        },
     },
     beforeUnmount() {
         this.formMode = Enum.FORM_MODE.NULL // reset lại formMode
@@ -452,10 +547,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.row--inventory {
+    display: flex;
+}
 .v-dialog__header {
     padding-bottom: 32px;
 }
-
+.v {
+  &-dialog__content {
+    width: 444px;
+  }
+}
 .e-header {
     align-items: center;
 
@@ -475,8 +578,47 @@ export default {
 .v-max-900 {
     &.wide {
         margin: 20px 0;
-        max-width: 800px;
+        max-width: 572px;
         min-width: 400px;
     }
+}
+
+.form--inventory {
+    //width: 650px;
+}
+
+.image {
+    flex: 1;
+}
+
+.image__contain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image__item {
+    width: 200px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.image__item img {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    object-fit: fill;
+}
+
+.image__input {
+    margin-top: 16px;
+    cursor: pointer;
+}
+
+.image__input input {
+    width: 71px;
 }
 </style>

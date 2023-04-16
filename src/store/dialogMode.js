@@ -7,6 +7,7 @@ const dialogMode = {
     mode: null, // mode của dialog (thêm, sửa, xóa)
     action: null, // action của dialog (thêm, sửa, xóa)
     employeeId: null, // id của nhân viên
+    inventoryId: null, // id của hàng hóa
   },
   mutations: {
     /**
@@ -22,6 +23,13 @@ const dialogMode = {
      */
     setEmployeeId(state, employeeId) {
       state.employeeId = employeeId;
+    },
+    /**
+     * @description: Thay đổi id của nhân viên
+     * Author: tttuan 02/10/2022
+     */
+    setInventoryId(state, inventoryId) {
+      state.inventoryId = inventoryId;
     },
     /**
      * @description: TThay đổi action trong dialog (Cất, Cất và tiếp tục, Hủy)
@@ -47,6 +55,13 @@ const dialogMode = {
       commit("setEmployeeId", employeeId);
     },
     /**
+     * @description: Thay đổi id của nhân viên
+     * Author: tttuan 02/10/2022
+     */
+    setInventoryId({ commit }, inventoryId) {
+      commit("setInventoryId", inventoryId);
+    },
+    /**
      * @description: Thay đổi action trong dialog (Cất, Cất và tiếp tục, Hủy)
      * Author: tttuan 02/10/2022
      */
@@ -68,6 +83,13 @@ const dialogMode = {
      */
     getEmployeeId(state) {
       return state.employeeId;
+    },
+    /**
+     * @description: Lấy id của nhân viên trong dialog
+     * Author: tttuan 02/10/2022
+     */
+    getInventoryId(state) {
+      return state.inventoryId;
     },
     /**
      * @description: Lấy action trong dialog (Cất, Cất và tiếp tục, Hủy)

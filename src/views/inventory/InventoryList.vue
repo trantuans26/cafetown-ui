@@ -112,12 +112,11 @@ export default {
                     {
                         title: this.$t(`inventory_table.quantity`),
                         key: 'quantity',
-                        textAlign: 'right',
                     },
                     {
                         title: this.$t(`inventory_table.cost`),
                         key: 'cost',
-                        textAlign: 'right',
+                        type: 'currency'
                     },
                     {
                         title: this.$t(`inventory_table.inventory_category`),
@@ -288,23 +287,23 @@ export default {
         },
         /**
          * @description: Hàm này dùng để sửa hàng hóa
-         * @param {object} employee - Dữ liệu của hàng hóa
+         * @param {object} inventory - Dữ liệu của hàng hóa
          * Author: tttuan 07/10/2022
          */
-        showEditInventoryForm(employee) {
+        showEditInventoryForm(inventory) {
             const self = this;
             self.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
-            self.$store.dispatch('setinventoryId', employee.inventoryID);
+            self.$store.dispatch('setInventoryId', inventory.inventoryID);
             self.showInventoryForm = true;
         },
         /**
          * @description: Hàm này dùng để xóa hàng hóa
-         * @param {object} employee - Dữ liệu của hàng hóa
+         * @param {object} inventory - Dữ liệu của hàng hóa
          * Author: tttuan 07/10/2022
          */
-        deleteInventory(employee) {
+        deleteInventory(inventory) {
             const self = this;
-            self.deleteInventoryBackend(employee);
+            self.deleteInventoryBackend(inventory);
         },
         /**
          * @description: Hàm này dùng để xóa nhiều hàng hóa
@@ -336,7 +335,7 @@ export default {
         async duplicateInventory(employee) {
             const self = this;
             self.$store.dispatch('setMode', Enum.FORM_MODE.DUPLICATE);
-            self.$store.dispatch('setinventoryId', employee.inventoryID);
+            self.$store.dispatch('setInventoryId', employee.inventoryID);
             self.showInventoryForm = true;
         },
         /**
@@ -423,14 +422,14 @@ export default {
          * @param: {Object} employee - Dữ liệu của hàng hóa
          * Author: tttuan 01/10/2022
          */
-        insertInventory(employee) {
+        insertInventory(inventory) {
             const self = this;
             try {
-                self.inventoryList.data.unshift(employee); // Thêm hàng hóa vào đầu mảng
-                self.$root.$toast.success(self.$t('notice_message.insert_success', [employee.inventoryCode]));
+                self.inventoryList.data.unshift(inventory); // Thêm hàng hóa vào đầu mảng
+                self.$root.$toast.success(self.$t('notice_message.insert_success', [inventory.inventoryCode]));
                 self.inventoryList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.insert_fail', [employee.inventoryCode]));
+                self.$root.$toast.error(self.$t('notice_message.insert_fail', [inventory.inventoryCode]));
                 console.log(error);
             }
         },
@@ -438,17 +437,17 @@ export default {
          * @description: Hàm này dùng để cập nhật hàng hóa ở bên frontend
          * Author: tttuan 05/10/2022
          */
-        updateInventory(employee) {
+        updateInventory(inventory) {
             const self = this;
             try {
-                const index = self.inventoryList.data.findIndex((item) => item.inventoryID === employee.inventoryID);
+                const index = self.inventoryList.data.findIndex((item) => item.inventoryID === inventory.inventoryID);
                 if (index !== -1) {
                     self.inventoryList.data.splice(index, 1);
-                    self.inventoryList.data.unshift(employee);
-                    self.$root.$toast.success(self.$t('notice_message.update_success', [employee.inventoryCode]));
+                    self.inventoryList.data.unshift(inventory);
+                    self.$root.$toast.success(self.$t('notice_message.update_success', [inventory.inventoryCode]));
                 }
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.update_fail', [employee.inventoryCode]));
+                self.$root.$toast.error(self.$t('notice_message.update_fail', [inventory.inventoryCode]));
                 console.log(error);
             }
         },
