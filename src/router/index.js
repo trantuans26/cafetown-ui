@@ -35,7 +35,7 @@ const router = [
   },
   {
     path: "/ban-hang",
-    component: lazyLoad("update/UpdatePage"),
+    component: lazyLoad("sales/SalesList"),
     meta: {
       title: "Bán hàng",
     },
