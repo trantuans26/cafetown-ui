@@ -13,7 +13,7 @@
                     </div>
                     <div class="col">
                         <v-input type="checkbox" :label_custom="$t('employee_info.is_manager')"
-                            v-model="employee.isManager" :value="true"></v-input>
+                            v-model="employee.$isManager" :value="true"></v-input>
                     </div>
                 </div>
             </template>
@@ -480,7 +480,7 @@ export default {
         /**
         * @description: Hàm này dùng để focus vào trường input đầu tiên hoặc là trường lỗi đầu tiên
         * @param: {boolean} isFocusError: có focus vào trường lỗi đầu tiên hay không
-        * Author: tttuan 02/10/2022
+        * Author: tttuan 5/3/2023
         */
         inputFocus(isFocusError = false) {
             try {

@@ -25,7 +25,7 @@
             <div class="header__user d-flex align-items-center p-x-3 ml-r-3">
                 <div class="ms-32 ms-icon ms-round ms-icon-small-user ms-l-2"></div>
                 <div class="m-2 font-weight-600 font-size-13 cursor-pointer">Trần Thái Tuấn</div>
-                <div class="ms-14 ms-icon ms-icon-chevron-down"></div>
+                <div class="m-2 font-weight-600 font-size-13 cursor-pointer">Đăng xuất</div>
             </div>
         </div>
     </div>

@@ -1,7 +1,10 @@
 <template>
     <div class="employee">
         <div class="employee-header">
-            <div class="employee-title">{{ $t('invoice_page.title') }}</div>
+            <div class="employee-title">{{ $t('inventory_page.title') }}</div>
+            <v-button @click="handleAction(Enum.ACTION.ADD)">
+                {{ $t('inventory_page.add_inventory') }}
+            </v-button>
         </div>
         <div class="employee-body">
             <!-- Các action như search, export, reload -->
@@ -17,7 +20,7 @@
                 </div>
                 <div class="employee-body__toolbar-right">
                     <slot name="toolbar-right"></slot>
-                    <v-input :placeholder="$t('invoice_page.search_function')" icon="ms-16 ms-icon ms-icon-search"
+                    <v-input :placeholder="$t('inventory_page.search_function')" icon="ms-16 ms-icon ms-icon-search"
                         v-model="keyword" :outline="true" :styleProps="['width: 240px', 'font-style: italic']"
                         className="v-input__with-icon" :focus="true" 
                     />
@@ -28,17 +31,17 @@
                         @click="handleAction(Enum.ACTION.EXPORT)"></div>
                 </div>
             </div>
-            <!-- Table hiển thị danh sách hóa đơn -->
-            <v-table v-model:columns="columns" :data="invoiceList.data" @action="handleAction" :actions="tableAction"
+            <!-- Table hiển thị danh sách hàng hóa -->
+            <v-table v-model:columns="columns" :data="inventoryList.data" @action="handleAction" :actions="tableAction"
                 :isDataLoaded="isDataLoaded">
             </v-table>
             <!-- Phân trang -->
             <v-pagination v-model:pageSize="pagination.pageSize" v-model:pageNumber="pagination.pageNumber"
-                v-model:totalRecord="invoiceList.totalRecord">
+                v-model:totalRecord="inventoryList.totalRecord">
             </v-pagination>
         </div>
-        <!-- Form sửa và thêm hóa đơn -->
-        <invoice-form v-model="showInvoiceForm" @insertInventory="insertInventory" @updateInventory="updateInventory"></invoice-form>
+        <!-- Form sửa và thêm hàng hóa -->
+        <inventory-form v-model="showInventoryForm" @insertInventory="insertInventory" @updateInventory="updateInventory"></inventory-form>
 
         <!-- Khu vực hiển thị popup và toast thông báo -->
         <v-popup ref="popup"></v-popup>
@@ -46,16 +49,16 @@
     </div>
 </template>
 <script>
-import InvoiceForm from './InvoiceForm.vue';
+import InventoryForm from './InventoryForm.vue';
 import Enum from "@/utils/enum";
 import { mapGetters } from 'vuex';
 export default {
-    components: { InvoiceForm },
+    components: { InventoryForm },
     data() {
         return {
             keyword: "", // biến này dùng để lưu từ khóa tìm kiếm
-            showInvoiceForm: false, // biến này dùng để hiển thị form thêm mới hoặc cập nhật hóa đơn
-            invoiceList: [], // biến này dùng để lưu danh sách hóa đơn
+            showInventoryForm: false, // biến này dùng để hiển thị form thêm mới hoặc cập nhật hàng hóa
+            inventoryList: [], // biến này dùng để lưu danh sách hàng hóa
             pagination: {
                 pageNumber: 1,
                 pageSize: 20,
@@ -67,7 +70,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['isInventorySelected']), // lấy giá trị từ store kiểm tra xem có hóa đơn nào được chọn hay không
+        ...mapGetters(['isInventorySelected']), // lấy giá trị từ store kiểm tra xem có hàng hóa nào được chọn hay không
         /**
          * @description: Lấy ra các action key (phím tắt) lưu trữ trong store 
          * Author: tttuan 11/10/2022
@@ -96,33 +99,31 @@ export default {
                         width: "40px",
                     },
                     {
-                        title: this.$t(`invoice_table.code`),
-                        key: 'invoiceCode',
+                        title: this.$t(`inventory_table.code`),
+                        key: 'inventoryCode',
                         search: true,
                     },
                     {
-                        title: this.$t(`invoice_table.customer`),
-                        key: 'customer',
+                        title: this.$t(`inventory_table.name`),
+                        key: 'inventoryName',
+                        width: "270px",
                         search: true,
                     },
                     {
-                        title: this.$t(`invoice_table.total_cost`),
-                        key: 'totalCost',
+                        title: this.$t(`inventory_table.quantity`),
+                        key: 'quantity',
+                    },
+                    {
+                        title: this.$t(`inventory_table.cost`),
+                        key: 'cost',
                         type: 'currency'
                     },
                     {
-                        title: this.$t(`invoice_table.purchase_date`),
-                        width: "100px",
-                        key: 'purchaseDate',
-                        textAlign: 'center',
-                        type: 'date',
+                        title: this.$t(`inventory_table.inventory_category`),
+                        key: 'inventoryCategoryName',
                     },
                     {
-                        title: this.$t(`invoice_table.employee`),
-                        key: 'createdBy',
-                    },
-                    {
-                        title: this.$t(`invoice_table.action`),
+                        title: this.$t(`inventory_table.action`),
                         key: 'action',
                         type: 'action',
                         fixed: true,
@@ -177,7 +178,7 @@ export default {
          */
         pagination: {
             handler: function (newVal) {
-                this.getInvoiceList(newVal);
+                this.getInventoryList(newVal);
             },
             deep: true,
         },
@@ -206,17 +207,17 @@ export default {
             },
         },
         /**
-         * @description: Lắng nghe sự kiện khi người dùng thay đổi trạng thái của form thêm mới hoặc cập nhật hóa đơn bằng phím tắt
+         * @description: Lắng nghe sự kiện khi người dùng thay đổi trạng thái của form thêm mới hoặc cập nhật hàng hóa bằng phím tắt
          * Author: tttuan 10/10/2022
          */
         action: {
             handler: function (newVal) {
                 // let curentFocus = document.activeElement; // lấy phần tử đang được active
                 switch (newVal) {
-                    case Enum.ACTION.ADD: // tổ hợp phím  Ctrl + Alt + A để thêm mới hóa đơn
+                    case Enum.ACTION.ADD: // tổ hợp phím  Ctrl + Alt + A để thêm mới hàng hóa
                         this.handleAction(newVal);
                         break;
-                    case Enum.ACTION.DELETE: // phím delete để xóa hóa đơn
+                    case Enum.ACTION.DELETE: // phím delete để xóa hàng hóa
                         if (this.isInventorySelected) {
                             this.handleAction(Enum.ACTION.DELETE_MANY);
                         }
@@ -246,19 +247,25 @@ export default {
             const self = this;
             try {
                 switch (action) {
-                    case Enum.ACTION.EDIT: // xem hóa đơn
-                        self.showViewInvoiceForm(data);
+                    case Enum.ACTION.ADD: // thêm mới hàng hóa
+                        self.showAddInventoryForm();
                         break;
-                    case Enum.ACTION.DELETE: // xóa hóa đơn
-                        self.deleteInvoice(data);
+                    case Enum.ACTION.EDIT: // sửa hàng hóa
+                        self.showEditInventoryForm(data);
                         break;
-                    case Enum.ACTION.DELETE_MANY: // xóa nhiều hóa đơn
-                        self.deleteInvoiceMany(data);
+                    case Enum.ACTION.DELETE: // xóa hàng hóa
+                        self.deleteInventory(data);
+                        break;
+                    case Enum.ACTION.DELETE_MANY: // xóa nhiều hàng hóa
+                        self.deleteInventoryMany(data);
+                        break;
+                    case Enum.ACTION.DUPLICATE: // Nhân bản hàng hóa
+                        self.duplicateInventory(data);
                         break;
                     case Enum.ACTION.INACTIVE:
                         self.$root.$toast.info(self.$t('notice_message.developing'));
                         break;
-                    case Enum.ACTION.RELOAD: // Tải lại danh sách hóa đơn
+                    case Enum.ACTION.RELOAD: // Tải lại danh sách hàng hóa
                         self.reloadData();
                         break;
                     case Enum.ACTION.EXPORT: // Xuất file excel
@@ -270,39 +277,39 @@ export default {
             }
         },
         /**
-         * @description: Hàm này dùng để hiển thị form thêm mới hóa đơn
+         * @description: Hàm này dùng để hiển thị form thêm mới hàng hóa
          * Author: tttuan 07/10/2022
          */
-        showAddInvoiceForm() {
+        showAddInventoryForm() {
             const self = this;
             self.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
-            self.showInvoiceForm = true;
+            self.showInventoryForm = true;
         },
         /**
-         * @description: Hàm này dùng để sửa hóa đơn
-         * @param {object} inventory - Dữ liệu của hóa đơn
+         * @description: Hàm này dùng để sửa hàng hóa
+         * @param {object} inventory - Dữ liệu của hàng hóa
          * Author: tttuan 07/10/2022
          */
-        showViewInvoiceForm(inventory) {
+        showEditInventoryForm(inventory) {
             const self = this;
             self.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
             self.$store.dispatch('setInventoryId', inventory.inventoryID);
-            self.showInvoiceForm = true;
+            self.showInventoryForm = true;
         },
         /**
-         * @description: Hàm này dùng để xóa hóa đơn
-         * @param {object} inventory - Dữ liệu của hóa đơn
+         * @description: Hàm này dùng để xóa hàng hóa
+         * @param {object} inventory - Dữ liệu của hàng hóa
          * Author: tttuan 07/10/2022
          */
-        deleteInvoice(inventory) {
+        deleteInventory(inventory) {
             const self = this;
-            self.deleteInvoiceBackend(inventory);
+            self.deleteInventoryBackend(inventory);
         },
         /**
-         * @description: Hàm này dùng để xóa nhiều hóa đơn
+         * @description: Hàm này dùng để xóa nhiều hàng hóa
          * Author: tttuan 1/3/2023
          */
-        async deleteInvoiceMany() {
+        async deleteInventoryMany() {
             const self = this;
             const confirm = await self.$refs.popup.show({
                 message: self.$t('notice_message.confirm_delete_many'),
@@ -314,30 +321,30 @@ export default {
                 const result = await self.$store.dispatch('deleteMultipleEmployee');
                 if (result > 0) {
                     self.$root.$toast.success(self.$t('notice_message.delete_many_success', [result]));
-                    self.getInvoiceList();
+                    self.getInventoryList();
                 } else {
                     self.$root.$toast.error(self.$t('notice_message.delete_many_fail'));
                 }
             }
         },
         /**
-         * @description: Hàm này dùng để nhân bản hóa đơn
-         * @param {object} employee - Dữ liệu của hóa đơn
+         * @description: Hàm này dùng để nhân bản hàng hóa
+         * @param {object} employee - Dữ liệu của hàng hóa
          * Author: tttuan 07/10/2022
          */
         async duplicateInventory(employee) {
             const self = this;
             self.$store.dispatch('setMode', Enum.FORM_MODE.DUPLICATE);
             self.$store.dispatch('setInventoryId', employee.inventoryID);
-            self.showInvoiceForm = true;
+            self.showInventoryForm = true;
         },
         /**
-         * @description: Hàm này dùng để tải lại danh sách hóa đơn
+         * @description: Hàm này dùng để tải lại danh sách hàng hóa
          * Author: tttuan 07/10/2022
          */
         async reloadData() {
             const self = this;
-            const res = await self.getInvoiceList();
+            const res = await self.getInventoryList();
             if (res) {
                 self.$root.$toast.success(self.$t('notice_message.reload_data_success'));
             } else {
@@ -345,7 +352,7 @@ export default {
             }
         },
         /**
-         * @description: Hàm này dùng để xuất danh sách hóa đơn ra file excel
+         * @description: Hàm này dùng để xuất danh sách hàng hóa ra file excel
          * Author: tttuan 05/10/2022
          */
         async exportExcel() {
@@ -365,11 +372,11 @@ export default {
             }
         },
         /**
-         * @description: Hàm này dùng để xóa hóa đơn ở bên backend
-         * @param {object} data - Dữ liệu của hóa đơn cần xóa
+         * @description: Hàm này dùng để xóa hàng hóa ở bên backend
+         * @param {object} data - Dữ liệu của hàng hóa cần xóa
          * Author: tttuan 19/09/2022
          */
-        async deleteInvoiceBackend(employee) {
+        async deleteInventoryBackend(employee) {
             const self = this;
             try {
                 const confirm = await self.$refs.popup.show({
@@ -379,9 +386,9 @@ export default {
                     closeButton: self.$t('confirm_popup.cancel'),
                 });
                 if (confirm == self.$t('confirm_popup.yes')) {
-                    const res = await self.$api.inventory.deleteInvoice(employee.inventoryID);
+                    const res = await self.$api.inventory.deleteInventory(employee.inventoryID);
                     if (res.status == Enum.MISA_CODE.SUCCESS) {
-                        self.deleteInvoiceFrontEnd(employee);
+                        self.deleteInventoryFrontEnd(employee);
                     } else {
                         self.$root.$toast.error(self.$t('notice_message.delete_fail', [employee.inventoryCode]));
                     }
@@ -391,19 +398,19 @@ export default {
             }
         },
         /**
-         * @description: Hàm này dùng để xóa hóa đơn trong danh sách ở bên frontend
-         * @param: {object} data - Dữ liệu của hóa đơn cần xóa 
+         * @description: Hàm này dùng để xóa hàng hóa trong danh sách ở bên frontend
+         * @param: {object} data - Dữ liệu của hàng hóa cần xóa 
          * Author: tttuan 22/09/2022
          */
-        deleteInvoiceFrontEnd(data) {
+        deleteInventoryFrontEnd(data) {
             const self = this;
             const { inventoryID, inventoryCode } = data;
             try {
-                const index = self.invoiceList.data.findIndex((item) => item.inventoryID === inventoryID);
+                const index = self.inventoryList.data.findIndex((item) => item.inventoryID === inventoryID);
                 if (index !== -1) {
-                    self.invoiceList.data.splice(index, 1);
+                    self.inventoryList.data.splice(index, 1);
                     self.$root.$toast.success(self.$t('notice_message.delete_success', [inventoryCode]));
-                    self.invoiceList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
+                    self.inventoryList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
                 }
             } catch (error) {
                 self.$root.$toast.success(self.$t('notice_message.delete_fail', [inventoryCode]));
@@ -411,32 +418,32 @@ export default {
             }
         },
         /**
-         * @description: Hàm này đùng để nhận emit từ con nếu thành công thì thêm hóa đơn vào bảng 
-         * @param: {Object} employee - Dữ liệu của hóa đơn
+         * @description: Hàm này đùng để nhận emit từ con nếu thành công thì thêm hàng hóa vào bảng 
+         * @param: {Object} employee - Dữ liệu của hàng hóa
          * Author: tttuan 01/10/2022
          */
         insertInventory(inventory) {
             const self = this;
             try {
-                self.invoiceList.data.unshift(inventory); // Thêm hóa đơn vào đầu mảng
+                self.inventoryList.data.unshift(inventory); // Thêm hàng hóa vào đầu mảng
                 self.$root.$toast.success(self.$t('notice_message.insert_success', [inventory.inventoryCode]));
-                self.invoiceList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
+                self.inventoryList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
             } catch (error) {
                 self.$root.$toast.error(self.$t('notice_message.insert_fail', [inventory.inventoryCode]));
                 console.log(error);
             }
         },
         /**
-         * @description: Hàm này dùng để cập nhật hóa đơn ở bên frontend
+         * @description: Hàm này dùng để cập nhật hàng hóa ở bên frontend
          * Author: tttuan 05/10/2022
          */
         updateInventory(inventory) {
             const self = this;
             try {
-                const index = self.invoiceList.data.findIndex((item) => item.inventoryID === inventory.inventoryID);
+                const index = self.inventoryList.data.findIndex((item) => item.inventoryID === inventory.inventoryID);
                 if (index !== -1) {
-                    self.invoiceList.data.splice(index, 1);
-                    self.invoiceList.data.unshift(inventory);
+                    self.inventoryList.data.splice(index, 1);
+                    self.inventoryList.data.unshift(inventory);
                     self.$root.$toast.success(self.$t('notice_message.update_success', [inventory.inventoryCode]));
                 }
             } catch (error) {
@@ -445,16 +452,16 @@ export default {
             }
         },
         /**
-         * @description: Hàm này dùng để lấy danh sách hóa đơn
+         * @description: Hàm này dùng để lấy danh sách hàng hóa
          * Author: tttuan 19/09/2022
          */
-        async getInvoiceList() {
+        async getInventoryList() {
             const self = this;
             try {
                 self.isDataLoaded = false;
-                const result = await self.$api.invoice.getInvoicesFilter(self.pagination);
+                const result = await self.$api.inventory.getInventoriesFilter(self.pagination);
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
-                    self.invoiceList = result.data;
+                    self.inventoryList = result.data;
                     self.isDataLoaded = true;
                     return Promise.resolve(true);
                 } else {
@@ -470,7 +477,7 @@ export default {
     },
     created() { // Hàm này chạy khi component được tạo
         const self = this;
-        self.getInvoiceList(); // Lấy danh sách hóa đơn
+        self.getInventoryList(); // Lấy danh sách hàng hóa
         self.Enum = Enum; // Khởi tạo enum
     },
 }
