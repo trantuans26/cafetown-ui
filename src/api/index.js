@@ -1,6 +1,8 @@
 import department from "./department";
 import employee from "./employee";
 import inventory from "./inventory";
+import invoice from "./invoice";
+import authen from "./authen";
 import ax from "axios";
 import baseApi from "./base/base-api";
 
@@ -16,6 +18,8 @@ const api = {
   department: department(axios),
   employee: employee(axios),
   inventory: inventory(axios),
+  invoice: invoice(axios),
+  authen: authen(axios),
   unit: baseApi(axios, "units"),
   stock: baseApi(axios, "stocks"),
   inventoryGroup: baseApi(axios, "inventorygroups"),
