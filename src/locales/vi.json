@@ -4,6 +4,15 @@
     "notification": "Thông báo"
   },
 
+  "login": {
+    "title": "Đăng nhập vào cửa hàng của bạn",
+    "placeholder": {
+      "user": "Email/Số điện thoại của bạn",
+      "password": "Mật khẩu đăng nhập cửa hàng"
+    },
+    "button": "Đăng nhập"
+  },
+
   "sidebar": {
     "overview": "Tổng quan",
     "employee": "Nhân viên",
@@ -262,17 +271,15 @@
   },
 
   "invoice_page": {
-    "title": "Bán hàng",
-    "add_invoice": "Thêm hóa đơn",
-    "search_function": "Tìm theo mã, tên hàng"
+    "title": "Quản lý hóa đơn",
+    "search_function": "Tìm theo mã hóa đơn, người tạo"
   },
   "invoice_table": {
-    "code": "Mã hàng",
-    "name": "Tên hàng",
-    "quantity": "Số lượng",
-    "cost": "Đơn giá",
-    "invoice_category": "Danh mục hàng hóa",
-    "image": "Hình ảnh",
+    "code": "Số hóa đơn",
+    "total_cost": "Giá trị hóa đơn",
+    "purchase_date": "Ngày mua",
+    "employee": "Nhân viên bán hàng",
+    "customer": "Khách hàng",
     "action": "Chức năng"
   },
   "invoice_info": {
