@@ -1,6 +1,6 @@
 /**
  * @description: Tạo store lưu trữ các action dùng chung của toàn bộ trang
- * Author: tttuan 02/10/2022
+ * Author: tttuan 5/3/2023
  */
 const action = {
   state: {
@@ -9,7 +9,7 @@ const action = {
   mutations: {
     /**
      * @description: Thay đổi action thực hiện
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      * @param {*} state
      * @param {*} action
      * @returns
@@ -21,7 +21,7 @@ const action = {
   getters: {
     /**
      * @description: Lấy action thực hiện
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      * @param {*} state
      * @returns
      */

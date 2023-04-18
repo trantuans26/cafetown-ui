@@ -1,6 +1,6 @@
 /**
  * @description: Tạo store lưu trữ danh sách filter
- * Author: tttuan 02/10/2022
+ * Author: tttuan 5/3/2023
  */
 const filter = {
   state: {
@@ -9,7 +9,7 @@ const filter = {
   mutations: {
     /**
      * @description: Thay đổi danh sách filter
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      * @param {*} state
      * @param {*} listFilter
      * @returns

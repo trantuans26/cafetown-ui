@@ -1,6 +1,6 @@
 /**
  * @description: Tạo store lưu trữ các mode của dialog (thêm, sửa, xóa)
- * Author: tttuan 02/10/2022
+ * Author: tttuan 5/3/2023
  */
 const dialogMode = {
   state: {
@@ -12,28 +12,28 @@ const dialogMode = {
   mutations: {
     /**
      * @description: Thay đổi mode của dialog (Thêm, sửa, xóa)
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     setMode(state, mode) {
       state.mode = mode;
     },
     /**
      * @description: Thay đổi id của nhân viên
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     setEmployeeId(state, employeeId) {
       state.employeeId = employeeId;
     },
     /**
-     * @description: Thay đổi id của nhân viên
-     * Author: tttuan 02/10/2022
+     * @description: Thay đổi id của hàng hía
+     * Author: tttuan 5/3/2023
      */
     setInventoryId(state, inventoryId) {
       state.inventoryId = inventoryId;
     },
     /**
      * @description: TThay đổi action trong dialog (Cất, Cất và tiếp tục, Hủy)
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     setAction(state, action) {
       state.action = action;
@@ -42,28 +42,35 @@ const dialogMode = {
   actions: {
     /**
      * @description: Thay đổi mode của dialog (Thêm, sửa, xóa)
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     setMode({ commit }, mode) {
       commit("setMode", mode);
     },
     /**
      * @description: Thay đổi id của nhân viên
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     setEmployeeId({ commit }, employeeId) {
       commit("setEmployeeId", employeeId);
     },
     /**
-     * @description: Thay đổi id của nhân viên
-     * Author: tttuan 02/10/2022
+     * @description: Thay đổi id của hàng hóa
+     * Author: tttuan 5/3/2023
      */
     setInventoryId({ commit }, inventoryId) {
       commit("setInventoryId", inventoryId);
     },
+        /**
+     * @description: Thay đổi id của hàng hóa
+     * Author: tttuan 5/3/2023
+     */
+    setInvoiceId({ commit }, invoiceId) {
+      commit("setInvoiceId", invoiceId);
+    },
     /**
      * @description: Thay đổi action trong dialog (Cất, Cất và tiếp tục, Hủy)
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     setAction({ commit }, action) {
       commit("setAction", action);
@@ -72,28 +79,28 @@ const dialogMode = {
   getters: {
     /**
      * @description: Lấy mode của dialog (Thêm, sửa, xóa)
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     getMode(state) {
       return state.mode;
     },
     /**
      * @description: Lấy id của nhân viên trong dialog
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     getEmployeeId(state) {
       return state.employeeId;
     },
     /**
-     * @description: Lấy id của nhân viên trong dialog
-     * Author: tttuan 02/10/2022
+     * @description: Lấy id của hàng hóa trong dialog
+     * Author: tttuan 5/3/2023
      */
     getInventoryId(state) {
       return state.inventoryId;
     },
     /**
      * @description: Lấy action trong dialog (Cất, Cất và tiếp tục, Hủy)
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     getAction(state) {
       return state.action;

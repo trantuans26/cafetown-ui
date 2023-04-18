@@ -1,7 +1,7 @@
 import axios from "axios";
 /**
  * @description: Tạo store lưu trữ các giá trị liên quan đến hàng hóa
- * Author: tttuan 02/10/2022
+ * Author: tttuan 5/3/2023
  */
 const inventory = {
   state: {
@@ -12,7 +12,7 @@ const inventory = {
      * @description: Thêm hàng hóa vào danh sách hàng hóa được chọn
      * @param: {state} state của store
      * @param: {inventoryList} danh sách hàng hóa được chọn
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     setInventorySelected(state, inventoryList) {
       state.listInventorySelected = inventoryList;
@@ -44,10 +44,10 @@ const inventory = {
     /**
      * @description: Lấy danh sách hàng hóa được chọn
      * @param: {state} state của store
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      * @example: this.$store.getters.getListInventorySelected;
      * @return: danh sách hàng hóa được chọn
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     getListInventorySelected(state) {
       return state.listInventorySelected;
@@ -56,10 +56,10 @@ const inventory = {
     /**
      * @description: Xem trong danh sách hàng hóa được chọn có hàng hóa nào không
      * @param: {state} state của store
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      * @example: this.$store.getters.isInventorySelected;
      * @return: true nếu có hàng hóa được chọn, false nếu không có hàng hóa nào được chọn
-     * Author: tttuan 02/10/2022
+     * Author: tttuan 5/3/2023
      */
     isInventorySelected(state) {
       return state.listInventorySelected.length > 0;
