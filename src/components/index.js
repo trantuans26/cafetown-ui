@@ -20,6 +20,7 @@ import VPagination from "./base/Pagination/VPagination";
 import VCollapse from "./base/VCollapse";
 import TheHeader from "./layout/TheHeader";
 import TheSidebar from "./layout/TheSidebar";
+import TheInformation from "./layout/TheInformation";
 import VTableTree from "./base/Table/VTableTree.vue";
 import VFilter from "./base/Filter/VFilter.vue";
 
@@ -35,6 +36,7 @@ export default {
   VTable,
   TheHeader,
   TheSidebar,
+  TheInformation,
   VModal,
   VPopup,
   VMenu,

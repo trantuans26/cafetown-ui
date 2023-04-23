@@ -23,8 +23,11 @@
                 <div class="ms-24 ms-icon ms-icon-bell"></div>
             </v-tooltip>
             <div class="header__user d-flex align-items-center p-x-3 ml-r-3">
-                <div class="ms-32 ms-icon ms-round ms-icon-small-user ms-l-2"></div>
-                <div class="m-2 font-weight-600 font-size-13 cursor-pointer">Trần Thái Tuấn</div>
+                <v-tooltip style="display: flex;" :content="$t('login.view')">
+                    <div class="ms-32 ms-icon ms-round ms-icon-small-user ms-l-2" @click="showInformationForm"></div>
+                    <div class="m-2 font-weight-600 font-size-13 cursor-pointer" @click="showInformationForm"> {{ authen.employeeName }} </div>
+                </v-tooltip>
+
                 <div class="m-2 font-weight-600 font-size-13 cursor-pointer logout">
                     <router-link to="/dang-nhap">
                         {{ $t('login.log_out') }}
@@ -33,11 +36,15 @@
             </div>
         </div>
     </div>
+
+    <the-information v-show="true"></the-information>
 </template>
 
 <script>
 import Enum from '@/utils/enum';
+import TheInformation from './TheInformation.vue';
 export default {
+  components: { TheInformation },
     name: "TheHeader",
     props: {
         collapsed: { // Sidebar có collapsed hay không
@@ -50,14 +57,27 @@ export default {
             languages: [
                 { flag: 'vn', language: 'vi', title: 'Tiếng Việt' },
                 { flag: 'us', language: 'en', title: 'English' }
-            ] // Danh sách các ngôn ngữ,
-
+            ], // Danh sách các ngôn ngữ
+            isShowInformationForm: false
         }
     },
     computed: {
         // Lấy ngôn ngữ hiện tại
         currentLanguage() {
             return this.$i18n.locale;
+        },
+
+        authen() {
+            let authencator = this.$store.getters.getPermission;
+            let authencatorFake = {
+                employeeName: 'Trần Thái Tuấn'
+            };
+
+            if(authencator) {
+                return authencator;
+            }
+
+            return authencatorFake;
         }
     },
     watch: {
@@ -78,6 +98,7 @@ export default {
         toggleSidebar() {
             this.$emit('toggleSidebar')
         },
+
         /**
          * @description: Hàm này dùng để thay đổi ngôn ngữ
          * Author: tttuan 11/10/2022
@@ -87,6 +108,13 @@ export default {
             localStorage.setItem('amis-language', language)
             // thay đổi ngôn ngữ
             this.$i18n.locale = language;
+        },
+
+        showInformationForm() {
+            let me = this;
+
+            me.isShowInformationForm = true;
+            
         }
     },
 }

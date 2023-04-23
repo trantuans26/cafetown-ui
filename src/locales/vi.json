@@ -12,7 +12,8 @@
     },
     "button": "Đăng nhập",
     "log_out": "Đăng xuất",
-    "log_in": "Đăng nhập"
+    "log_in": "Đăng nhập",
+    "view": "Xem thông tin cá nhân"
   },
 
   "sidebar": {
