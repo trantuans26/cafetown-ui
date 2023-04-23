@@ -13,7 +13,7 @@
                     </div>
                     <div class="col">
                         <v-input type="checkbox" :label_custom="$t('employee_info.is_manager')"
-                            v-model="employee.$isManager" :value="true"></v-input>
+                            v-model="employee.isManager" :value="true"></v-input>
                     </div>
                 </div>
             </template>
