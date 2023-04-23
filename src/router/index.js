@@ -7,11 +7,21 @@ function lazyLoad(view) {
 const router = [
   {
     path: "/",
-    redirect: "/tong-quan",
+    redirect: "/dang-nhap",
+    
+  },
+  {
+    path: '/dang-nhap',
+    name: "auth-login",
+    component: lazyLoad("login/Login"),
+    meta: {
+      auth: true,
+      title: "Đăng nhập",
+    },
   },
   {
     path: "/tong-quan",
-    component: lazyLoad("example/ComponentExample"),
+    component: lazyLoad("overview/InventoryList"),
     meta: {
       title: "Tổng quan",
     },
