@@ -4,6 +4,7 @@ import employee from "./employee";
 import inventory from "./inventory";
 import invoice from "./invoice";
 import action from "./action";
+import permission from "./permission";
 import filter from "./filter";
 import table from "./table";
 
@@ -21,6 +22,7 @@ const store = createStore({
     action,
     filter,
     table,
+    permission,
   },
 });
 

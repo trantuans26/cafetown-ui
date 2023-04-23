@@ -63,12 +63,9 @@ export default {
         async login() {
             let me = this;
             const response = await me.$api.authen.login(me.username, me.password);
-            if (response && response.status == Enum.MISA_CODE.SUCCESS) {                
-                if(response.data.isManager) {
-                    me.$isManager = true;
-                    me.redirect = "/nhan-vien";
-                    console.log(me.$isManager);
-                }
+            if (response && response.status == Enum.MISA_CODE.SUCCESS) {  
+                this.$store.commit('setPermission', response.data);              
+                me.redirect = "/nhan-vien";
             }
         },
     },

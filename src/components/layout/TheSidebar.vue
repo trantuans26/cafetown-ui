@@ -16,7 +16,7 @@
         </div>
         <div class="sidebar__content">
             <div class="sidebar__item__list">
-                <div v-for="(item, index) of routerLinks" :key="index">
+                <div v-for="(item, index) of routerLinks.filter((router) => permission ? router : router.sideBar.title == 'overview' || router.sideBar.title == 'manage_invoice')" :key="index">
                     <VRouterLink :link="item.path" :content="item.sideBar.title" :icon="item.sideBar.icon" />
                 </div>
             </div>
@@ -33,8 +33,23 @@ export default {
         collapsed: {
             type: Boolean,
             default: false,
-        },
+        }
     },
+
+    methods: {
+    },
+
+    data() {
+        return {
+        }
+    },
+
+    watch: {
+        message() {
+            console.log('message changed')
+        }
+    },
+
     computed: {
         /**
          * @description: Hàm này trả về kiểm tra xem trong router có sideBar hay không nếu có thì sort theo order và trả về danh sách gồm các router-link vả title
@@ -51,6 +66,16 @@ export default {
             });
             return routes;
         },
+
+        permission() {
+            let permission = this.$store.getters.getPermission;
+            
+            if(permission && permission.isManager) {
+                return true;
+            }
+            
+            return false;
+        }
     },
 }
 </script>
