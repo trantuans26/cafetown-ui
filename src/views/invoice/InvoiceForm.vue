@@ -1,117 +1,167 @@
 <template>
-    <div class="form--inventory">
+    <div>
         <!-- Khu vực hiển thị dialog form thêm hoặc sửa nhân viên -->
         <v-dialog :isShow="modelValue" @close="closeFormHandle">
             <template #title>
                 <div class="row e-header">
                     <div class="e-header__title col font-weight-700">
-                        {{ $t('inventory_info.title') }}
+                        {{ $t('invoice_info.title') }}
+                    </div>
+                    <div class="col">
+                        <v-input type="checkbox" :label_custom="$t('invoice_info.is_collected')"
+                            v-model="invoice.isCollected" :value="false"
+                        ></v-input>
                     </div>
                 </div>
             </template>
             <template #body>
-                <div class="grid wide v-max-900" ref="InventoryForm">
-                    <div class="row row--inventory">
-                        <div class="col l-7 md-7">
+                <div class="invoice__list grid wide v-max-900" ref="invoiceForm">
+                    <div class="row">
+                        <div class="col l-6 md-6">
                             <div class="row sm-gutter">
-                                <div class="form-group col l-5 md-5 c-5 focus">
-                                    <v-input :label="$t('inventory_info.code')" v-model="inventory.inventoryCode"
-                                        :required="true" :errorLabel="$t('inventory_info.code')">
-                                    </v-input>
-                                </div>
-                                <div class="form-group col l-7 md-7 c-7">
-                                    <v-input :label="$t('inventory_info.name')" v-model="inventory.inventoryName"
-                                        ref="inventoryName" @validate="setValid('inventoryName', $event)" :maxLength="100"
-                                        :required="true" :errorLabel="$t('inventory_info.name')">
+                                <div class="form-group col l-12 md-12 c-12 focus">
+                                    <v-input :label="$t('invoice_info.customer')" v-model="invoice.customer"
+                                        :required="true" :errorLabel="$t('invoice_info.customer')">
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-12 md-12">
-                                    <!-- <BCombobox
-                                        :url= "url.inventoryCategory"
-                                        propValue="inventoryCategoryID"
-                                        propCode="inventoryCategoryCode"
-                                        propText="inventoryCategoryName"
-                                        :fieldName="$t('inventory_info.inventory_category')"
-                                        :propPlaceholder="$t('inventory_info.inventory_category')"
-                                        :setID="inventory.inventoryCategoryID" 
-                                        :setValue="inventory.inventoryCategoryName"
-                                        @getID = "inventory.inventoryCategoryID = $event"
-                                        @getCode = "inventory.inventoryCategoryCode = $event"
-                                        @getName = "inventory.inventoryCategoryName = $event"
-                                        :required="this.isShowValidity.emptyDepartmentID"
-                                        @onClick="this.isShowValidity.emptyDepartmentID = $event"
-                                        @onBlur="this.isShowValidity.emptyDepartmentID = $event"
-                                        :addFocus="this.focusDepartment"
-                                        @removeFocus="this.focusDepartment = $event"
-                                        @onChange="checkChangeDepartment($event)"
-                                        >
-                                    </BCombobox> -->
+                                    <v-input :label="$t('invoice_info.description')" v-model="invoice.description"
+                                        :maxLength="255" :errorLabel="$t('invoice_info.description')">
+                                    </v-input>
+                                </div>
+                                <div class="form-group col l-9 md-9">
                                     <div class="v-input__label">
                                         <label @click="handleInputFocus">
                                             <!-- :tooltip="tooltipText" :position="tooltipPosition" -->
-                                            {{ $t('inventory_info.inventory_category') }} <span> * </span>
+                                            {{ $t('inventory_info.inventory') }}:
                                         </label>
                                     </div>
 
                                     <BCombobox
-                                        :url= "url.inventoryCategory"
-                                        propValue="inventoryCategoryID"
-                                        propCode="inventoryCategoryCode"
-                                        propText="inventoryCategoryName"
-                                        :fieldName="$t('inventory_info.inventory_category')"
-                                        :propPlaceholder="$t('inventory_info.inventory_category')"
-                                        :setID="inventory.inventoryCategoryID" 
-                                        :setValue="inventory.inventoryCategoryName"
-                                        @getID="inventory.inventoryCategoryID = $event"
-                                        @getCode="inventory.inventoryCategoryCode = $event"
-                                        @getName="inventory.inventoryCategoryName = $event"
+                                        :url= "url.inventory"
+                                        propValue="inventoryID"
+                                        propCode="inventoryCode"
+                                        propText="inventoryName"
+                                        :fieldName="$t('inventory_info.inventory')"
+                                        :propPlaceholder="$t('inventory_info.inventory')"
+                                        :setID="inventory.inventoryID" 
+                                        :setValue="inventory.inventoryName"
+                                        @getID="inventory.inventoryID = $event"
+                                        @getCode="inventory.inventoryCode = $event"
+                                        @getName="inventory.inventoryName = $event"
                                         >
                                     </BCombobox>
                                 </div>
 
-                                <div class="form-group col l-5 md-5">
-                                    <v-input :label="$t('inventory_info.quantity')" v-model="inventory.quantity">
-                                    </v-input>
-                                </div>
-                                <div class="form-group col l-7 md-7">
-                                    <v-input :label="$t('inventory_info.cost')" v-model="inventory.cost">
-                                    </v-input>
-                                </div>
-
-                                <div class="form-group col l-12 md-12">
-                                    <v-input :label="$t('inventory_info.description')" v-model="inventory.description">
-                                    </v-input>
+                                <div class="form-group col l-3 md-3">
+                                    <div class="button--add">
+                                        <v-button @click="addInventoryForInvoice()"
+                                        tooltipPosition="right"
+                                        :tooltip="$t('action_form.add')">
+                                        {{ $t('action_form.add') }}
+                                    </v-button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="image col">
-                            <div class="image__label v-input__label">
-                                <label @click="handleInputFocus">
-                                    <!-- :tooltip="tooltipText" :position="tooltipPosition" -->
-                                    {{ $t('inventory_info.image') }}
-                                </label>
-                            </div>
-                            <div class="image__contain">
-                                <div class="image__item">
-                                    <img class="image__file" :src="inventory.image" alt="" @click="selectImage" v-show="inventory.image"> 
-                                    <img class="image__file" src="@/assets/img/default-placeholder.png" alt="" @click="selectImage" v-show="!inventory.image"> 
-                                </div>
-                                <div class="image__input">
-                                    <input 
-                                        ref="fileImage" 
-                                        type="file" 
-                                        @input="onUploadImage"
-                                        @change="onFileChanged"
-                                        title=" "
+                        <div class="col l-6 md-6">
+                            <div class="row sm-gutter invoice--column">
+                                <div class="invoice__item--disable l-5 md-5">
+                                    <v-date-picker :label="$t('invoice_info.purchase_date')"
+                                        v-model="invoice.purchaseDate" :isLessThanToday="true"
+                                        :errorLabel="$t('invoice_info.purchase_date')" :validateCheck="true"
                                     >
+                                    </v-date-picker>
+                                </div>
+                                <div class="invoice__item--disable l-5 md-5">
+                                    <v-input :label="$t('invoice_info.invoice_code')"
+                                        v-model="invoice.invoiceCode" :validateCheck="true"
+                                        :errorLabel="$t('invoice_info.invoice_code')"
+                                        tooltipPosition="right" :tooltipText="$t('invoice_info.invoice_code')">
+                                    </v-input>
+                                </div>
+                                <div class="fnvoice__item--disable l-5 md-5">
+                                    <v-input :label="$t('invoice_info.employee')"
+                                        v-model="invoice.createdBy" :validateCheck="true"
+                                        :errorLabel="$t('invoice_info.employee')"
+                                        tooltipPosition="right" :tooltipText="$t('invoice_info.employee')">
+                                    </v-input>
+                                </div>
+                                <div class="invoice__item--total">
+                                    <div class="invoice__total--label"> {{ $t('invoice_info.total_cost') }} </div>
+                                    <div class="invoice__total--value"> {{ formatNumber(invoice.totalCost ? invoice.totalCost : 0) }} </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div id="grid">
+                    <div class="grid__label"> {{ $t('invoice_info.list_products') }}</div>
+
+                    <div class="grid__table">
+                            <div class="table__header">
+                                <table>
+                                    <thead>
+                                        <th class="table__col table__col--center table__col--check"> # </th>
+                                        <th class="table__col table__col--left table__col--code">{{ $t('invoice_info.code') }}</th>
+                                        <th class="table__col table__col--left table__col--name">{{ $t('invoice_info.name') }}</th>
+                                        <th class="table__col table__col--left table__col--quantity">{{ $t('invoice_info.quantity') }}</th>
+                                        <th class="table__col table__col--left ttable__col--cost">{{ $t('invoice_info.cost') }}</th>
+                                        <th class="table__col table__col--left table__col--total">{{ $t('invoice_info.total') }}</th>
+                                        <th class="table__col--delete"></th>
+                                    </thead>
+                                </table>
+                            </div>
+
+                            <table class="table__scroll">
+                                <div class="grid__table--body">
+                                    <table>
+                                        <tbody>
+                                            <tr 
+                                                class="table__row" 
+                                                tabindex="1"
+                                                v-for="(invoice, index) in this.invoiceDetails"
+                                                :key="invoice"                                 
+                                            >
+                                                <td class="table__col table__col--center table__col--check"> {{ index + 1 }}</td>
+                                                <td class="table__col table__col--left table__col--code"> 
+                                                    <v-tooltip :content="invoice.inventoryCode">
+                                                        <p>{{invoice.inventoryCode}}</p> 
+                                                    </v-tooltip>
+                                                </td>
+                                                <td class="table__col table__col--left table__col--name"> 
+                                                    <v-tooltip :content="invoice.inventoryName">
+                                                        <p>{{invoice.inventoryName}}</p> 
+                                                    </v-tooltip>
+                                                </td>
+                                                <td class="table__col table__col--left table__col--quantity table__col--spinner"> 
+                                                    <p>
+                                                        {{ invoice.quantity ? invoice.quantity : 0 }}                                                    
+                                                    </p> 
+
+                                                    <i class="icon--spinner"></i>
+                                                    <span class="spin spin--up" @click="spinnerAction(invoice.inventoryID, true)"></span>
+                                                    <span class="spin spin--down" @click="spinnerAction(invoice.inventoryID)"></span>
+                                                </td>
+                                                <td class="table__col table__col--left ttable__col--cost"> <p>{{ formatCurrency(invoice.cost ? invoice.cost : 0) }}</p> </td>
+                                                <td class="table__col table__col--left table__col--total"> <p>{{ formatCurrency(invoice.totalCost) }}</p> </td>
+                                                <td class="table__col--delete"> <div class="icon--delete" @click="deleteInvoiceDetailByInventoryId(invoice.inventoryID)"></div> </td>
+                                            </tr> 
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </table>
+                    </div>
+                </div>
             </template>
             <template #footer__left>
-                <v-button buttonType="secondary" @click="closeFormHandle" className="v-button__button-no-bg border">
+                <v-button 
+                    buttonType="secondary" 
+                    @click="closeFormHandle" 
+                    className="v-button__button-no-bg border"
+                    tooltipPosition="right"
+                >
                     {{ $t('action_form.cancel') }}
                 </v-button>
                 <div style="max-width: 0; max-height: 0; overflow: hidden;">
@@ -119,13 +169,10 @@
                 </div>
             </template>
             <template #footer__right>
-                <v-button @click="saveHandler(Enum.ACTION.SAVE_AND_CLOSE)" buttonType="secondary"
+                <v-button @click="saveHandler(Enum.ACTION.SAVE_AND_CLOSE)"
+                    tooltipPosition="right"
                     :tooltip="$t('action_form.save') + Enum.KEY_DEFINE.CTRL_S">
                     {{ $t('action_form.save') }}
-                </v-button>
-                <v-button @click="saveHandler(Enum.ACTION.SAVE_AND_ADD)"
-                    :tooltip="$t('action_form.save_and_add') + Enum.KEY_DEFINE.CTRL_SHIFT_S">
-                    {{ $t('action_form.save_and_add') }}
                 </v-button>
             </template>
         </v-dialog>
@@ -135,51 +182,52 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapGetters } from 'vuex';
 import Enum from "@/utils/enum";
-//import UploadImage from 'vue-upload-image';
+import { formatCurrency } from '@/utils/format';
 
 export default {
-    name: "InventoryForm",
+    name: "InvoiceForm",
     props: {
         modelValue: { // dùng để đóng mở form
             type: Boolean,
             default: false
         },
     },
-/*     components: {
-        UploadImage
-    }, */
-
+    mounted() {
+        this.getAllInventories();
+    },
     data() {
         return {
-            inventory: { // dữ liệu nhân viên
+            invoice: { // dữ liệu nhân viên
+                invoiceID: "",
+                invoiceCode: "",
+                customer: "",
+                totalCost: 0,
+                description: "",
+                purchaseDate: new Date(),
+                createdBy: "",
+                isCollected: false,
+            },
+            invoiceDetails: [],
+            inventory: {
                 inventoryID: "",
                 inventoryCode: "",
                 inventoryName: "",
-                inventoryCategoryID: "",
-                inventoryCategoryCode: "",
-                inventoryCategoryName: "",
-                cost: 0,
-                quantity: 0,
-                description: "",
-                image: "",
-                createdDate: "",
-                createdBy: "",
-                modifiedDate: "",
-                modifiedBy: ""
             },
+            inventories: [],
             attemptSubmit: true, // biến kiểm tra đã submit form chưa
             Enum: Enum, // dùng để gọi Enum trong template 
             isChaged: false, // dùng để check xem có thay đổi dữ liệu hay không
-            inventoryList: [], // danh sách phòng ban
+            departmentList: [], // danh sách phòng ban
             url: {
-                inventoryCategory: "http://localhost:59997/api/v1/InventoryCategories"
+                inventory: "http://localhost:59997/api/v1/Inventories"
             },
         };
     },
     computed: {
-        ...mapGetters(["getInventoryId"]),
+        ...mapGetters(["getInvoiceId"]),
         /**
          * @description: Get và set trạng thái của form lưu trữ trong store 
          * Author: tttuan 08/10/2022
@@ -204,27 +252,68 @@ export default {
                 this.$store.commit('setActionKey', value);
             }
         },
-        /* 
-            Format image
-        */
-        formatImage: {
-/*             return 'data:image/jpeg;base64,' + btoa(
-                new Uint8Array(this.inventory.image)
-                .reduce((data, byte) => data + String.fromCharCode(byte), '')
-            ); */
-            get: function() {
-                return this.employeeModal.identityNumber;
+
+        /**
+         * @description: Khai báo các cột hiển thị trong table
+         * Author: tttuan 11/10/2022
+         */
+        columns: {
+            get() {
+                return [
+                    {
+                        title: this.$t(`inventory_table.code`),
+                        key: 'inventoryCode',
+                        search: true,
+                    },
+                    {
+                        title: this.$t(`inventory_table.name`),
+                        key: 'inventoryName',
+                        width: "270px",
+                        search: true,
+                    },
+                    {
+                        title: this.$t(`inventory_table.quantity`),
+                        key: 'quantity',
+                    },
+                    {
+                        title: this.$t(`inventory_table.cost`),
+                        key: 'cost',
+                        type: 'currency'
+                    },
+                    {
+                        title: this.$t(`invoice_table.total_cost`),
+                        key: 'totalCost',
+                    },
+                    {
+                        title: this.$t(`inventory_table.action`),
+                        key: 'action',
+                        type: 'action',
+                        fixed: true,
+                        textAlign: 'center',
+                        width: "120px",
+                    },
+                ];
             },
-            
-            set: function(number) {
-                var num = number;
-                
-                num = this.preventText(num);
-                num = "abc";
-                
-                this.employeeModal.identityNumber = num;
+            set(value) {
+                this.columns = value;
+                console.log(this.columns);
             }
         },
+
+        /**
+         * @description: Khai báo các action thực hiện trên từng dòng của table
+         * Author: tttuan 11/10/2022
+         */
+        tableAction: {
+            get() {
+                return [
+                    {
+                        'key': Enum.ACTION.DELETE,
+                        'value': this.$t('action.delete'),
+                    }
+                ]; // Khởi tạo danh sách action trên từng dòng
+            }
+        }
     },
     watch: {
         /**
@@ -240,7 +329,7 @@ export default {
             deep: true
         },
         /**
-         * @description: Nhận các mode từ bên component inventory-list và xử lý các nghiệp vụ tương ứng
+         * @description: Nhận các mode từ bên component employee-list và xử lý các nghiệp vụ tương ứng
          * Author: tttuan 1/3/2023
          */
         formMode: {
@@ -251,11 +340,8 @@ export default {
                         await me.resetForm();
                         break;
                     case Enum.FORM_MODE.EDIT:
-                        await me.getInventoryById();
+                        await me.getMasterDetailInvoiceByID();
                         me.isChaged = false;
-                        break;
-                    case Enum.FORM_MODE.DUPLICATE:
-                        await me.getInventoryById(true);
                         break;
                     default:
                         break;
@@ -290,10 +376,10 @@ export default {
             deep: true,
         },
         /**
-         * @description: Bắt sự thay đổi của inventory nếu thay đổi thì set isChaged = true
+         * @description: Bắt sự thay đổi của employee nếu thay đổi thì set isChaged = true
          * Author: tttuan 1/3/2023
          */
-        inventory: {
+        employee: {
             handler: function () {
                 this.isChaged = true;
             },
@@ -301,6 +387,126 @@ export default {
         },
     },
     methods: {
+        formatCurrency, 
+
+        spinnerAction(inventoryID, spinUp = false) {
+            let me = this;
+            if(me.invoiceDetails && Array.isArray(me.invoiceDetails)) {
+                me.invoiceDetails.forEach((element, index) => {
+                    if(element.inventoryID == inventoryID) {
+                        if(spinUp && me.invoiceDetails[index].quantity != null && me.invoiceDetails[index].quantity != undefined) {
+                            me.invoiceDetails[index].quantity += 1; 
+                            me.updateCost(index);
+                        } else if(me.invoiceDetails[index].quantity && me.invoiceDetails[index].quantity > 0) {
+                            me.invoiceDetails[index].quantity -= 1; 
+                            me.updateCost(index);
+                        } else if(spinUp) {
+                            me.invoiceDetails[index].quantity = 1;
+                            me.updateCost(index);
+
+                        }
+                    }
+                });
+            }
+        },
+
+        updateCost(index) {
+            let me = this;
+
+            if(index != null && index != undefined) {
+                me.invoiceDetails[index].totalCost =  me.invoiceDetails[index].quantity *  me.invoiceDetails[index].cost;
+            }
+
+            me.invoice.totalCost = 0;
+
+            me.invoiceDetails.forEach(element => {
+                if (element.quantity) {
+                    me.invoice.totalCost += element.totalCost;
+                }
+            });
+        },
+
+        getAllInventories() {
+            let me = this;
+            try {
+                axios
+                .get(me.url.inventory)
+                .then((resource) => {
+                    me.inventories = resource.data;
+                })
+                .catch((error) => {
+                    console.log('error: ', error.status);
+                })
+            } catch (e) {
+                console.log(e);
+            }
+        },
+
+        addInventoryForInvoice() {
+            let me = this;
+
+            if(me.inventory) {
+                me.inventories.forEach(element => {
+                    if(element.inventoryID == me.inventory.inventoryID) {
+                        let invoiceDetail = {
+                            invoiceID: me.invoice.invoiceID,
+                            invoiceCode: me.invoice.invoiceCode,
+                            inventoryID: element.inventoryID,
+                            inventoryCode: element.inventoryCode,
+                            inventoryName: element.inventoryName,
+                            cost: element.cost,
+                            quantity: 1,
+                            totalCost: element.cost,
+                            createdDate: me.invoice.createdDate,
+                            createdBy: me.invoice.createdBy,
+                            modifiedDate: me.invoice.modifiedDate,
+                            modifiedBy: me.invoice.modifiedBy
+                        };
+                        let checkEmpty = true;
+                        
+                        if (me.invoiceDetails && Array.isArray(me.invoiceDetails)) {
+                            if(me.invoiceDetails.length > 0) {
+                                me.invoiceDetails.forEach((e, i) => {
+                                    if(e.inventoryID == element.inventoryID) {
+                                        me.invoiceDetails[i].quantity += 1;
+                                        me.updateCost(i);
+                                        checkEmpty = false;
+                                    }
+                                });
+                                
+                                if(checkEmpty) {
+                                    me.invoiceDetails.push(invoiceDetail);
+                                    me.updateCost();
+                                }
+                            } else {
+                                me.invoiceDetails.push(invoiceDetail);
+                                me.updateCost();
+                            }
+                        } 
+                    }
+                });
+            }
+        },
+
+        deleteInvoiceDetailByInventoryId(inventoryID) {
+            let me = this;
+            if(me.invoiceDetails && me.invoiceDetails.length > 0) {
+                me.invoiceDetails.forEach((invoiceDetail, index) => {
+                    if(invoiceDetail.inventoryID == inventoryID) {
+                       me.invoiceDetails.splice(index, 1); 
+                    }
+                });
+            }
+        },
+
+        formatNumber(number) {
+            let val = (number/1).toFixed(0)
+            if (number && !isNaN(number)) {
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            } else 
+                return number;
+        },
+
         /**
          * @description: Hàm xử lý sự kiện đóng form nhân viên
          * @param {boolean} foceClose: có bắt buộc đóng form hay không
@@ -338,74 +544,100 @@ export default {
                 console.log(error);
             }
         },
-
         /**
-         * @description: Hàm này dùng để cập nhật nhân viên và emit giá trị inventory vừa cập nhật
+         * @description: Hàm này dùng để cập nhật nhân viên và emit giá trị employee vừa cập nhật
          * @param: {enum} action: hành động sau khi cập nhật
          * Author: tttuan 19/09/2022
          */
-        async updateInventory() {
+        async updateInvoice() {
             let me = this;
-            const response = await me.$api.inventory.updateInventory(me.inventory); // gọi api update nhân viên
+            let invoiceMasterDetail = {
+                invoiceMaster: me.invoice,
+                invoiceDetails: me.invoiceDetails
+            };
+
+            const response = await me.$api.invoice.updateInvoice(invoiceMasterDetail); // gọi api update nhân viên
             if (response.status == Enum.MISA_CODE.SUCCESS) {
-                me.$emit("updateInventory", me.inventory); // emit giá trị inventory vừa cập nhật
+                me.$emit("updateInvoice", me.invoice); // emit giá trị invoice vừa cập nhật
                 return Promise.resolve(true);
             }
         },
-        
         /**
-        * @description: Hàm này dùng để thêm mới nhân viên và emit giá trị inventory vừa thêm mới
+        * @description: Hàm này dùng để thêm mới nhân viên và emit giá trị invoice vừa thêm mới
         * @param: {enum} action: hành động sau khi thêm mới
         * Author: tttuan 19/09/2022
         */
-        async insertInventory() {
+        async insertInvoice() {
             let me = this;
-            const response = await me.$api.inventory.insertInventory(me.inventory);
+            let invoiceMasterDetail = {
+                invoiceMaster: me.invoice,
+                invoiceDetails: me.invoiceDetails
+            };
+
+            const response = await me.$api.invoice.insertInvoice(invoiceMasterDetail);
             if (response.status == Enum.MISA_CODE.CREATED) {
-                me.inventory.inventoryID = response.data; // gán giá trị inventoryID vừa thêm mới
-                me.$emit("insertInventory", me.inventory); // emit giá trị inventory vừa thêm mới
+                me.invoice.invoiceID = response.data; // gán giá trị invoiceID vừa thêm mới
+                me.$emit("insertInvoice", me.invoice); // emit giá trị invoice vừa thêm mới
                 return Promise.resolve(true);
             }
         },
-
         /**
          * @description: Hàm này dùng để reset form về giá trị mặc định
-         * @param: {boolean} getNewInventoryCode: có lấy mã nhân viên mới hay không
+         * @param: {boolean} getNewInvoiceCode: có lấy mã nhân viên mới hay không
          * Author: tttuan 22/09/2022
          */
-        async resetForm(getNewInventoryCode = true) {
+        async resetForm(getNewInvoiceCode = true) {
             try { // reset lại form
                 let me = this;
-                if (!getNewInventoryCode) return;
+                if (!getNewInvoiceCode) return;
                 me.attemptSubmit = false; // reset lại trạng thái submit
-                const response = await me.$api.inventory.getNewInventoryCode(); // lấy mã nhân viên mới
+                const response = await me.$api.invoice.getNewInvoiceCode(); // lấy mã nhân viên mới
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
-                    me.inventory = { // gán giá trị mặc định cho inventory
-                        inventoryCode: response.data,
+                    me.invoice = { // gán giá trị mặc định cho invoice
+                        invoiceCode: response.data,
+                    };
+                    me.invoiceDetails = [];
+                    me.inventory = {
+                        inventoryID: '',
+                        inventoryCode: '',
+                        inventoryName: '',
                     };
                 }
             } catch (error) {
                 console.log(error);
             }
         },
-
         /**
-         * @description: Hàm này dùng để lấy thông tin chi tiết nhân viên theo id và gán vào inventory
-         * @param {boolean} getNewInventoryCode: có lấy mã nhân viên mới hay không ( phục vụ chức năng nhân bản)
+         * @description: Hàm này dùng để lấy thông tin chi tiết nhân viên theo id và gán vào invoice
+         * @param {boolean} getNewInvoiceCode: có lấy mã nhân viên mới hay không ( phục vụ chức năng nhân bản)
          * Author: tttuan 22/09/2022
          */
-        async getInventoryById(getNewInventoryCode = false) {
+        async getInvoiceById(getNewInvoiceCode = false) {
             try {
                 let me = this;
-                const response = await me.$api.inventory.getInventoryById(me.getInventoryId);
+                const response = await me.$api.invoice.getInvoiceById(me.getInvoiceId);
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
-                    me.inventory = response.data;
-                    if (getNewInventoryCode) {
-                        const res = await me.$api.inventory.getNewInventoryCode(); // lấy mã nhân viên mới
+                    me.invoice = response.data;
+                    if (getNewInvoiceCode) {
+                        const res = await me.$api.invoice.getNewInvoiceCode(); // lấy mã nhân viên mới
                         if (res.status == Enum.MISA_CODE.SUCCESS) {
-                            me.inventory.inventoryCode = res.data;
+                            me.invoice.invoiceCode = res.data;
                         }
                     }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getMasterDetailInvoiceByID() {
+            try {
+                let me = this;
+                const response = await me.$api.invoice.getMasterDetailInvoiceByID(me.getInvoiceId);
+                if (response.status == Enum.MISA_CODE.SUCCESS) {
+                    me.invoice = response.data.invoiceMaster;
+                    me.invoiceDetails = response.data.invoiceDetails;
+                    console.log(me.invoiceDetails);
                 }
             } catch (error) {
                 console.log(error);
@@ -444,22 +676,19 @@ export default {
                     }
                 });
                 if (validateResult) {
-                    Object.keys(me.inventory).forEach((key) => {
+                    Object.keys(me.invoice).forEach((key) => {
                         // xóa các trường là null hoặc ""
-                        if (me.inventory[key] == null || me.inventory[key] === "") {
-                            delete me.inventory[key];
+                        if (me.invoice[key] == null || me.invoice[key] === "") {
+                            delete me.invoice[key];
                         }
                     });
                     let result = true;
                     switch (me.formMode) {
                         case Enum.FORM_MODE.ADD: // nếu action form là add thì thực hiện insert
-                            result = await me.insertInventory();
+                            result = await me.insertInvoice();
                             break;
                         case Enum.FORM_MODE.EDIT: // nếu action form là edit thì thực hiện update
-                            result = await me.updateInventory();
-                            break;
-                        case Enum.FORM_MODE.DUPLICATE: // nếu action form là duplicate thì thực hiện duplicate 
-                            result = await me.insertInventory();
+                            result = await me.updateInvoice();
                             break;
                     }
                     if (result) { // nếu insert thành công thì xử lý action form
@@ -480,12 +709,9 @@ export default {
                 if (error.response) {
                     let { status, data } = error.response;
                     if (status == Enum.MISA_CODE.VALIDATE) {
-                        let htmlMessage = null;
-                        if (data.Data != null && data.Data != undefined) {
-                                htmlMessage = Object.values(data.Data).map((item) => {
-                                return `${item}`;
-                            });
-                        }
+                        let htmlMessage = Object.values(data.Data).map((item) => {
+                            return `${item}`;
+                        });
                         await me.$refs.popup.showError(htmlMessage);
                     }
                 } else {
@@ -520,23 +746,7 @@ export default {
             } catch (error) {
                 // console.log(error);
             }
-        },
-
-        selectImage() {
-            this.$refs.fileImage.click();
-        },
-
-        onFileChanged(e) {
-
-            const image = e.target.files[0];
-                const reader = new FileReader();
-                if (image) {
-                    reader.readAsDataURL(image);
-                    reader.onload = e =>{
-                        this.inventory.image = e.target.result;
-                    };
-                }
-        },
+        }
     },
     beforeUnmount() {
         this.formMode = Enum.FORM_MODE.NULL // reset lại formMode
@@ -547,21 +757,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/css/tableCustom.css";
 
-.row--inventory {
-    display: flex;
-}
 .v-dialog__header {
     padding-bottom: 32px;
 }
-.v {
-  &-dialog__content {
-    width: 444px;
-  }
-}
+
 .e-header {
     align-items: center;
-
     &__title {
         font-size: 24px;
         font-weight: 700;
@@ -578,47 +781,96 @@ export default {
 .v-max-900 {
     &.wide {
         margin: 20px 0;
-        max-width: 572px;
+        max-width: 800px;
         min-width: 400px;
     }
 }
 
-.form--inventory {
-    //width: 650px;
+.invoice__list {
+}
+.invoice__item--checkbox {
+    display: flex;
+    padding-top: 32px;
+    padding-left: 40px;
+    width: 136px;
 }
 
-.image {
-    flex: 1;
-}
-
-.image__contain {
+.invoice--column {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    position: relative;
 }
 
-.image__item {
-    width: 200px;
-    height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+.invoice__item--disable {
+    margin-bottom: 16px;
 }
 
-.image__item img {
+.invoice__item--total {
+    position: absolute;
+    left: 240px;
+    top: 20px;
+    text-align: right;
+}
+
+.invoice__total--label {
+    font-size: 14px;
+}
+
+.invoice__total--value {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.grid {
+
+}
+
+.grid__label {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.grid__table {
+    margin-top: 10px;
+}
+
+.button--add {
     width: 100%;
     height: 100%;
-    image-rendering: pixelated;
-    object-fit: fill;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
-.image__input {
-    margin-top: 16px;
+.spin {
+    position: absolute;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
     cursor: pointer;
 }
 
-.image__input input {
-    width: 71px;
+.spin--up {
+    top: 21%;
+}
+
+.spin--down {
+    bottom: 21%;
+}
+
+.table__col--spinner {
+    position: relative;
+}
+
+.icon--spinner {
+    background: url('@/assets/img/qlts-icon.svg') no-repeat -204px -332px;
+	width: 8px;
+	height: 16px;
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    opacity: 0.8;
 }
 </style>

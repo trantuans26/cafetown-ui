@@ -2,6 +2,9 @@
     <div class="employee">
         <div class="employee-header">
             <div class="employee-title">{{ $t('invoice_page.title') }}</div>
+            <v-button @click="handleAction(Enum.ACTION.ADD)">
+                {{ $t('sales_page.add_sales') }}
+            </v-button>
         </div>
         <div class="employee-body">
             <!-- Các action như search, export, reload -->
@@ -10,7 +13,7 @@
                     <slot name="toolbar-left">
                         <v-dropdown className="secondary-light border-bold rounded" @onSelect="handleAction"
                             icon="ms-16 ms-icon ms-icon-arrow-down-black opacity-5" :items="bathAction"
-                            :isShow="isInventorySelected">
+                            :isShow="isInvoiceSelected">
                             {{ $t('action.batch_action') }}
                         </v-dropdown>
                     </slot>
@@ -38,7 +41,7 @@
             </v-pagination>
         </div>
         <!-- Form sửa và thêm hóa đơn -->
-        <invoice-form v-model="showInvoiceForm" @insertInventory="insertInventory" @updateInventory="updateInventory"></invoice-form>
+        <invoice-form v-model="showInvoiceForm" @updateInvoice="updateInvoice"></invoice-form>
 
         <!-- Khu vực hiển thị popup và toast thông báo -->
         <v-popup ref="popup"></v-popup>
@@ -67,7 +70,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['isInventorySelected']), // lấy giá trị từ store kiểm tra xem có hóa đơn nào được chọn hay không
+        ...mapGetters(['isInvoiceSelected']), // lấy giá trị từ store kiểm tra xem có hóa đơn nào được chọn hay không
         /**
          * @description: Lấy ra các action key (phím tắt) lưu trữ trong store 
          * Author: tttuan 11/10/2022
@@ -89,7 +92,7 @@ export default {
                 return [
                     {
                         title: '',
-                        key: 'inventoryID',
+                        key: 'invoiceID',
                         fixed: true,
                         checkbox: true,
                         type: 'checkbox',
@@ -153,16 +156,12 @@ export default {
             get() {
                 return [
                     {
-                        'key': Enum.ACTION.DUPLICATE,
-                        'value': this.$t('action.duplicate'),
+                        'key': Enum.ACTION.EDIT,
+                        'value': this.$t('action.edit'),
                     },
                     {
                         'key': Enum.ACTION.DELETE,
                         'value': this.$t('action.delete'),
-                    },
-                    {
-                        'key': Enum.ACTION.INACTIVE,
-                        'value': this.$t('action.inactive'),
                     }
                 ]; // Khởi tạo danh sách action trên từng dòng
             }
@@ -217,7 +216,7 @@ export default {
                         this.handleAction(newVal);
                         break;
                     case Enum.ACTION.DELETE: // phím delete để xóa hóa đơn
-                        if (this.isInventorySelected) {
+                        if (this.isInvoiceSelected) {
                             this.handleAction(Enum.ACTION.DELETE_MANY);
                         }
                         break;
@@ -246,6 +245,9 @@ export default {
             const self = this;
             try {
                 switch (action) {
+                    case Enum.ACTION.ADD: // thêm mới hàng hóa
+                        self.showAddInvoiceForm();
+                        break;
                     case Enum.ACTION.EDIT: // xem hóa đơn
                         self.showViewInvoiceForm(data);
                         break;
@@ -280,23 +282,23 @@ export default {
         },
         /**
          * @description: Hàm này dùng để sửa hóa đơn
-         * @param {object} inventory - Dữ liệu của hóa đơn
+         * @param {object} invoice - Dữ liệu của hóa đơn
          * Author: tttuan 07/10/2022
          */
-        showViewInvoiceForm(inventory) {
+        showViewInvoiceForm(invoice) {
             const self = this;
             self.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
-            self.$store.dispatch('setInventoryId', inventory.inventoryID);
+            self.$store.dispatch('setInvoiceId', invoice.invoiceID);
             self.showInvoiceForm = true;
         },
         /**
          * @description: Hàm này dùng để xóa hóa đơn
-         * @param {object} inventory - Dữ liệu của hóa đơn
+         * @param {object} invoice - Dữ liệu của hóa đơn
          * Author: tttuan 07/10/2022
          */
-        deleteInvoice(inventory) {
+        deleteInvoice(invoice) {
             const self = this;
-            self.deleteInvoiceBackend(inventory);
+            self.deleteInvoiceBackend(invoice);
         },
         /**
          * @description: Hàm này dùng để xóa nhiều hóa đơn
@@ -320,17 +322,7 @@ export default {
                 }
             }
         },
-        /**
-         * @description: Hàm này dùng để nhân bản hóa đơn
-         * @param {object} employee - Dữ liệu của hóa đơn
-         * Author: tttuan 07/10/2022
-         */
-        async duplicateInventory(employee) {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.DUPLICATE);
-            self.$store.dispatch('setInventoryId', employee.inventoryID);
-            self.showInvoiceForm = true;
-        },
+
         /**
          * @description: Hàm này dùng để tải lại danh sách hóa đơn
          * Author: tttuan 07/10/2022
@@ -352,7 +344,7 @@ export default {
             const self = this;
             try {
                 self.$root.$toast.info(self.$t('notice_message.export_excel_processing'));
-                const res = await self.$api.inventory.exportInventories(self.pagination); // kiểm tra xem có dữ liệu không
+                const res = await self.$api.invoice.exportInventories(self.pagination); // kiểm tra xem có dữ liệu không
                 if (res.status == Enum.MISA_CODE.SUCCESS) {
                     const link = document.createElement('a'); // tạo thẻ a để download file
                     link.href = res.request.responseURL; // đường dẫn tải file
@@ -373,17 +365,17 @@ export default {
             const self = this;
             try {
                 const confirm = await self.$refs.popup.show({
-                    message: self.$t('notice_message.confirm_delete', [employee.inventoryCode]),
+                    message: self.$t('notice_message.confirm_delete', [employee.invoiceCode]),
                     icon: Enum.ICON.WARNING,
                     okButton: self.$t('confirm_popup.yes'),
                     closeButton: self.$t('confirm_popup.cancel'),
                 });
                 if (confirm == self.$t('confirm_popup.yes')) {
-                    const res = await self.$api.inventory.deleteInvoice(employee.inventoryID);
+                    const res = await self.$api.invoice.deleteInvoice(employee.invoiceID);
                     if (res.status == Enum.MISA_CODE.SUCCESS) {
                         self.deleteInvoiceFrontEnd(employee);
                     } else {
-                        self.$root.$toast.error(self.$t('notice_message.delete_fail', [employee.inventoryCode]));
+                        self.$root.$toast.error(self.$t('notice_message.delete_fail', [employee.invoiceCode]));
                     }
                 }
             } catch (error) {
@@ -397,50 +389,35 @@ export default {
          */
         deleteInvoiceFrontEnd(data) {
             const self = this;
-            const { inventoryID, inventoryCode } = data;
+            const { invoiceID, invoiceCode } = data;
             try {
-                const index = self.invoiceList.data.findIndex((item) => item.inventoryID === inventoryID);
+                const index = self.invoiceList.data.findIndex((item) => item.invoiceID === invoiceID);
                 if (index !== -1) {
                     self.invoiceList.data.splice(index, 1);
-                    self.$root.$toast.success(self.$t('notice_message.delete_success', [inventoryCode]));
+                    self.$root.$toast.success(self.$t('notice_message.delete_success', [invoiceCode]));
                     self.invoiceList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
                 }
             } catch (error) {
-                self.$root.$toast.success(self.$t('notice_message.delete_fail', [inventoryCode]));
+                self.$root.$toast.success(self.$t('notice_message.delete_fail', [invoiceCode]));
                 console.log(error);
             }
         },
-        /**
-         * @description: Hàm này đùng để nhận emit từ con nếu thành công thì thêm hóa đơn vào bảng 
-         * @param: {Object} employee - Dữ liệu của hóa đơn
-         * Author: tttuan 01/10/2022
-         */
-        insertInventory(inventory) {
-            const self = this;
-            try {
-                self.invoiceList.data.unshift(inventory); // Thêm hóa đơn vào đầu mảng
-                self.$root.$toast.success(self.$t('notice_message.insert_success', [inventory.inventoryCode]));
-                self.invoiceList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
-            } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.insert_fail', [inventory.inventoryCode]));
-                console.log(error);
-            }
-        },
+
         /**
          * @description: Hàm này dùng để cập nhật hóa đơn ở bên frontend
          * Author: tttuan 05/10/2022
          */
-        updateInventory(inventory) {
+        updateInvoice(invoice) {
             const self = this;
             try {
-                const index = self.invoiceList.data.findIndex((item) => item.inventoryID === inventory.inventoryID);
+                const index = self.invoiceList.data.findIndex((item) => item.invoiceID === invoice.invoiceID);
                 if (index !== -1) {
                     self.invoiceList.data.splice(index, 1);
-                    self.invoiceList.data.unshift(inventory);
-                    self.$root.$toast.success(self.$t('notice_message.update_success', [inventory.inventoryCode]));
+                    self.invoiceList.data.unshift(invoice);
+                    self.$root.$toast.success(self.$t('notice_message.update_success', [invoice.invoiceCode]));
                 }
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.update_fail', [inventory.inventoryCode]));
+                self.$root.$toast.error(self.$t('notice_message.update_fail', [invoice.invoiceCode]));
                 console.log(error);
             }
         },

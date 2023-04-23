@@ -33,7 +33,7 @@ const router = [
       order: 2,
     },
   },
-  {
+/*   {
     path: "/ban-hang",
     component: lazyLoad("sales/SalesList"),
     meta: {
@@ -44,7 +44,7 @@ const router = [
       title: "sales",
       order: 5,
     },
-  },
+  }, */
   {
     path: "/quan-ly-hoa-don",
     component: lazyLoad("invoice/InvoiceList"),
@@ -62,6 +62,18 @@ const router = [
     component: lazyLoad("inventory/InventoryList"),
     meta: {
       title: "Quản lý hàng hóa",
+    },
+    sideBar: {
+      icon: "ms-icon ms-icon-warehouse",
+      title: "manage_stock",
+      order: 7,
+    },
+  },
+  {
+    path: "/quan-ly-kho",
+    component: lazyLoad("warehouse/WarehousePage"),
+    meta: {
+      title: "Quản lý kho",
     },
     sideBar: {
       icon: "ms-icon ms-icon-warehouse",

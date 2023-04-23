@@ -53,7 +53,7 @@ export default (axios) => ({
    * Author: tttuan 1/3/2023
    */
   insertInvoice(object) {
-    return axios.post(`${PREFIX_INVOICE}`, object);
+    return axios.post(`${PREFIX_INVOICE}/full`, object);
   },
 
   /**
@@ -63,7 +63,7 @@ export default (axios) => ({
    * Author: tttuan 1/3/2023
    */
   updateInvoice(object) {
-    return axios.put(`${PREFIX_INVOICE}/${object.invoiceID}`, object);
+    return axios.put(`${PREFIX_INVOICE}/full/${object.invoiceMaster.invoiceID}`, object);
   },
   /**
    * @description: Export danh sách hàng hóa
@@ -72,6 +72,11 @@ export default (axios) => ({
   exportInventories(object) {
     return axios.get(`${PREFIX_INVOICE}/export?keyword=${object.keyword}`, {
       responseType: "blob",
+    });
+  },
+
+  getMasterDetailInvoiceByID(invoiceID) {
+    return axios.get(`${PREFIX_INVOICE}/full?invoiceID=${invoiceID}`, {
     });
   },
 });

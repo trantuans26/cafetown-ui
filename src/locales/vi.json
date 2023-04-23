@@ -72,7 +72,9 @@
     "save_and_add": "Lưu và Thêm mới",
     "cancel": "Hủy",
     "close": "Đóng",
-    "help": "Trợ giúp"
+    "help": "Trợ giúp",
+    "choose": "Chọn",
+    "add": "Thêm"
   },
 
   "pagination": {
@@ -239,6 +241,7 @@
     "code": "Mã",
     "name": "Tên",
     "inventory_category": "Danh mục hàng hóa",
+    "inventory": "Chọn sản phẩm",
     "quantity": "Số lượng",
     "cost": "Đơn giá",
     "description": "Mô tả",
@@ -283,13 +286,19 @@
     "action": "Chức năng"
   },
   "invoice_info": {
-    "title": "Thông tin hàng hóa",
-    "code": "Mã",
-    "name": "Tên",
-    "invoice_category": "Danh mục hàng hóa",
+    "title": "Thông tin hóa đơn",
+    "customer": "Khách hàng",
+    "employee": "Nhân viên bán hàng",
+    "purchase_date": "Ngày mua",
+    "total_cost": "Tổng tiền thanh toán",
+    "description": "Mô tả",
+    "invoice_code": "Số hóa đơn",
+    "is_collected": "Đã thu tiền",
+    "list_products": "Hàng tiền",
+    "code": "Mã hàng",
+    "name": "Tên hàng",
     "quantity": "Số lượng",
     "cost": "Đơn giá",
-    "description": "Mô tả",
-    "image": "Hình ảnh"
+    "total": "Tổng tiền"
   }
 }

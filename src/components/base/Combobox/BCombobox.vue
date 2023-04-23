@@ -435,7 +435,8 @@ export default {
   position: absolute;
   overflow: auto;
   width: 100%;
-  height: 90px;
+  height: 180px;
+  max-height: 180px;
   top: 100%;
   left: 0;
   border-radius: 2.5px;
