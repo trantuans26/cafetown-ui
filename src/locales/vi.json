@@ -10,7 +10,9 @@
       "user": "Email/Số điện thoại của bạn",
       "password": "Mật khẩu đăng nhập cửa hàng"
     },
-    "button": "Đăng nhập"
+    "button": "Đăng nhập",
+    "log_out": "Đăng xuất",
+    "log_in": "Đăng nhập"
   },
 
   "sidebar": {

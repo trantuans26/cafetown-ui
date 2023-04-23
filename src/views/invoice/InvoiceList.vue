@@ -154,16 +154,28 @@ export default {
          */
         tableAction: {
             get() {
-                return [
-                    {
-                        'key': Enum.ACTION.EDIT,
-                        'value': this.$t('action.edit'),
-                    },
-                    {
-                        'key': Enum.ACTION.DELETE,
-                        'value': this.$t('action.delete'),
-                    }
-                ]; // Khởi tạo danh sách action trên từng dòng
+                let permission = this.$store.getters.getPermission;
+                
+                if(permission && permission.isManager) {
+                    return [
+                        {
+                            'key': Enum.ACTION.EDIT,
+                            'value': this.$t('action.edit'),
+                        },
+                        {
+                            'key': Enum.ACTION.DELETE,
+                            'value': this.$t('action.delete'),
+                        }
+                    ]; // Khởi tạo danh sách action trên từng dòng
+                } else {
+                    return [
+                        {
+                            'key': Enum.ACTION.EDIT,
+                            'value': this.$t('action.edit'),
+                        }
+                    ]; // Khởi tạo danh sách action trên từng dòng
+                }
+
             }
         }
 
