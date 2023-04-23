@@ -9,11 +9,11 @@
                     </div>
                     <div class="col">
                         <v-input type="checkbox" :label_custom="$t('employee_info.is_employee')"
-                            v-model="employee.isCustomer" :value="true"></v-input>
+                            v-model="employee.isEmployee" :value="false"></v-input>
                     </div>
                     <div class="col">
                         <v-input type="checkbox" :label_custom="$t('employee_info.is_manager')"
-                            v-model="employee.isManager" :value="true"></v-input>
+                            v-model="employee.isManager" :value="false"></v-input>
                     </div>
                 </div>
             </template>
@@ -174,7 +174,7 @@ export default {
                 bankNumber: "",
                 bankName: "",
                 bankBranch: "",
-                isCustomer: false,
+                isEmployee: false,
                 isSupplier: false,
                 createdDate: "",
                 createdBy: "",
@@ -368,7 +368,7 @@ export default {
                     self.employee = { // gán giá trị mặc định cho employee
                         employeeCode: response.data,
                         gender: 1,
-                        isCustomer: false,
+                        isEmployee: false,
                         isSupplier: false,
                     };
                 }
