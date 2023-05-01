@@ -37,7 +37,12 @@
         </div>
     </div>
 
-    <the-information v-show="true"></the-information>
+    <the-information 
+        v-show="isShowInformationForm" 
+        @closeForm="isShowInformationForm = $event"
+        @updateEmployee="updateEmployee($event)"
+    >
+    </the-information>
 </template>
 
 <script>
@@ -112,10 +117,27 @@ export default {
 
         showInformationForm() {
             let me = this;
-
+            me.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
+            me.$store.dispatch('setInformationId', this.$store.getters.getPermission);
             me.isShowInformationForm = true;
             
-        }
+        },
+
+        /**
+         * @description: Hàm này dùng để cập nhật nhân viên ở bên frontend
+         * Author: tttuan 05/10/2022
+         */
+        updateEmployee(check) {
+            const self = this;
+            try {
+                if (check) {
+                    self.$root.$toast.success(self.$t('notice_message.update_information_success', ''));
+                }
+            } catch (error) {
+                self.$root.$toast.error(self.$t('notice_message.update_information_failed', ''));
+                console.log(error);
+            }
+        },
     },
 }
 </script>

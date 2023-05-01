@@ -23,6 +23,14 @@
                 v-model="tempValue" @mouseover="showErrorMessage" @mouseleave="hideErrorMessage"
                 @focusout="handleInputFocusOut"></textarea>
             <!-- Base for input type is text -->
+            <input  ref="input" v-else-if="type === 'password'"
+                type="password"
+                :placeholder="placeholder"
+                :class="[{ error: error }, { 'v-input__outline': outline }]" :id="id" :disabled="disabled"
+                :tabindex="tabIndex" autocomplete="off" spellcheck="false" @focus="handleInputFocus"
+                :style="[style, { textAlign: type === 'number' ? 'right' : 'left' }]" @focusout="handleInputFocusOut"
+                :value="valueHeader" @click="hideErrorMessage" @mouseover="showErrorMessage" @input="handleInput"
+                @mouseleave="hideErrorMessage" @keydown="handleKeyDown" />
             <input v-else ref="input" :placeholder="placeholder"
                 :class="[{ error: error }, { 'v-input__outline': outline }]" :id="id" :disabled="disabled"
                 :tabindex="tabIndex" autocomplete="off" spellcheck="false" @focus="handleInputFocus"

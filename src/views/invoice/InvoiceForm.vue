@@ -195,8 +195,12 @@ export default {
             default: false
         },
     },
+    created() {
+        this.purchaseDate = this.getNow();
+    },
     mounted() {
         this.getAllInventories();
+
     },
     data() {
         return {
@@ -206,7 +210,7 @@ export default {
                 customer: "",
                 totalCost: 0,
                 description: "",
-                purchaseDate: new Date(),
+                purchaseDate: '',
                 createdBy: "",
                 isCollected: false,
             },
@@ -388,6 +392,14 @@ export default {
     },
     methods: {
         formatCurrency, 
+
+        getNow() {
+            const today = new Date();
+            const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            const dateTime = date +' '+ time;
+            return dateTime;
+        },
 
         spinnerAction(inventoryID, spinUp = false) {
             let me = this;
@@ -593,8 +605,16 @@ export default {
                 me.attemptSubmit = false; // reset lại trạng thái submit
                 const response = await me.$api.invoice.getNewInvoiceCode(); // lấy mã nhân viên mới
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
+                    let name = 'Trần Thái Tuấn';
+
+                    if(this.$store.getters.getPermission && this.$store.getters.getPermission.employeeName) {
+                        name = this.$store.getters.getPermission.employeeName;
+                    }
+
                     me.invoice = { // gán giá trị mặc định cho invoice
                         invoiceCode: response.data,
+                        purchaseDate: me.getNow(),
+                        createdBy: name
                     };
                     me.invoiceDetails = [];
                     me.inventory = {

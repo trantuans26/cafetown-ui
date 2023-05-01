@@ -5,15 +5,7 @@
             <template #title>
                 <div class="row e-header">
                     <div class="e-header__title col font-weight-700">
-                        {{ $t('employee_info.title') }}
-                    </div>
-                    <div class="col">
-                        <v-input type="checkbox" :label_custom="$t('employee_info.is_employee')"
-                            v-model="employee.isEmployee" :value="false"></v-input>
-                    </div>
-                    <div class="col">
-                        <v-input type="checkbox" :label_custom="$t('employee_info.is_manager')"
-                            v-model="employee.isManager" :value="false"></v-input>
+                        {{ $t('authencator_infor.title') }}
                     </div>
                 </div>
             </template>
@@ -23,30 +15,34 @@
                         <div class="col l-6 md-6">
                             <div class="row sm-gutter">
                                 <div class="form-group col l-5 md-5 c-5 focus">
-                                    <v-input :label="$t('employee_info.code')" v-model="employee.employeeCode"
-                                        :required="true" :errorLabel="$t('employee_info.code')">
+                                    <v-input :label="$t('authencator_infor.code')" v-model="employee.employeeCode"
+                                        :required="true" :errorLabel="$t('authencator_infor.code')">
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-7 md-7 c-7">
-                                    <v-input :label="$t('employee_info.name')" v-model="employee.employeeName"
+                                    <v-input :label="$t('authencator_infor.name')" v-model="employee.employeeName"
                                         ref="employeeName" @validate="setValid('employeeName', $event)" :maxLength="100"
-                                        :required="true" :errorLabel="$t('employee_info.name')">
+                                        :required="true" :errorLabel="$t('authencator_infor.name')">
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-5 md-5 c-5">
-                                    <v-input :label="$t('employee_info.phone_number')" v-model="employee.phone"
-                                        :isPhoneNumber="true" :isNumber="true" :errorLabel="$t('employee_info.phone_number')"
-                                        :validateCheck="true" :tooltipText="$t('employee_info.phone_number_label')"
+                                    <v-input :label="$t('authencator_infor.phone_number')" v-model="employee.phone"
+                                        :isPhoneNumber="true" :isNumber="true" :errorLabel="$t('authencator_infor.phone_number')"
+                                        :validateCheck="true" :tooltipText="$t('authencator_infor.phone_number_label')"
                                         tooltipPosition="right">
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-7 md-7 c-7">
-                                    <v-input :label="$t('employee_info.email')" v-model="employee.email" :isEmail="true"
-                                        :errorLabel="$t('employee_info.email')" :validateCheck="true"> </v-input>
+                                    <v-input :label="$t('authencator_infor.email')" v-model="employee.email" :isEmail="true"
+                                        :errorLabel="$t('authencator_infor.email')" :validateCheck="true"> </v-input>
                                 </div>
                                 <div class="form-group col l-12 md-12">
-                                    <v-input :label="$t('employee_info.address')" v-model="employee.address"
-                                        :maxLength="255" :validateCheck="true" :errorLabel="$t('employee_info.address')">
+                                    <v-input 
+                                        :label="$t('authencator_infor.password')" 
+                                        v-model="employee.password"
+                                        :maxLength="255" :validateCheck="true" 
+                                        type="password"
+                                        :errorLabel="$t('authencator_infor.password')">
                                     </v-input>
                                 </div>
                             </div>
@@ -54,44 +50,44 @@
                         <div class="col l-6 md-6">
                             <div class="row sm-gutter">
                                 <div class="form-group col l-5 md-5">
-                                    <v-date-picker :label="$t('employee_info.date_of_birth')"
+                                    <v-date-picker :label="$t('authencator_infor.date_of_birth')"
                                         v-model="employee.dateOfBirth" :isLessThanToday="true"
-                                        :errorLabel="$t('employee_info.date_of_birth')" :validateCheck="true">
+                                        :errorLabel="$t('authencator_infor.date_of_birth')" :validateCheck="true">
                                     </v-date-picker>
                                 </div>
                                 <div class="form-group col l-7 md-7">
-                                    <label class="label form-control font-weight-700">{{ $t('employee_info.gender') }}
+                                    <label class="label form-control font-weight-700">{{ $t('authencator_infor.gender') }}
                                     </label>
                                     <div class="row ml-x-1 justify-content-between e-body__gender">
-                                        <v-input type="radio" :label_custom="$t('employee_info.male')" :value=1
+                                        <v-input type="radio" :label_custom="$t('authencator_infor.male')" :value=1
                                             v-model="employee.gender">
                                         </v-input>
-                                        <v-input type="radio" :label_custom="$t('employee_info.female')" :value=0
+                                        <v-input type="radio" :label_custom="$t('authencator_infor.female')" :value=0
                                             v-model="employee.gender">
                                         </v-input>
-                                        <v-input type="radio" :label_custom="$t('employee_info.other')" :value=2
+                                        <v-input type="radio" :label_custom="$t('authencator_infor.other')" :value=2
                                             v-model="employee.gender">
                                         </v-input>
                                     </div>
                                 </div>
                                 <div class="form-group col l-7 md-7">
-                                    <v-input :label="$t('employee_info.identity_card')"
+                                    <v-input :label="$t('authencator_infor.identity_card')"
                                         v-model="employee.identityNumber" :validateCheck="true"
-                                        :errorLabel="$t('employee_info.identity_card')" :isNumber="true"
-                                        tooltipPosition="right" :tooltipText="$t('employee_info.identity_card_label')">
+                                        :errorLabel="$t('authencator_infor.identity_card')" :isNumber="true"
+                                        tooltipPosition="right" :tooltipText="$t('authencator_infor.identity_card_label')">
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-5 md-5">
-                                    <v-date-picker :label="$t('employee_info.issued_date')"
+                                    <v-date-picker :label="$t('authencator_infor.issued_date')"
                                         :isLessThanValue="employee.dateOfBirth" :validateCheck="true"
-                                        :isLessThanToday="true" :errorLabel="$t('employee_info.issued_date')"
-                                        :isLessThanValueLabel="$t('employee_info.date_of_birth')"
+                                        :isLessThanToday="true" :errorLabel="$t('authencator_infor.issued_date')"
+                                        :isLessThanValueLabel="$t('authencator_infor.date_of_birth')"
                                         v-model="employee.identityDate" />
                                 </div>
                                 <div class="form-group col l-12 md-12">
-                                    <v-input :label="$t('employee_info.issued_by')" v-model="employee.identityPlace"
+                                    <v-input :label="$t('authencator_infor.issued_by')" v-model="employee.identityPlace"
                                         :maxLength="255" :validateCheck="true"
-                                        :errorLabel="$t('employee_info.issued_by')">
+                                        :errorLabel="$t('authencator_infor.issued_by')">
                                     </v-input>
                                 </div>
                             </div>
@@ -99,22 +95,22 @@
                     </div>
                     <div class="row sm-gutter">
                         <div class="form-group col l-12 md-12">
-                            <v-input :label="$t('employee_info.address')" v-model="employee.address"
-                                :maxLength="255" :validateCheck="true" :errorLabel="$t('employee_info.address')">
+                            <v-input :label="$t('authencator_infor.address')" v-model="employee.address"
+                                :maxLength="255" :validateCheck="true" :errorLabel="$t('authencator_infor.address')">
                             </v-input>
                         </div>
                     </div>
                     <div class="row sm-gutter">
                         <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('employee_info.bank_number')" v-model="employee.bankNumber">
+                            <v-input :label="$t('authencator_infor.bank_number')" v-model="employee.bankNumber">
                             </v-input>
                         </div>
                         <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('employee_info.bank_name')" v-model="employee.bankName">
+                            <v-input :label="$t('authencator_infor.bank_name')" v-model="employee.bankName">
                             </v-input>
                         </div>
                         <div class="form-group col l-3 md-3">
-                            <v-input :label="$t('employee_info.bank_branch')" v-model="employee.bankBranch">
+                            <v-input :label="$t('authencator_infor.bank_branch')" v-model="employee.bankBranch">
                             </v-input>
                         </div>
                     </div>
@@ -129,13 +125,9 @@
                 </div>
             </template>
             <template #footer__right>
-                <v-button @click="saveHandler(Enum.ACTION.SAVE_AND_CLOSE)" buttonType="secondary"
+                <v-button @click="saveHandler(Enum.ACTION.SAVE_AND_CLOSE)"
                     :tooltip="$t('action_form.save') + Enum.KEY_DEFINE.CTRL_S">
                     {{ $t('action_form.save') }}
-                </v-button>
-                <v-button @click="saveHandler(Enum.ACTION.SAVE_AND_ADD)"
-                    :tooltip="$t('action_form.save_and_add') + Enum.KEY_DEFINE.CTRL_SHIFT_S">
-                    {{ $t('action_form.save_and_add') }}
                 </v-button>
             </template>
         </v-dialog>
@@ -188,7 +180,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getEmployeeId"]),
+        ...mapGetters(["getInformationId"]),
         /**
          * @description: Get và set trạng thái của form lưu trữ trong store 
          * Author: tttuan 08/10/2022
@@ -235,15 +227,9 @@ export default {
             handler: async function (formMode) {
                 const self = this;
                 switch (formMode) {
-                    case Enum.FORM_MODE.ADD:
-                        await self.resetForm();
-                        break;
                     case Enum.FORM_MODE.EDIT:
                         await self.getEmployeeById();
                         self.isChaged = false;
-                        break;
-                    case Enum.FORM_MODE.DUPLICATE:
-                        await self.getEmployeeById(true);
                         break;
                     default:
                         break;
@@ -298,8 +284,7 @@ export default {
             try {
                 const self = this;
                 if (forceClose || !self.isChaged) {
-                    self.resetForm(false);
-                    self.$emit("update:modelValue", false);
+                    self.$emit("closeForm", false);
                     self.$store.dispatch("setMode", null);
                     return;
                 }
@@ -333,66 +318,25 @@ export default {
          */
         async updateEmployee() {
             let self = this;
-            const response = await self.$api.employee.updateEmployee(self.employee); // gọi api update nhân viên
+            const response = await self.$api.employee.updateEmployeeLogin(self.employee); // gọi api update nhân viên
             if (response.status == Enum.MISA_CODE.SUCCESS) {
-                self.$emit("updateEmployee", self.employee); // emit giá trị employee vừa cập nhật
+                self.$emit("updateEmployee", true); // emit giá trị employee vừa cập nhật
                 return Promise.resolve(true);
             }
         },
-        /**
-        * @description: Hàm này dùng để thêm mới nhân viên và emit giá trị employee vừa thêm mới
-        * @param: {enum} action: hành động sau khi thêm mới
-        * Author: tttuan 19/09/2022
-        */
-        async insertEmployee() {
-            let self = this;
-            const response = await self.$api.employee.insertEmployee(self.employee);
-            if (response.status == Enum.MISA_CODE.CREATED) {
-                self.employee.employeeID = response.data; // gán giá trị employeeID vừa thêm mới
-                self.$emit("insertEmployee", self.employee); // emit giá trị employee vừa thêm mới
-                return Promise.resolve(true);
-            }
-        },
-        /**
-         * @description: Hàm này dùng để reset form về giá trị mặc định
-         * @param: {boolean} getNewEmployeeCode: có lấy mã nhân viên mới hay không
-         * Author: tttuan 22/09/2022
-         */
-        async resetForm(getNewEmployeeCode = true) {
-            try { // reset lại form
-                let self = this;
-                if (!getNewEmployeeCode) return;
-                self.attemptSubmit = false; // reset lại trạng thái submit
-                const response = await self.$api.employee.getNewEmployeeCode(); // lấy mã nhân viên mới
-                if (response.status == Enum.MISA_CODE.SUCCESS) {
-                    self.employee = { // gán giá trị mặc định cho employee
-                        employeeCode: response.data,
-                        gender: 1,
-                        isEmployee: false,
-                        isSupplier: false,
-                    };
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
+        
         /**
          * @description: Hàm này dùng để lấy thông tin chi tiết nhân viên theo id và gán vào employee
          * @param {boolean} getNewEmployeeCode: có lấy mã nhân viên mới hay không ( phục vụ chức năng nhân bản)
          * Author: tttuan 22/09/2022
          */
-        async getEmployeeById(getNewEmployeeCode = false) {
+        async getEmployeeById() {
             try {
                 let self = this;
-                const response = await self.$api.employee.getEmployeeById(self.getEmployeeId);
+                let infor = self.getInformationId;
+                const response = await self.$api.authen.login(infor.email, infor.password);
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
                     self.employee = response.data;
-                    if (getNewEmployeeCode) {
-                        const res = await self.$api.employee.getNewEmployeeCode(); // lấy mã nhân viên mới
-                        if (res.status == Enum.MISA_CODE.SUCCESS) {
-                            self.employee.employeeCode = res.data;
-                        }
-                    }
                 }
             } catch (error) {
                 console.log(error);

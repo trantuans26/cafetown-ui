@@ -19,6 +19,15 @@ export default (axios) => ({
     return axios.get(`${PREFIX_EMPLOYEE}/${employeeId}`);
   },
 
+    /**
+   * @description: Lấy chi tiết nhân viên
+   * @param {String} employeeId Id nhân viên
+   * @return {Promise} Promise
+   * Author: tttuan 1/3/2023
+   */
+    getInformationById(employeeId) {
+      return axios.get(`${PREFIX_EMPLOYEE}/login/${employeeId}`);
+    },
   /**
    * @description: Lấy danh sách nhân viên theo filter
    * @param {Object} filter Đối tượng filter
@@ -64,6 +73,16 @@ export default (axios) => ({
    */
   updateEmployee(object) {
     return axios.put(`${PREFIX_EMPLOYEE}/${object.employeeID}`, object);
+  },
+
+  /**
+   * @description: Cập nhật nhân viên
+   * @param {Object} employee Đối tượng nhân viên
+   * @return {Promise} Promise
+   * Author: tttuan 1/3/2023
+   */
+  updateEmployeeLogin(object) {
+    return axios.put(`${PREFIX_EMPLOYEE}/login/${object.employeeID}`, object);
   },
   /**
    * @description: Export danh sách nhân viên

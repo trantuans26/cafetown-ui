@@ -7,7 +7,7 @@ function lazyLoad(view) {
 const router = [
   {
     path: "/",
-    redirect: "/dang-nhap",
+    redirect: "/tong-quan",
     
   },
   {
@@ -21,7 +21,7 @@ const router = [
   },
   {
     path: "/tong-quan",
-    component: lazyLoad("overview/InventoryList"),
+    component: lazyLoad("overview/OverviewDashboard"),
     meta: {
       title: "Tổng quan",
     },
@@ -79,18 +79,18 @@ const router = [
       order: 7,
     },
   },
-  {
-    path: "/quan-ly-kho",
-    component: lazyLoad("warehouse/WarehousePage"),
-    meta: {
-      title: "Quản lý kho",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-warehouse",
-      title: "manage_stock",
-      order: 7,
-    },
-  },
+  // {
+  //   path: "/quan-ly-kho",
+  //   component: lazyLoad("warehouse/WarehousePage"),
+  //   meta: {
+  //     title: "Quản lý kho",
+  //   },
+  //   sideBar: {
+  //     icon: "ms-icon ms-icon-warehouse",
+  //     title: "manage_stock",
+  //     order: 7,
+  //   },
+  // },
   {
     path: "/don-vi-tinh",
     component: lazyLoad("warehouse/unit/UnitPage"),

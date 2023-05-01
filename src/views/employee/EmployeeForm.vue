@@ -98,13 +98,6 @@
                         </div>
                     </div>
                     <div class="row sm-gutter">
-                        <div class="form-group col l-12 md-12">
-                            <v-input :label="$t('employee_info.address')" v-model="employee.address"
-                                :maxLength="255" :validateCheck="true" :errorLabel="$t('employee_info.address')">
-                            </v-input>
-                        </div>
-                    </div>
-                    <div class="row sm-gutter">
                         <div class="form-group col l-3 md-3">
                             <v-input :label="$t('employee_info.bank_number')" v-model="employee.bankNumber">
                             </v-input>

@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Enum from "@/utils/enum";
 export default {
     name: "InventoryForm",
@@ -58,14 +57,13 @@ export default {
     
     },
     methods: {
-        ...mapGetters(["getInventoryId"]),
 
         async login() {
             let me = this;
             const response = await me.$api.authen.login(me.username, me.password);
             if (response && response.status == Enum.MISA_CODE.SUCCESS) {  
                 this.$store.commit('setPermission', response.data);              
-                me.redirect = "/nhan-vien";
+                me.redirect = "/quan-ly-hoa-don";
             }
         },
     },

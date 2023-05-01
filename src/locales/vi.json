@@ -105,6 +105,8 @@
   },
 
   "notice_message": {
+    "update_information_success": "Cập nhật thông tin cá nhân thành công",
+    "update_information_failed": "Cập nhật thông tin cá nhân thất bại",
     "insert_success": "Thêm mới <b>{0}</b> thành công",
     "insert_fail": "Thêm mới <b>{0}</b> thất bại",
     "update_success": "Cập nhật <b>{0}</b> thành công",
@@ -303,5 +305,33 @@
     "quantity": "Số lượng",
     "cost": "Đơn giá",
     "total": "Tổng tiền"
+  },
+  "authencator_infor": {
+    "title": "Thông tin cá nhân",
+    "code": "Mã",
+    "name": "Tên",
+    "department": "Đơn vị",
+    "job_title": "Chức danh",
+    "date_of_birth": "Ngày sinh",
+    "gender": "Giới tính",
+    "male": "Nam",
+    "female": "Nữ",
+    "other": "Khác",
+    "identity_card": "Số CMND",
+    "identity_card_label": "Số chứng minh nhân dân",
+    "issued_date": "Ngày cấp",
+    "issued_by": "Nơi cấp",
+    "address": "Địa chỉ",
+    "phone_number": "ĐT di động",
+    "phone_number_label": "Điện thoại di động",
+    "home_phone_number": "ĐT cố định",
+    "home_phone_number_label": "Điện thoại cố định",
+    "email": "Email",
+    "bank_number": "Tài khoản ngân hàng",
+    "bank_name": "Tên ngân hàng",
+    "bank_branch": "Chi nhánh",
+    "is_employee": "Là nhân viên",
+    "is_manager": "Là quản lý",
+    "password": "Mật khẩu"
   }
 }
