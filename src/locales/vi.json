@@ -181,6 +181,48 @@
     }
   },
 
+  "dashboard_page": {
+    "title": "Tổng quan",
+    "invoice": "Đơn mua hàng",
+    "inventory": "Hàng hóa",
+    "revenue": "Doanh thu nhiều nhất",
+    "inventory_value": "Giá trị hàng hóa",
+    "current_year": "Năm nay",
+    "last_year": "Năm ngoái",
+    "current_month": "Tháng này",
+    "today": "Hôm nay",
+    "yesterday": "Hôm qua",
+    "current_week": "Tuần này",
+    "last_week": "Tuần trước",
+    "January": "Tháng 1",
+    "February": "Tháng 2",
+    "March": "Tháng 3",
+    "April": "Tháng 4",
+    "May": "Tháng 5",
+    "June": "Tháng 6",
+    "July": "Tháng 7",
+    "August": "Tháng 8",
+    "September": "Tháng 9",
+    "October": "Tháng 10",
+    "November": "Tháng 11",
+    "December": "Tháng 12",
+    "All": "Tất cả",
+    "inventory_warning": "Sắp hết hàng",
+    "inventory_empty": "Hết hàng"
+  },
+
+  "dashboard_form": {
+    "name": "Tên",
+    "quantity": "Số lượng",
+    "cost": "Giá trị",
+    "total_cost": "Tổng giá trị",
+    "sum_total_cost": "Giá trị đơn hàng",
+    "is_collected": "Đã thanh toán",
+    "is_not_collected": "Chưa thanh toán",
+    "invoice": "Hóa đơn",
+    "customer":"Khách hàng"
+  },
+
   "employee_page": {
     "title": "Nhân viên",
     "add_employee": "Thêm nhân viên",

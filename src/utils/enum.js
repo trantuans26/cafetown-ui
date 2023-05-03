@@ -251,4 +251,27 @@ export default {
     /// </summary>
     ForeignKey: 9,
   },
+
+  DATE: {
+    currentYear: 19,
+    lastYear: 18,
+    currentMonth: 17,
+    today: 13,
+    yesterday: 14,
+    currentWeek: 15,
+    lastWeek: 16,
+    January: 1,
+    February: 2,
+    March: 3,
+    April: 4,
+    May: 5,
+    June: 6,
+    July: 7,
+    August: 8,
+    September: 9,
+    October: 10,
+    November: 11,
+    December: 12,
+    All: 20,
+  },
 };

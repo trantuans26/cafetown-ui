@@ -110,7 +110,7 @@ export default {
          */
         changeLocale(language) {
             // lưu ngôn ngữ vào localstorage
-            localStorage.setItem('amis-language', language)
+            localStorage.setItem('value-language', language)
             // thay đổi ngôn ngữ
             this.$i18n.locale = language;
         },

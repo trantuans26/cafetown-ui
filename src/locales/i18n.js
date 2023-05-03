@@ -20,7 +20,7 @@ function loadLocaleMessages() {
 export default createI18n({
   // Khởi tạo i18n
   legacy: false,
-  locale: localStorage.getItem("amis-language") || process.env.VUE_APP_I18N_LOCALE || "vi", // Đọc ngôn ngữ từ localStorage hoặc mặc định là tiếng việt
+  locale: localStorage.getItem("value-language") || process.env.VUE_APP_I18N_LOCALE || "vi", // Đọc ngôn ngữ từ localStorage hoặc mặc định là tiếng việt
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "vi", // Nếu không tìm thấy ngôn ngữ thì sẽ dùng ngôn ngữ mặc định
   messages: loadLocaleMessages(), // Đọc nội dung các file json trong thư mục locales
   warnHtmlMessage: false, // Không hiển thị cảnh báo khi dùng html trong i18n

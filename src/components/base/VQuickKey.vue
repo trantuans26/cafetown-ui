@@ -119,7 +119,7 @@ export default {
                         const oldLang = self.$i18n.locale;
                         self.$i18n.locale = oldLang === Enum.LANGUAGE.VI ? Enum.LANGUAGE.EN : Enum.LANGUAGE.VI;
                         // Lưu lại ngôn ngữ đã chọn vào localStorage
-                        localStorage.setItem('amis-language', self.$i18n.locale);
+                        localStorage.setItem('value-language', self.$i18n.locale);
                         isUse = true;
                         break;
                     default:

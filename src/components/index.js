@@ -13,6 +13,7 @@ import VDatePicker from "./base/DatePicker/VDatePicker";
 import VMenu from "./base/Menu/VMenu";
 import VRouterLink from "./base/VRouterLink";
 import VLoading from "./base/Loading/VLoading";
+import DropdownDate from "./base/Dropdown/DropdownDate";
 import VDropdown from "./base/Dropdown/VDropdown";
 import VQuickKey from "./base/VQuickKey";
 import VSkeleton from "./base/Skeleton/VSkeleton";
@@ -49,4 +50,5 @@ export default {
   VCollapse,
   VFilter,
   VTableTree,
+  DropdownDate,
 };

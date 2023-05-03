@@ -409,7 +409,7 @@ export default {
                         if(spinUp && me.invoiceDetails[index].quantity != null && me.invoiceDetails[index].quantity != undefined) {
                             me.invoiceDetails[index].quantity += 1; 
                             me.updateCost(index);
-                        } else if(me.invoiceDetails[index].quantity && me.invoiceDetails[index].quantity > 0) {
+                        } else if(me.invoiceDetails[index].quantity && me.invoiceDetails[index].quantity > 1) {
                             me.invoiceDetails[index].quantity -= 1; 
                             me.updateCost(index);
                         } else if(spinUp) {

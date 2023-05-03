@@ -74,4 +74,20 @@ export default (axios) => ({
       responseType: "blob",
     });
   },
+
+  getTopInventories() {
+    return axios.get(`Dashboards/topInventory`);
+  },
+
+  getMinQuantity() {
+    return axios.get(`Dashboards/minQuantity`);
+  },
+
+  getSumTotalCosts() {
+    return axios.get(`Dashboards/sumTotalCosts`);
+  },
+
+  getTopInvoices() {
+    return axios.get(`Dashboards/topInvoice`);
+  }
 });
