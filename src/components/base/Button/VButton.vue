@@ -1,6 +1,6 @@
 <template>
     <div class="v-button">
-        <button class="v-button__button" :type="type" :class="[buttonType,className,{'rounded' : rounded}]"
+        <button class="v-button__button" :type="type" :class="[buttonType,className,{'rounded' : rounded}, {'is--disabled': disabled}]"
             :disabled="disabled" ref="button" :tabindex="tabIndex" :style="style" @blur="$emit('blur')">
             <div class="v-button__text">
                 <slot></slot>
@@ -102,4 +102,11 @@ export default {
 </script>
 <style scoped lang="scss">
 @import "@/assets/scss/base/button.scss";
+
+.is--disabled {
+    pointer-events: none;
+    background-color: rgb(229, 229, 229) !important;
+    color: rgb(142, 142, 142) !important;
+}
+
 </style>

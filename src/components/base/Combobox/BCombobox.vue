@@ -518,7 +518,7 @@ export default {
 .input {
     font-size: 13px;
     background-color: #ffffff;
-    border-radius: 2px;
+    border-radius: 4px;
     padding-left: 10px;
     color: inherit;
     border: 1px solid #babec5;

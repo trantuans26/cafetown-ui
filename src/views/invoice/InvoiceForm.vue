@@ -9,19 +9,22 @@
                     </div>
                     <div class="col">
                         <v-input type="checkbox" :label_custom="$t('invoice_info.is_collected')"
+                            :disabled="this.isCollectedFirst"
                             v-model="invoice.isCollected" :value="false"
                         ></v-input>
                     </div>
                 </div>
             </template>
             <template #body>
-                <div class="invoice__list grid wide v-max-900" ref="invoiceForm">
+                <div class="invoice__list grid wide v-max-900" 
+                    ref="invoiceForm" 
+                >
                     <div class="row">
                         <div class="col l-6 md-6">
                             <div class="row sm-gutter">
                                 <div class="form-group col l-12 md-12 c-12 focus">
                                     <v-input :label="$t('invoice_info.customer')" v-model="invoice.customer"
-                                        :required="true" :errorLabel="$t('invoice_info.customer')">
+                                        :required="true" :errorLabel="$t('invoice_info.customer')"> 
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-12 md-12">
@@ -56,8 +59,10 @@
                                 <div class="form-group col l-3 md-3">
                                     <div class="button--add">
                                         <v-button @click="addInventoryForInvoice()"
-                                        tooltipPosition="right"
-                                        :tooltip="$t('action_form.add')">
+                                            tooltipPosition="right"
+                                            :tooltip="$t('action_form.add')"
+                                            :disabled="invoice.isCollected"
+                                        >
                                         {{ $t('action_form.add') }}
                                     </v-button>
                                     </div>
@@ -122,9 +127,10 @@
                                                 class="table__row" 
                                                 tabindex="1"
                                                 v-for="(invoice, index) in this.invoiceDetails"
-                                                :key="invoice"                                 
+                                                :key="invoice"   
+                                                :class="{'is--disabled': this.invoice.isCollected}"                              
                                             >
-                                                <td class="table__col table__col--center table__col--check"> {{ index + 1 }}</td>
+                                                <td class="table__col table__col--center table__col--check" :class="{'is--disabled': this.invoice.isCollected}"> {{ index + 1 }}</td>
                                                 <td class="table__col table__col--left table__col--code"> 
                                                     <v-tooltip :content="invoice.inventoryCode">
                                                         <p>{{invoice.inventoryCode}}</p> 
@@ -136,9 +142,14 @@
                                                     </v-tooltip>
                                                 </td>
                                                 <td class="table__col table__col--left table__col--quantity table__col--spinner"> 
-                                                    <p>
-                                                        {{ invoice.quantity ? invoice.quantity : 0 }}                                                    
-                                                    </p> 
+                                                    <input class="input--quantity" 
+                                                        type="text" 
+                                                        v-model="invoice.quantity"
+                                                        @change="updateQuantity(invoice.inventoryID)"
+                                                        maxlength="3"
+                                                        @keypress="this.numbersOnly"
+                                                        @paste.prevent                    
+                                                    > 
 
                                                     <i class="icon--spinner"></i>
                                                     <span class="spin spin--up" @click="spinnerAction(invoice.inventoryID, true)"></span>
@@ -146,7 +157,11 @@
                                                 </td>
                                                 <td class="table__col table__col--left ttable__col--cost"> <p>{{ formatCurrency(invoice.cost ? invoice.cost : 0) }}</p> </td>
                                                 <td class="table__col table__col--left table__col--total"> <p>{{ formatCurrency(invoice.totalCost) }}</p> </td>
-                                                <td class="table__col--delete"> <div class="icon--delete" @click="deleteInvoiceDetailByInventoryId(invoice.inventoryID)"></div> </td>
+                                                <td class="table__col--delete"> 
+                                                    <div class="icon--delete" 
+                                                        @click="deleteInvoiceDetailByInventoryId(invoice.inventoryID)"
+                                                    ></div> 
+                                                </td>
                                             </tr> 
                                         </tbody>
                                     </table>
@@ -215,6 +230,7 @@ export default {
                 isCollected: false,
             },
             invoiceDetails: [],
+            isCollectedFirst: false,
             inventory: {
                 inventoryID: "",
                 inventoryCode: "",
@@ -278,6 +294,7 @@ export default {
                     {
                         title: this.$t(`inventory_table.quantity`),
                         key: 'quantity',
+                        textAlign: 'center',
                     },
                     {
                         title: this.$t(`inventory_table.cost`),
@@ -317,7 +334,20 @@ export default {
                     }
                 ]; // Khởi tạo danh sách action trên từng dòng
             }
-        }
+        },
+
+        quantityFormat: {
+            get: function() {
+                if (this.inventory.quantity == null || this.inventory.quantity == 0 || this.inventory.quantity == "") return 0;
+                return this.convertQuantity(parseInt(this.inventory.quantity));
+            },
+                // setter
+            set: function(number) {
+                number = this.formatNum(number);
+                this.inventory.quantity = number;
+                
+            }
+        },
     },
     watch: {
         /**
@@ -393,6 +423,28 @@ export default {
     methods: {
         formatCurrency, 
 
+        numbersOnly(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();
+            } else {
+                return true;
+            }
+        },
+
+        convertQuantity(value) {
+            if (value == null || value == 0 || value == "") return "0";
+            let num = this.formatNum(value + "") + "";
+            return num.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        },
+
+        formatNum(value) {
+            if (value == null || value == 0 || value == "") return "0";
+            let num = value.replace(/[^0-9-]+/g, "");
+            return parseInt(num);
+        },
+
         getNow() {
             const today = new Date();
             const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -401,13 +453,45 @@ export default {
             return dateTime;
         },
 
+        updateQuantity(inventoryID) {
+            let me = this;
+            me.invoiceDetails.forEach((element, index) => {
+                if(element.inventoryID == inventoryID) {
+                    let num = me.formatNum(me.invoiceDetails[index].quantity);
+
+                    if(me.invoiceDetails[index].quantity != 0 && me.invoiceDetails[index].quantity) {
+                        me.inventories.forEach((inventory) => {
+                            if(inventory.inventoryID == inventoryID) {
+                                if(inventory.quantity < num) {
+                                    num = inventory.quantity;
+                                }
+                            }
+                        });
+
+                        me.invoiceDetails[index].quantity = num;
+                        me.updateCost(index);
+                    } else  {
+                        me.invoiceDetails[index].quantity = 1;
+                        me.updateCost(index);
+                    }
+                }
+            });
+        },
+
         spinnerAction(inventoryID, spinUp = false) {
             let me = this;
             if(me.invoiceDetails && Array.isArray(me.invoiceDetails)) {
                 me.invoiceDetails.forEach((element, index) => {
                     if(element.inventoryID == inventoryID) {
                         if(spinUp && me.invoiceDetails[index].quantity != null && me.invoiceDetails[index].quantity != undefined) {
-                            me.invoiceDetails[index].quantity += 1; 
+                            me.inventories.forEach((inventory) => {
+                                if(inventory.inventoryID == inventoryID)
+                                {
+                                    if(me.invoiceDetails[index].quantity < inventory.quantity) {
+                                        me.invoiceDetails[index].quantity += 1;
+                                    }
+                                }
+                            });
                             me.updateCost(index);
                         } else if(me.invoiceDetails[index].quantity && me.invoiceDetails[index].quantity > 1) {
                             me.invoiceDetails[index].quantity -= 1; 
@@ -457,7 +541,7 @@ export default {
         addInventoryForInvoice() {
             let me = this;
 
-            if(me.inventory) {
+            if(me.inventory && !me.invoice.isCollected) {
                 me.inventories.forEach(element => {
                     if(element.inventoryID == me.inventory.inventoryID) {
                         let invoiceDetail = {
@@ -622,6 +706,7 @@ export default {
                         inventoryCode: '',
                         inventoryName: '',
                     };
+                    me.isCollectedFirst = false;
                 }
             } catch (error) {
                 console.log(error);
@@ -657,6 +742,7 @@ export default {
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
                     me.invoice = response.data.invoiceMaster;
                     me.invoiceDetails = response.data.invoiceDetails;
+                    me.isCollectedFirst = me.invoice.isCollected;
                     console.log(me.invoiceDetails);
                 }
             } catch (error) {
@@ -827,7 +913,7 @@ export default {
 
 .invoice__item--total {
     position: absolute;
-    left: 240px;
+    right: 0;
     top: 20px;
     text-align: right;
 }
@@ -893,4 +979,24 @@ export default {
     right: 10px;
     opacity: 0.8;
 }
+
+.input--quantity {
+    border: 1.5px solid rgb(189, 189, 189);
+    border-radius: 4px;
+    height: 24px;
+    width: 60px;
+    outline: none;
+    padding-left: 6px;
+
+    &:focus {
+        border: 1.5px solid rgb(0, 98, 204);
+    }
+}
+
+.is--disabled {
+    pointer-events: none;
+    background-color: rgb(229, 229, 229) !important;
+    opacity: 0.6;
+}
+
 </style>
