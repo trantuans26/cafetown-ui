@@ -2,9 +2,6 @@
     <div class="login">
         <div class="login__container">
             <div class="login__header">
-                <div class="login__logo">
-                    <img src="@/assets/img/Godrej_Logo.svg.png" alt="Café logo">
-                </div>
                 <div class="login__title"> {{ $t('login.title') }}</div>
             </div>
 
@@ -100,6 +97,7 @@ export default {
     .login__container {
         display: flex;
         align-items: center;
+        justify-content: center;
         flex-direction: column;
         width: 565px;
 

@@ -4,6 +4,7 @@
             <div class="dashboard__title">{{ $t('dashboard_page.title') }}</div>
         </div>
         <div class="dashboard__body">
+            <!-- Đơn mua hàng -->
             <div class="dashboard__item dashboard__item--top">
                 <div class="item__header item__header--color">
                     <div class="item__title">
@@ -18,7 +19,11 @@
                 </div>
 
                 <div class="item__body item__body--invoice">
-                    <div class="invoice__item invoice__sum">
+                    <v-skeleton :loading="isLoadSumTotalCost">
+                        <div></div>
+                    </v-skeleton>
+
+                    <div class="invoice__item invoice__sum" v-show="!isLoadSumTotalCost">
                         <div class="invoice__label"> {{ $t("dashboard_form.sum_total_cost") }} </div>
 
                         <div class="invoice__value"> {{ formatCurrency(sumTotalCost) }} </div>
@@ -26,7 +31,11 @@
 
                     <div class="divide-line"></div>
 
-                    <div class="invoice__item">
+                    <v-skeleton :loading="isLoadSumTotalCost">
+                        <div></div>
+                    </v-skeleton>
+
+                    <div class="invoice__item" v-show="!isLoadSumTotalCost">
                         <div class="invoice__label"> {{ $t("dashboard_form.is_collected") }} </div>        
 
                         <div class="invoice__value"> {{ formatCurrency(sumTotalCostIsCollected) }} </div>
@@ -34,14 +43,20 @@
 
                     <div class="divide-line"></div>
 
-                    <div class="invoice__item">
+                    <v-skeleton :loading="isLoadSumTotalCost">
+                        <div></div>
+                    </v-skeleton>
+
+                    <div class="invoice__item" v-show="!isLoadSumTotalCost">
                         <div class="invoice__label"> {{ $t("dashboard_form.is_not_collected") }} </div>        
                         
                         <div class="invoice__value"> {{ formatCurrency(sumTotalCostIsNotCollected) }} </div>
                     </div>
                 </div>
             </div>
+            <!-- End: Đơn mua hàng -->
 
+            <!-- Hàng hóa -->
             <div class="dashboard__item dashboard__item--top">
                 <div class="item__header item__header--color">
                     <div class="item__title">
@@ -56,7 +71,11 @@
                 </div>
 
                 <div class="item__body">
-                    <div class="item__box item__box--warning item__box--left">
+                    <v-skeleton :loading="isLoadMinQuantity">
+                        <div></div>
+                    </v-skeleton>
+
+                    <div class="item__box item__box--warning item__box--left" v-show="!isLoadMinQuantity">
                         <div class="item__icon item__icon--warning">
                             <div class="icon__box--warning"></div>
                         </div>
@@ -68,7 +87,11 @@
                         </div>
                     </div>
 
-                    <div class="item__box item__box--empty">
+                    <v-skeleton :loading="isLoadMinQuantity">
+                        <div></div>
+                    </v-skeleton>
+
+                    <div class="item__box item__box--empty" v-show="!isLoadMinQuantity">
                         <div class="item__icon item__icon--empty">
                             <div class="icon__box--empty"></div>
                         </div>
@@ -81,7 +104,9 @@
                     </div>
                 </div>
             </div>
+            <!-- End: Hàng hóa -->
 
+            <!-- Doanh thu nhiều nhất -->
             <div class="dashboard__item">
                 <div class="item__header">
                     <div class="item__title item__title--black">
@@ -101,25 +126,49 @@
                 <div class="item__body item__body--statistic">
                     <div class="revenue__list">
                         <div class="revenue__row revenue__head">
-                            <div class="revenue__col revenue__col--left revenue__item"> {{ $t('dashboard_form.invoice') }} </div>
-                            <div class="revenue__col--fill revenue__item"> {{ $t('dashboard_form.customer') }} </div>
+                            <div class="revenue__col revenue__col--left revenue__item"> {{ $t('dashboard_form.inventory_code') }} </div>
+                            <div class="revenue__col--fill revenue__item"> {{ $t('dashboard_form.inventory_name') }} </div>
                             <div class="revenue__col revenue__col--right revenue__item"> {{ $t('dashboard_form.cost') }} </div>
                         </div>
 
                         <div class="revenue__body"
                             v-for="item in listTopInvoice"
                             :key="item"
+                            v-show="!isLoadTopInvoice"
                         >
                             <div class="revenue__row">
-                                <div class="revenue__col revenue__col--left revenue__item"> {{ item.invoiceCode }} </div>
-                                <div class="revenue__col--fill revenue__item"> {{ item.customer }} </div>
-                                <div class="revenue__col revenue__col--right revenue__item"> {{ formatCurrency(item.totalCost) }} </div>
+                                <div class="revenue__col revenue__col--left revenue__item"> {{ item.inventoryCode }} </div>
+                                <div class="revenue__col--fill revenue__item"> {{ item.inventoryName }} </div>
+                                <div class="revenue__col revenue__col--right revenue__item"> {{ formatCurrency(item.cost) }} </div>
                             </div>
                         </div>
+
+                        <div class="revenue__body"
+                            v-for="item in listTopInvoice"
+                            :key="item"
+                            v-show="isLoadTopInvoice"
+                        >
+                            <div class="revenue__row">
+                                <v-skeleton :loading="true">
+                                    <div></div>
+                                </v-skeleton>
+
+                                <v-skeleton :loading="true">
+                                    <div></div>
+                                </v-skeleton>
+
+                                <v-skeleton :loading="true">
+                                    <div></div>
+                                </v-skeleton>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
+            <!-- End: Doanh thu nhiều nhất -->
 
+            <!-- Giá trị hàng hóa -->
             <div class="dashboard__item">
                 <div class="item__header">
                     <div class="item__title item__title--black">
@@ -137,7 +186,10 @@
 
                 <div class="item__body item__body--statistic">
                     <div class="statistic__total">
-                        <div class="statistic__value">
+                        <v-skeleton :loading="isLoadTopInventory">
+                            <div></div>
+                        </v-skeleton>
+                        <div class="statistic__value" v-show="!isLoadTopInventory">
                             {{ formatCurrency(this.totalCostInventory) }}
                         </div>
 
@@ -156,6 +208,7 @@
                         <div class="statistic__body"
                             v-for="item in listTopInventory"
                             :key="item"
+                            v-show="!isLoadTopInventory"
                         >
                             <div class="statistic__row">
                                 <div class="statistic__col--fill statistic__item"> {{ item.inventoryName }} </div>
@@ -163,9 +216,28 @@
                                 <div class="statistic__col statistic__col--right statistic__item"> {{ formatCurrency(item.cost) }} </div>
                             </div>
                         </div>
+
+                        <div class="statistic__body"
+                            v-for="item in listTopInventory"
+                            :key="item"
+                            v-show="isLoadTopInventory"
+                        >
+                            <div class="statistic__row">
+                                <v-skeleton :loading="true">
+                                    <div></div>
+                                </v-skeleton>
+                                <v-skeleton :loading="true">
+                                    <div></div>
+                                </v-skeleton>
+                                <v-skeleton :loading="true">
+                                    <div></div>
+                                </v-skeleton>                                                                                               
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- End: Giá trị hàng hóa -->
         </div>
     </div>
 </template>
@@ -221,13 +293,15 @@ export default {
             dateSelected: "Tháng này",
             listTopInventory: [],
 
-            /* Giá trị hàng hóa */
+            /* Hàng hóa */
             totalCostInventory: 0,
             lessThanFive: 0,
             equalZero: 0,
+            isLoadTopInventory: false,
+            isLoadMinQuantity: false,
 
             /* Đơn mua hàng */
-            invoiceDateSelected: "Hôm nay",
+            isLoadSumTotalCost: false,
             valueInvoiceDate: 13,
             sumTotalCost: 0,
             sumTotalCostIsCollected: 0,
@@ -235,6 +309,7 @@ export default {
 
             /* Giá trị hóa đơn  */
             listTopInvoice: [],
+            isLoadTopInvoice: false,
         };
     },
     computed: {
@@ -420,9 +495,11 @@ export default {
 
         async loadTopInvoices() {
             const me = this;
+            me.isLoadTopInvoice = true;
             try {
                 const result = await me.$api.inventory.getTopInvoices();
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
+                    me.isLoadTopInvoice = false;
                     me.listTopInvoice = result.data;
                     return Promise.resolve(true);
                 } else {
@@ -437,9 +514,11 @@ export default {
 
         async loadSumTotalCosts() {
             const me = this;
+            me.isLoadSumTotalCost = true;
             try {
                 const result = await me.$api.inventory.getSumTotalCosts();
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
+                    me.isLoadSumTotalCost = false;
                     me.sumTotalCost = result.data.sumTotalCost;
                     me.sumTotalCostIsCollected = result.data.sumTotalCostIsCollected;
                     me.sumTotalCostIsNotCollected = result.data.sumTotalCostIsNotCollected;
@@ -456,9 +535,11 @@ export default {
 
         async loadMinQuantity() {
             const me = this;
+            me.isLoadMinQuantity = true;
             try {
                 const result = await me.$api.inventory.getMinQuantity();
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
+                    me.isLoadMinQuantity = false;
                     me.lessThanFive = result.data.lessThanFive;
                     me.equalZero = result.data.equalZero;
                     return Promise.resolve(true);
@@ -474,9 +555,11 @@ export default {
 
         async loadTopInventory() {
             const me = this;
+            me.isLoadTopInventory = true;
             try {
                 const result = await me.$api.inventory.getTopInventories();
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
+                    me.isLoadTopInventory = false;
                     me.listTopInventory = result.data.data;
                     me.totalCostInventory = result.data.total;
                     return Promise.resolve(true);

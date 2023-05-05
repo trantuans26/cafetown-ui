@@ -10,7 +10,6 @@
                     <slot name="title"></slot>
                 </div>
                 <div class="v-dialog__close">
-                    <div class="ms-24 ms-icon ms-icon-help" :tooltip="$t('action_form.help') + ' (F1)'"></div>
                     <div class="ms-24 ms-icon ms-icon-close" :tooltip="$t('action_form.close') + ' (ESC)'"
                         @click="onHandleClose"></div>
                 </div>
