@@ -7,18 +7,59 @@
 
             <div class="login__body">
                 <div class="login__form">
-                    <div class="login__input login__input--user">
-                        <input type="text" :placeholder="$t('login.placeholder.user')" v-model="username">
+                    <div class="login__input login__input--user" 
+                        ref="user"
+                        :tooltip="`${requiredUsername ? $t('login.error_tooltip.user') : ''}`" 
+                        :error="requiredUsername"
+                        :class="{'login__input--error': requiredUsername}"
+                    >
+                        <input type="text" 
+                            :placeholder="$t('login.placeholder.user')" 
+                            v-model="username"
+                            @blur="checkUsername"
+                            @focus="requiredUsername = false"
+                        >
                     </div>
-                    <div class="login__input login__input--password">
-                        <input type="password" :placeholder="$t('login.placeholder.password')" v-model="password">
+                    <div class="login__input login__input--password"
+                        :tooltip="`${requiredPassword ? $t('login.error_tooltip.password') : ''}`" 
+                        :error="requiredPassword"
+                        :class="{'login__input--error': requiredPassword}"
+                    >
+                        <input type="password" 
+                            :placeholder="$t('login.placeholder.password')" 
+                            v-model="password"
+                            @blur="checkPassword"
+                            @focus="requiredPassword = false"
+                        >
                     </div>
                 </div>
 
                 <div class="login__button" @click="login">
-                    <router-link :to="redirect">
-                        <button> {{ $t('login.button') }} </button>
-                    </router-link>
+                    <button> {{ $t('login.button') }} </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-box" v-show="showDialog">
+            <div class="v-popup">
+                <div class="v-popup__body">
+                    <div class="v-popup__icon" @mousemove="stopDrag">
+                        <div :class="`ms-48 ms-icon ms-icon-error`"></div>
+                    </div>
+                    <div class="v-popup__text">
+                        <span> {{ messageError }}</span>
+                        <slot name="body"></slot>
+                    </div>
+                </div>
+                <div class="v-line"></div>
+                <div class="v-popup__footer">
+                    <div class="footer__left">
+                        <v-button v-show="false"  className="secondary" @click="_close" :text="closeButton"
+                            :focus="true" />
+                    </div>
+                    <div class="footer__right">
+                        <v-button :focus="true" @click="close">{{ $t('confirm_popup.close') }}</v-button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,7 +69,7 @@
 <script>
 import Enum from "@/utils/enum";
 export default {
-    name: "InventoryForm",
+    name: "LoginForm",
     props: {
         modelValue: { // dùng để đóng mở form
             type: Boolean,
@@ -43,7 +84,11 @@ export default {
         return {
             username: "",
             password: "",
-            redirect: '/tong-quan',
+            requiredUsername: false,
+            requiredPassword: false,
+            messageError: "",
+            showDialog: false,
+
         };
     },
     computed: {
@@ -54,13 +99,69 @@ export default {
     
     },
     methods: {
+        close() {
+            let me =this;
+
+            me.showDialog = false;
+
+            me.$nextTick(() => {
+                me.$refs.user.focus();
+            })
+        },
+        
+        checkUsername() {
+            if(!this.username && this.username !== 0) {
+                this.requiredUsername = true;
+            } else {
+                this.requiredUsername = false;
+            }
+        },
+
+        checkPassword() {
+            if(!this.password && this.password !== 0) {
+                this.requiredPassword = true;
+            } else {
+                this.requiredPassword = false;
+            }
+        },
 
         async login() {
             let me = this;
-            const response = await me.$api.authen.login(me.username, me.password);
-            if (response && response.status == Enum.MISA_CODE.SUCCESS) {  
-                this.$store.commit('setPermission', response.data);              
-                me.redirect = "/tong-quan";
+            let pass = true;
+
+            try {
+                if(me.requiredUsername || (!this.username && this.username !== 0)) {
+                    me.messageError = me.$t('login.error_message.user');
+                    me.showDialog = true;
+                    pass = false;
+                    me.requiredUsername = true;
+                } 
+                if (me.requiredPassword || (!this.password && this.password !== 0)) {
+                    me.messageError = me.$t('login.error_message.password');
+                    me.showDialog = true;
+                    pass = false;
+                    me.requiredPassword = true;
+                }
+                if (me.requiredPassword &&  me.requiredUsername) {
+                    me.messageError = me.$t('login.error_message.userAndPassword');
+                    me.showDialog = true;
+                    pass = false;
+                }
+
+                if (pass) {
+                    const response = await me.$api.authen.login(me.username, me.password);
+                    if (response && response.status == Enum.MISA_CODE.SUCCESS) {  
+                        this.$store.commit('setPermission', response.data);              
+                        this.$router.push('/tong-quan')
+                    } else {
+                        me.messageError = me.$t('login.error_message.userAndPassword');
+                        me.showDialog = true;
+                    }
+                }
+            } catch (e) {
+                me.messageError = me.$t('login.error_message.notExists');
+                me.showDialog = true;
+                console.log(e);
             }
         },
     },
@@ -84,7 +185,7 @@ export default {
         position: fixed;
         background-image: url(@/assets/img/login-bg.png);
         background-size: cover;
-        z-index: 9999;
+        z-index: 1;
 
         display: flex;
         justify-content: center;
@@ -167,13 +268,9 @@ export default {
     .login__input input:focus{
         border: $bg-green-active 1px solid;
     }
-
-    .login__input--user {
-
-    }
-
-    .login__input--password {
-
+    .login__input--error input,
+    .login__input--error:hover input {
+        border: rgb(230, 0, 0) 1px solid;
     }
 
     .login__button {
@@ -210,4 +307,49 @@ export default {
     .login__button button:active {
         background-color:  $bg-green-active;
     }
+
+
+    @import "@/assets/scss/base/popup.scss";
+    .popup-box{
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(169, 169, 171, 0.078);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .v-popup {
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(255, 255, 255);
+        box-sizing: border-box;
+        border-radius: 4px;
+        animation: popFromCenter 200ms ease-in-out forwards;
+    }
+    
+    .v-popup__text {
+        font-size: 14px;
+        font-weight: 400;
+        font-family: Roboto;
+    }
+    @keyframes popFromCenter {
+    0% {
+    opacity: 0;
+    transform: scale(0);
+    }
+
+    80% {
+    opacity: 1;
+    transform: scale(1.1);
+    }
+
+    100% {
+    opacity: 1;
+    transform: scale(1);
+    }
+}
 </style>

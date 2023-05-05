@@ -815,7 +815,7 @@ export default {
                 if (error.response) {
                     let { status, data } = error.response;
                     if (status == Enum.MISA_CODE.VALIDATE) {
-                        let htmlMessage = Object.values(data.Data).map((item) => {
+                        let htmlMessage = Object.values(data.moreInfo).map((item) => {
                             return `${item}`;
                         });
                         await me.$refs.popup.showError(htmlMessage);

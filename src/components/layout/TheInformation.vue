@@ -27,6 +27,7 @@
                                 </div>
                                 <div class="form-group col l-5 md-5 c-5">
                                     <v-input :label="$t('authencator_infor.phone_number')" v-model="employee.phone"
+                                        required="true"
                                         :isPhoneNumber="true" :isNumber="true" :errorLabel="$t('authencator_infor.phone_number')"
                                         :validateCheck="true" :tooltipText="$t('authencator_infor.phone_number_label')"
                                         tooltipPosition="right">
@@ -34,11 +35,13 @@
                                 </div>
                                 <div class="form-group col l-7 md-7 c-7">
                                     <v-input :label="$t('authencator_infor.email')" v-model="employee.email" :isEmail="true"
+                                        required="true"
                                         :errorLabel="$t('authencator_infor.email')" :validateCheck="true"> </v-input>
                                 </div>
                                 <div class="form-group col l-12 md-12">
                                     <v-input 
                                         :label="$t('authencator_infor.password')" 
+                                        required="true"
                                         v-model="employee.password"
                                         :maxLength="255" :validateCheck="true" 
                                         type="password"
@@ -411,7 +414,7 @@ export default {
                 if (error.response) {
                     let { status, data } = error.response;
                     if (status == Enum.MISA_CODE.VALIDATE) {
-                        let htmlMessage = Object.values(data.Data).map((item) => {
+                        let htmlMessage = Object.values(data.moreInfo).map((item) => {
                             return `${item}`;
                         });
                         await self.$refs.popup.showError(htmlMessage);

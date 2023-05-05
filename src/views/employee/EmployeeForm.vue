@@ -24,17 +24,19 @@
                             <div class="row sm-gutter">
                                 <div class="form-group col l-5 md-5 c-5 focus">
                                     <v-input :label="$t('employee_info.code')" v-model="employee.employeeCode"
+                                        ref="employeeCode" @validate="setValid('employeeCode', $event)" :maxLength="100"    
                                         :required="true" :errorLabel="$t('employee_info.code')">
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-7 md-7 c-7">
-                                    <v-input :label="$t('employee_info.name')" v-model="employee.employeeName"
+                                    <v-input :label="$t('employee_info.name')" v-model="employee.employeeName"    
                                         ref="employeeName" @validate="setValid('employeeName', $event)" :maxLength="100"
                                         :required="true" :errorLabel="$t('employee_info.name')">
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-5 md-5 c-5">
                                     <v-input :label="$t('employee_info.phone_number')" v-model="employee.phone"
+                                        :required="true"
                                         :isPhoneNumber="true" :isNumber="true" :errorLabel="$t('employee_info.phone_number')"
                                         :validateCheck="true" :tooltipText="$t('employee_info.phone_number_label')"
                                         tooltipPosition="right">
@@ -42,6 +44,7 @@
                                 </div>
                                 <div class="form-group col l-7 md-7 c-7">
                                     <v-input :label="$t('employee_info.email')" v-model="employee.email" :isEmail="true"
+                                        :required="true"
                                         :errorLabel="$t('employee_info.email')" :validateCheck="true"> </v-input>
                                 </div>
                                 <div class="form-group col l-12 md-12">
@@ -361,8 +364,8 @@ export default {
                     self.employee = { // gán giá trị mặc định cho employee
                         employeeCode: response.data,
                         gender: 1,
-                        isEmployee: false,
-                        isSupplier: false,
+                        isEmployee: true,
+                        isManager: false,
                     };
                 }
             } catch (error) {
@@ -460,7 +463,7 @@ export default {
                 if (error.response) {
                     let { status, data } = error.response;
                     if (status == Enum.MISA_CODE.VALIDATE) {
-                        let htmlMessage = Object.values(data.Data).map((item) => {
+                        let htmlMessage = Object.values(data.moreInfo).map((item) => {
                             return `${item}`;
                         });
                         await self.$refs.popup.showError(htmlMessage);

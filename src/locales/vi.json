@@ -13,7 +13,17 @@
     "button": "Đăng nhập",
     "log_out": "Đăng xuất",
     "log_in": "Đăng nhập",
-    "view": "Xem thông tin cá nhân"
+    "view": "Xem thông tin cá nhân",
+    "error_tooltip": {
+      "user": "Tên đăng nhập không được để trống!",
+      "password": "Mật khẩu không được để trống!"
+    },
+    "error_message": {
+      "user": "Tên đăng nhập không được để trống!",
+      "password": "Mật khẩu không được để trống!",
+      "userAndPassword": "Tên đăng nhập và mật khẩu không được để trống!",
+      "notExists": "Tên đăng nhập và mật khẩu không tồn tại!"
+    }
   },
 
   "sidebar": {

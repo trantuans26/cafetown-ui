@@ -30,12 +30,14 @@
                 :tabindex="tabIndex" autocomplete="off" spellcheck="false" @focus="handleInputFocus"
                 :style="[style, { textAlign: type === 'number' ? 'right' : 'left' }]" @focusout="handleInputFocusOut"
                 :value="valueHeader" @click="hideErrorMessage" @mouseover="showErrorMessage" @input="handleInput"
+                :data-error="`${error ?  errorMess : ''}`"
                 @mouseleave="hideErrorMessage" @keydown="handleKeyDown" />
             <input v-else ref="input" :placeholder="placeholder"
                 :class="[{ error: error }, { 'v-input__outline': outline }]" :id="id" :disabled="disabled"
                 :tabindex="tabIndex" autocomplete="off" spellcheck="false" @focus="handleInputFocus"
                 :style="[style, { textAlign: type === 'number' ? 'right' : 'left' }]" @focusout="handleInputFocusOut"
                 :value="valueHeader" @click="hideErrorMessage" @mouseover="showErrorMessage" @input="handleInput"
+                :data-error="`${error ?  errorMess : ''}`"
                 @mouseleave="hideErrorMessage" @keydown="handleKeyDown" />
             <!-- Label custom for checkbox -->
             <label class="v-input__checkbox" v-if="type === 'checkbox'" @click="$refs.input.click()">

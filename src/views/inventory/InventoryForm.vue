@@ -481,8 +481,8 @@ export default {
                     let { status, data } = error.response;
                     if (status == Enum.MISA_CODE.VALIDATE) {
                         let htmlMessage = null;
-                        if (data.Data != null && data.Data != undefined) {
-                                htmlMessage = Object.values(data.Data).map((item) => {
+                        if (data.moreInfo != null && data.moreInfo != undefined) {
+                                htmlMessage = Object.values(data.moreInfo).map((item) => {
                                 return `${item}`;
                             });
                         }
