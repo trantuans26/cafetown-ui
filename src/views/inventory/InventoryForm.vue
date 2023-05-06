@@ -79,7 +79,7 @@
                                 <div class="form-group col l-7 md-7">
                                     <v-input :label="$t('inventory_info.cost')" v-model="inventory.cost"
                                         type="number"
-                                        :maxLength="10"
+                                        :maxLength="18"
                                     >
                                     </v-input>
                                 </div>

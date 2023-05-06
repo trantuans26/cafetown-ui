@@ -94,4 +94,8 @@ export default (axios) => ({
       responseType: "blob",
     });
   },
+
+  forgotPassword(email) {
+    return axios.post(`${PREFIX_EMPLOYEE}/sendMail/${email}`);
+  }
 });

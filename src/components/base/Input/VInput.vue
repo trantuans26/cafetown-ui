@@ -38,7 +38,7 @@
                 :style="[style, { textAlign: type === 'number' ? 'right' : 'left' }]" @focusout="handleInputFocusOut"
                 :value="valueHeader" @click="hideErrorMessage" @mouseover="showErrorMessage" @input="handleInput"
                 :data-error="`${error ?  errorMess : ''}`"
-                :maxlength="maxLength"
+                :maxlength="maxLength ? maxLength : 255"
                 @mouseleave="hideErrorMessage" @keydown="handleKeyDown" />
             <!-- Label custom for checkbox -->
             <label class="v-input__checkbox" v-if="type === 'checkbox'" @click="$refs.input.click()">

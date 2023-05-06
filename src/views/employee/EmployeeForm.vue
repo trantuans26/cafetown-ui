@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="form-group col l-5 md-5">
                                     <v-date-picker :label="$t('employee_info.issued_date')"
-                                        :isLessThanValue="employee.dateOfBirth" :validateCheck="true"
+                                        :isLessThanValue="employee.identityDate" :validateCheck="true"
                                         :isLessThanToday="true" :errorLabel="$t('employee_info.issued_date')"
                                         :isLessThanValueLabel="$t('employee_info.date_of_birth')"
                                         v-model="employee.identityDate" />

@@ -23,7 +23,14 @@
       "password": "Mật khẩu không được để trống!",
       "userAndPassword": "Tên đăng nhập và mật khẩu không được để trống!",
       "notExists": "Tên đăng nhập và mật khẩu không tồn tại!"
-    }
+    },
+    "forgot_password": "Quên mật khẩu?"
+  },
+
+  "forgot_password": {
+    "title": "Quên mật khẩu",
+    "email": "Địa chỉ email",
+    "reset_password": "Thiết lập mật khẩu mặc định"
   },
 
   "sidebar": {
@@ -139,7 +146,9 @@
     "page_developing": "Trang {0} đang được phát triển!",
     "confirm_delete": "Bạn có thực sự muốn xóa <b>&lt{0}&gt</b> không?",
     "confirm_delete_many": "Bạn có thực sự muốn xóa những đã chọn không?",
-    "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn Lưu không?"
+    "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn Lưu không?",
+    "sendmail_success": "Gửi mail thành công",
+    "sendmail_fail": "Gửi mail thất bại"
   },
 
   "confirm_popup": {

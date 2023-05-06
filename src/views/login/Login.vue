@@ -37,6 +37,10 @@
                 <div class="login__button" @click="login">
                     <button> {{ $t('login.button') }} </button>
                 </div>
+
+                <div class="login__forgot" @click="showForgotPassword">
+                    {{ $t('login.forgot_password') }}
+                </div>
             </div>
         </div>
 
@@ -63,13 +67,18 @@
                 </div>
             </div>
         </div>
+
+        <ForgotPassword v-model="isShowForgotPassword" @resetPasswordSuccess="resetPasswordSuccess"></ForgotPassword>
+        <v-toast ref="toast" :showProgress="true" :maxMessage="10"></v-toast>
     </div>
 </template>
 
 <script>
 import Enum from "@/utils/enum";
+import ForgotPassword from './ForgotPassword.vue';
 export default {
     name: "LoginForm",
+    components: { ForgotPassword },
     props: {
         modelValue: { // dùng để đóng mở form
             type: Boolean,
@@ -88,7 +97,7 @@ export default {
             requiredPassword: false,
             messageError: "",
             showDialog: false,
-
+            isShowForgotPassword: false,
         };
     },
     computed: {
@@ -99,6 +108,20 @@ export default {
     
     },
     methods: {
+        resetPasswordSuccess() {
+            const self = this;
+            try {
+                self.$root.$toast.success(self.$t('notice_message.sendmail_success', [""]));
+            } catch (error) {
+                self.$root.$toast.error(self.$t('notice_message.sendmail_fail', [""]));
+                console.log(error);
+            }
+        },
+
+        showForgotPassword() {
+            this.isShowForgotPassword = true;
+        },
+
         close() {
             let me =this;
 
@@ -276,7 +299,8 @@ export default {
     .login__button {
         width: 279px;
         height: 70px;
-        margin: 50px 0;
+        margin-top: 50px;
+        margin-bottom: 16px;
         display: flex;
         justify-content: center;
     }
@@ -351,5 +375,15 @@ export default {
     opacity: 1;
     transform: scale(1);
     }
+}
+
+.login__forgot {
+    font-weight: 400;
+}
+
+.login__forgot:hover {
+    color: rgb(66, 75, 177);
+    text-decoration:underline;
+    cursor: pointer;
 }
 </style>
