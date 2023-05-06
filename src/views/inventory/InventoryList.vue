@@ -16,6 +16,23 @@
                             :isShow="isInventorySelected">
                             {{ $t('action.batch_action') }}
                         </v-dropdown>
+
+                        <div class="v-table__column-filter">
+                            <div class="v-table__column-filter--text">
+                                {{ $t("invoice_page.filter") }}: 
+                            </div>
+                        </div>
+                        <div class="v-table__column-filter">
+                            <div class="row sm-gutter flex--center">
+                                <div class="col l-8 md-8">
+                                    <v-combobox position="bottom" propKey="key" propValue="value" 
+                                        v-model="selectedOptions" 
+                                        :data="listOptions"
+                                        :selectBox="true">
+                                    </v-combobox>
+                                </div>
+                            </div>
+                        </div>
                     </slot>
                 </div>
                 <div class="employee-body__toolbar-right">
@@ -27,8 +44,6 @@
                     <div :tooltip="$t('action.reload_data')" class="ms-24 ms-icon ms-icon-reload ms-r-2 ml-l-2"
                         @click="handleAction(Enum.ACTION.RELOAD)">
                     </div>
-                    <div :tooltip="$t('action.export_excel')" class="ms-24 ms-icon ms-icon-excel ms-x-2"
-                        @click="handleAction(Enum.ACTION.EXPORT)"></div>
                 </div>
             </div>
             <!-- Table hiển thị danh sách hàng hóa -->
@@ -63,9 +78,16 @@ export default {
                 pageNumber: 1,
                 pageSize: 20,
                 keyword: "",
+                filter: 2,
             }, // biến này dùng để lưu thông tin phân trang và tìm kiếm
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
+            listOptions: [
+                {'key': 2, 'value': 'Tất cả'}, 
+                {'key': 1, 'value': 'Sắp hết hàng'}, 
+                {'key': 0, 'value': 'Hết hàng'}
+            ],
+            selectedOptions: 2,
         };
     },
     computed: {
@@ -122,6 +144,11 @@ export default {
                         key: 'inventoryCategoryName',
                     },
                     {
+                        title: this.$t(`inventory_table.image`),
+                        key: 'image',
+                        type: 'image'
+                    },
+                    {
                         title: this.$t(`inventory_table.action`),
                         key: 'action',
                         type: 'action',
@@ -175,6 +202,15 @@ export default {
         }
     },
     watch: {
+        selectedOptions: {
+            handler: function (newVal) {
+                this.pagination.filter = newVal;
+                this.getInventoryList();
+                console.log(newVal + ': ', this.inventoryList);
+            },
+            deep: true,
+        },
+
         inventoriesSelectedByID: {
             handler: function (newVal) {
                 this.$store.commit('setInventorySelected', newVal);
@@ -501,6 +537,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 .employee {
     width: 100%;
     display: flex;
@@ -547,5 +584,13 @@ export default {
             }
         }
     }
+}
+
+.v-table__column-filter--text {
+    font-weight: 700;
+    margin-right: 12px;
+    font-family: "MISA Fonts Bold";
+    font-size: 14px;
+    margin-left: 24px;
 }
 </style>

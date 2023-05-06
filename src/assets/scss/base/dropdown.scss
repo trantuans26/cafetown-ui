@@ -19,7 +19,7 @@
     border: none;
     cursor: pointer;
     cursor: pointer;
-    height: $height-button;
+    height: $height-input;
     outline: none;
     padding: 0 16px;
     transition: all 0.25s ease;
@@ -29,7 +29,7 @@
       font-family: $Misa-font-bold;
       font-size: 13px;
       margin-right: 4px;
-      line-height: $height-button;
+      line-height: $height-input;
     }
 
     .v-dropdown__icon {

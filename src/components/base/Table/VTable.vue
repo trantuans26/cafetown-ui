@@ -408,8 +408,8 @@ export default {
 @import "@/assets/scss/base/table.scss";
 
 .image {
-    width: 80px;
-    height: 80px;
+    width: 36px;
+    height: 36px;
 }
 
 .image img {

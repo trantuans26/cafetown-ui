@@ -75,11 +75,13 @@
                                     <v-date-picker :label="$t('invoice_info.purchase_date')"
                                         v-model="invoice.purchaseDate" :isLessThanToday="true"
                                         :errorLabel="$t('invoice_info.purchase_date')" :validateCheck="true"
+                                        :required="true"
                                     >
                                     </v-date-picker>
                                 </div>
                                 <div class="invoice__item--disable l-5 md-5">
                                     <v-input :label="$t('invoice_info.invoice_code')"
+                                        :required="true"
                                         v-model="invoice.invoiceCode" :validateCheck="true"
                                         :errorLabel="$t('invoice_info.invoice_code')"
                                         tooltipPosition="right" :tooltipText="$t('invoice_info.invoice_code')">
@@ -88,6 +90,7 @@
                                 <div class="fnvoice__item--disable l-5 md-5">
                                     <v-input :label="$t('invoice_info.employee')"
                                         v-model="invoice.createdBy" :validateCheck="true"
+                                        :disabled="true"
                                         :errorLabel="$t('invoice_info.employee')"
                                         tooltipPosition="right" :tooltipText="$t('invoice_info.employee')">
                                     </v-input>

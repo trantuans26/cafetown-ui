@@ -30,9 +30,10 @@ export default (axios) => ({
       pageNumber: 1,
       pageSize: 10,
       keyword: "",
+      filter: 2,
     };
     object = Object.assign(defaultObject, object);
-    return axios.get(`${PREFIX_INVENTORY}/filter?keyword=${object.keyword}&pageSize=${object.pageSize}&pageNumber=${object.pageNumber}`, {
+    return axios.get(`${PREFIX_INVENTORY}/filter?keyword=${object.keyword}&filter=${object.filter}&pageSize=${object.pageSize}&pageNumber=${object.pageNumber}`, {
     });
   },
 

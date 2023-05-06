@@ -16,6 +16,23 @@
                             :isShow="isEmployeeSelected">
                             {{ $t('action.batch_action') }}
                         </v-dropdown>
+
+                        <div class="v-table__column-filter">
+                            <div class="v-table__column-filter--text">
+                                {{ $t("invoice_page.filter") }}: 
+                            </div>
+                        </div>
+                        <div class="v-table__column-filter">
+                            <div class="row sm-gutter flex--center">
+                                <div class="col l-8 md-8">
+                                    <v-combobox position="bottom" propKey="key" propValue="value" 
+                                        v-model="selectedOptions" 
+                                        :data="listOptions"
+                                        :selectBox="true">
+                                    </v-combobox>
+                                </div>
+                            </div>
+                        </div>
                     </slot>
                 </div>
                 <div class="employee-body__toolbar-right">
@@ -63,9 +80,16 @@ export default {
                 pageNumber: 1,
                 pageSize: 20,
                 keyword: "",
+                filter: 2,
             }, // biến này dùng để lưu thông tin phân trang và tìm kiếm
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
+            listOptions: [
+                {'key': 2, 'value': 'Tất cả'}, 
+                {'key': 1, 'value': 'Quản lý'}, 
+                {'key': 0, 'value': 'Nhân viên'}
+            ],
+            selectedOptions: 2,
         };
     },
     computed: {
@@ -193,6 +217,15 @@ export default {
         }
     },
     watch: {
+        selectedOptions: {
+            handler: function (newVal) {
+                this.pagination.filter = newVal;
+                this.getEmployeeList();
+                console.log(newVal + ': ', this.employeeList);
+            },
+            deep: true,
+        },
+
         employeesSelectedByID: {
             handler: function (newVal) {
                 this.$store.commit('setEmployeeSelected', newVal);
@@ -565,5 +598,13 @@ export default {
             }
         }
     }
+}
+
+.v-table__column-filter--text {
+    font-weight: 700;
+    margin-right: 12px;
+    font-family: "MISA Fonts Bold";
+    font-size: 14px;
+    margin-left: 24px;
 }
 </style>

@@ -109,7 +109,7 @@
     "invalid_phone_number": "{0} không hợp lệ!",
     "max_length": "{0} không được vượt quá {1} ký tự!",
     "min_length": "{0} không được nhỏ hơn {1} ký tự!",
-    "over_current_date": "{0} không được lớn hơn ngày hiện tại!",
+    "over_current_date": "{0} không hợp lệ!",
     "over_value": "{0} không được lớn hơn {1}!",
     "less_value": "{0} không được nhỏ hơn {1}!"
   },
@@ -334,7 +334,8 @@
 
   "invoice_page": {
     "title": "Quản lý hóa đơn",
-    "search_function": "Tìm theo mã hóa đơn, người tạo"
+    "search_function": "Tìm theo mã hóa đơn, người tạo",
+    "filter": "Lọc"
   },
   "invoice_table": {
     "code": "Số hóa đơn",

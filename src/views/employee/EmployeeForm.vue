@@ -1,7 +1,7 @@
 <template>
     <div>
-        <!-- Khu vực hiển thị dialog form thêm hoặc sửa nhân viên -->
-        <v-dialog :isShow="modelValue" @close="closeFormHandle">
+    <!-- Khu vực hiển thị dialog form thêm hoặc sửa nhân viên -->
+    <v-dialog :isShow="modelValue" @close="closeFormHandle">
             <template #title>
                 <div class="row e-header">
                     <div class="e-header__title col font-weight-700">
@@ -9,11 +9,15 @@
                     </div>
                     <div class="col">
                         <v-input type="checkbox" :label_custom="$t('employee_info.is_employee')"
-                            v-model="employee.isEmployee" :value="false"></v-input>
+                            v-model="employee.isEmployee" :value="false"
+                            :disabled="checkDisableIsEmployee"
+                        ></v-input>
                     </div>
                     <div class="col">
                         <v-input type="checkbox" :label_custom="$t('employee_info.is_manager')"
-                            v-model="employee.isManager" :value="false"></v-input>
+                            v-model="employee.isManager" :value="false"
+                            :disabled="checkDisableIsManager"
+                        ></v-input>
                     </div>
                 </div>
             </template>
@@ -185,6 +189,27 @@ export default {
     },
     computed: {
         ...mapGetters(["getEmployeeId"]),
+
+        checkDisableIsEmployee: {
+            get() {
+                if (this.employee.isManager == false && this.employee.isEmployee == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+
+        checkDisableIsManager: {
+            get() {
+                if (this.employee.isEmployee == false && this.employee.isManager == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+
         /**
          * @description: Get và set trạng thái của form lưu trữ trong store 
          * Author: tttuan 08/10/2022

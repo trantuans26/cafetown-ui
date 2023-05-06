@@ -29,10 +29,11 @@ export default (axios) => ({
     var defaultObject = {
       pageNumber: 1,
       pageSize: 10,
+      isCollected: 2,
       keyword: "",
     };
     object = Object.assign(defaultObject, object);
-    return axios.get(`${PREFIX_INVOICE}/filter?keyword=${object.keyword}&pageSize=${object.pageSize}&pageNumber=${object.pageNumber}`, {
+    return axios.get(`${PREFIX_INVOICE}/invoiceFilter?keyword=${object.keyword}&isCollected=${object.isCollected}&pageSize=${object.pageSize}&pageNumber=${object.pageNumber}`, {
     });
   },
 

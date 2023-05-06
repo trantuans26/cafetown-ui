@@ -11,6 +11,22 @@
             <div class="employee-body__toolbar">
                 <div class="employee-body__toolbar-left">
                     <slot name="toolbar-left">
+                        <div class="v-table__column-filter">
+                            <div class="v-table__column-filter--text">
+                                {{ $t("invoice_page.filter") }}: 
+                            </div>
+                        </div>
+                        <div class="v-table__column-filter">
+                            <div class="row sm-gutter flex--center">
+                                <div class="col l-8 md-8">
+                                    <v-combobox position="bottom" propKey="key" propValue="value" 
+                                        v-model="selectedCollectedOptions" 
+                                        :data="listCollectedOptions"
+                                        :selectBox="true">
+                                    </v-combobox>
+                                </div>
+                            </div>
+                        </div>
                     </slot>
                 </div>
                 <div class="employee-body__toolbar-right">
@@ -22,8 +38,6 @@
                     <div :tooltip="$t('action.reload_data')" class="ms-24 ms-icon ms-icon-reload ms-r-2 ml-l-2"
                         @click="handleAction(Enum.ACTION.RELOAD)">
                     </div>
-                    <div :tooltip="$t('action.export_excel')" class="ms-24 ms-icon ms-icon-excel ms-x-2"
-                        @click="handleAction(Enum.ACTION.EXPORT)"></div>
                 </div>
             </div>
             <!-- Table hiển thị danh sách hóa đơn -->
@@ -48,7 +62,7 @@ import InvoiceForm from './InvoiceForm.vue';
 import Enum from "@/utils/enum";
 import { mapGetters } from 'vuex';
 export default {
-    components: { InvoiceForm },
+    components: { InvoiceForm},
     data() {
         return {
             keyword: "", // biến này dùng để lưu từ khóa tìm kiếm
@@ -58,9 +72,16 @@ export default {
                 pageNumber: 1,
                 pageSize: 20,
                 keyword: "",
+                isCollected: 2,
             }, // biến này dùng để lưu thông tin phân trang và tìm kiếm
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
+            listCollectedOptions: [
+                {'key': 2, 'value': 'Tất cả'}, 
+                {'key': 1, 'value': 'Đã thu tiền'}, 
+                {'key': 0, 'value': 'Chưa thu tiền'}
+            ],
+            selectedCollectedOptions: 2,
         };
     },
     computed: {
@@ -168,6 +189,15 @@ export default {
 
     },
     watch: {
+        selectedCollectedOptions: {
+            handler: function (newVal) {
+                this.pagination.isCollected = newVal;
+                this.getInvoiceList();
+                console.log(newVal + ': ', this.invoiceList);
+            },
+            deep: true,
+        },
+        
         /**
          * @description: Lắng nghe sự thay đổi khi người dùng thay đổi liên quan tới phân trang
          * Author: tttuan 06/10/2022
@@ -489,6 +519,7 @@ export default {
             &-left {
                 display: flex;
                 align-items: center;
+                justify-content: center;
             }
 
             &-right {
@@ -497,5 +528,16 @@ export default {
             }
         }
     }
+}
+
+.v-table__column-filter--text {
+    font-weight: 700;
+    margin-right: 12px;
+    font-family: "MISA Fonts Bold";
+    font-size: 14px;
+}
+
+.pd--0 {
+    padding-bottom: 0 !important;
 }
 </style>
