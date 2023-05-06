@@ -188,6 +188,7 @@
             </template>
             <template #footer__right>
                 <v-button @click="saveHandler(Enum.ACTION.SAVE_AND_CLOSE)"
+                    :disabled="this.isCollectedFirst"                    
                     tooltipPosition="right"
                     :tooltip="$t('action_form.save') + Enum.KEY_DEFINE.CTRL_S">
                     {{ $t('action_form.save') }}

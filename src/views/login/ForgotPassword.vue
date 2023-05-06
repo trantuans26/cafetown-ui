@@ -14,8 +14,15 @@
                     <div class="">
                         <div class="col l-8 md-8">
                             <div class="row sm-gutter">
-                                <div class="pd__16--bottom form-group col l-8 md-8 c-5 focus">
-                                    <v-input :label="$t('forgot_password.email')" v-model="email"
+                                <div class="pd__16--bottom form-group col l-8 md-8 c-5 focus" v-show="isLoaded">
+                                    <v-skeleton :loading="isLoaded">
+                                        <div></div>
+                                    </v-skeleton>
+                                </div>
+
+                                <div class="pd__16--bottom form-group col l-8 md-8 c-5 focus" v-show="!isLoaded">
+                                    <v-input 
+                                        :label="$t('forgot_password.email')" v-model="email"
                                         ref="employeeCode" @validate="setValid('email', $event)" :maxLength="100"  
                                         :isEmail="true"  
                                         :required="true" :errorLabel="$t('forgot_password.email')">
@@ -38,6 +45,8 @@
         </v-dialog>
         <!-- Khu vực hiển thị popup cảnh báo -->
         <v-popup ref="popup" :tabIndex="0"></v-popup>
+
+
     </div>
 </template>
 
@@ -58,6 +67,7 @@ export default {
             attemptSubmit: true, // biến kiểm tra đã submit form chưa
             Enum: Enum, // dùng để gọi Enum trong template 
             disabledButton: true,
+            isLoaded: false,
         };
     },
     computed: {
@@ -93,19 +103,19 @@ export default {
 
     methods: {
         closeFormHandle() {
+            this.email = null;
             this.$emit("update:modelValue", false);            
-            this.mail = null;
-            return
         },
 
         async forgotPassword() {
-            let self = this;
-            const response = await self.$api.employee.forgotPassword(self.email);
+            let me = this;
+            me.isLoaded = true;
+            const response = await me.$api.employee.forgotPassword(me.email);
             if (response.status == Enum.MISA_CODE.SUCCESS) {
-                self.$emit("update:modelValue", false);
-                self.$emit("resetPasswordSuccess", true); 
-                self.mail = null;
-
+                me.isLoaded = false;
+                me.email = null;
+                me.$emit("update:modelValue", false);
+                me.$emit("resetPasswordSuccess", true); 
             }
         },
 
@@ -119,22 +129,22 @@ export default {
          * Author: tttuan 19/09/2022
          */
         async saveHandler() {
-            let self = this;
+            let me = this;
             try {
-                self.attemptSubmit = true; // set trạng thái submit
-                const validateResult = await self.$nextTick(async () => { // đợi cho khi các ô input validate xong thì mới tìm class error
-                    const errorClass = self.$el.querySelectorAll(".error");
+                me.attemptSubmit = true; // set trạng thái submit
+                const validateResult = await me.$nextTick(async () => { // đợi cho khi các ô input validate xong thì mới tìm class error
+                    const errorClass = me.$el.querySelectorAll(".error");
                     if (errorClass.length > 0) { // nếu có lỗi thì focus vào phần tử đầu tiên
                         let count = 1;
                         let htmlMessage = Array.from(errorClass).map((item) => {
                             return `${count++}. ${item.getAttribute("data-error")}`;
                         }).join('<br/>');
-                        await self.$refs.popup.show({
+                        await me.$refs.popup.show({
                             message: htmlMessage,
                             icon: Enum.ICON.ERROR,
                             hideButton: 'true',
                         }).then(() => {
-                            self.inputFocus(true);
+                            me.inputFocus(true);
                         });
                         return false;
                     } else {
@@ -142,8 +152,7 @@ export default {
                     }
                 });
                 if (validateResult) {
-                    await self.forgotPassword();
-                    
+                    await me.forgotPassword();                    
                 }
             } catch (error) {
                 if (error.response) {
@@ -152,10 +161,10 @@ export default {
                         let htmlMessage = Object.values(data.moreInfo).map((item) => {
                             return `${item}`;
                         });
-                        await self.$refs.popup.showError(htmlMessage);
+                        await me.$refs.popup.showError(htmlMessage);
                     }
                 } else {
-                    self.$refs.popup.showError(self.$t("notice_message.unknown_error"));
+                    me.$refs.popup.showError(me.$t("notice_message.unknown_error"));
                 }
             }
         },
@@ -166,9 +175,9 @@ export default {
         */
         inputFocus(isFocusError = false) {
             try {
-                let self = this;
+                let me = this;
                 if (isFocusError) {
-                    const errorClass = self.$el.querySelector(".error");
+                    const errorClass = me.$el.querySelector(".error");
                     if (errorClass) {
                         if (errorClass.tagName === "INPUT") {
                             errorClass.focus();
@@ -178,7 +187,7 @@ export default {
                         }
                     }
                 } else {
-                    const focusFirst = self.$el.querySelector(".focus").querySelector("input");
+                    const focusFirst = me.$el.querySelector(".focus").querySelector("input");
                     if (focusFirst) {
                         focusFirst.focus();
                     }

@@ -147,8 +147,8 @@
     "confirm_delete": "Bạn có thực sự muốn xóa <b>&lt{0}&gt</b> không?",
     "confirm_delete_many": "Bạn có thực sự muốn xóa những đã chọn không?",
     "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn Lưu không?",
-    "sendmail_success": "Gửi mail thành công",
-    "sendmail_fail": "Gửi mail thất bại"
+    "sendmail_success": "Mật khẩu đã được gửi tới email của bạn",
+    "sendmail_fail": "Mật khẩu gửi tới mail thất bại"
   },
 
   "confirm_popup": {
