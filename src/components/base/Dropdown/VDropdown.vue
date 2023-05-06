@@ -1,5 +1,5 @@
 <template>
-    <div class="v-dropdown" v-if="isShow" v-click-outside="handleHide">
+    <div class="v-dropdown" v-click-outside="handleHide" :class="{'v-dropdown--disabled': !isShow}">
         <div v-if="hasButton" class="v-has__button" :class="className">
             <div class="v-dropdown__text" tabindex="-1" @click="$emit('onClick')">
                 <slot></slot>
@@ -16,8 +16,9 @@
                 <slot></slot>
                 {{ isTextChange ? textContent : text }}
             </div>
-            <div class="v-dropdown__icon" v-if="icon">
-                <div :class="icon"></div>
+            <div class="v-dropdown__icon size--16" v-if="icon">
+                <div class="iconCustom iconCustom__grey--caretdown" v-if="!isShow"></div>
+                <div class="iconCustom iconCustom__black--caretdown" v-if="isShow"></div>
                 <slot name="icon"></slot>
             </div>
         </div>
@@ -159,7 +160,38 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/base/dropdown.scss";
 
+.v-dropdown--disabled {
+    pointer-events: none;
+}
 
+.iconCustom {
+    background-image: url("@/assets/img/Sprites.64af8f61.svg");
+    background-repeat: no-repeat;
+    display: block;
+    cursor: pointer;
+}
+
+.iconCustom__black--caretdown {
+	background-position: -564px -365px !important;
+	width: 8px;
+	height: 5px;
+	opacity: 1 !important; 
+}
+
+.iconCustom__grey--caretdown {
+	background-position: -1756px -317px;
+	width: 8px;
+	height: 5px;
+	opacity: 0.8;
+}
+
+.size--16 {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .v {
     &-dropdown__custom {

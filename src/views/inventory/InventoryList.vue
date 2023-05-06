@@ -66,7 +66,6 @@ export default {
             }, // biến này dùng để lưu thông tin phân trang và tìm kiếm
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
-
         };
     },
     computed: {
@@ -167,11 +166,22 @@ export default {
                     }
                 ]; // Khởi tạo danh sách action trên từng dòng
             }
+        },
+
+        inventoriesSelectedByID: {
+            get() {
+                return this.$store.getters.getListIdSelected;
+            },
         }
-
-
     },
     watch: {
+        inventoriesSelectedByID: {
+            handler: function (newVal) {
+                this.$store.commit('setInventorySelected', newVal);
+            },
+            deep: true,
+        },
+
         /**
          * @description: Lắng nghe sự thay đổi khi người dùng thay đổi liên quan tới phân trang
          * Author: tttuan 06/10/2022
@@ -318,9 +328,10 @@ export default {
                 closeButton: self.$t('confirm_popup.cancel'),
             });
             if (confirm == self.$t('confirm_popup.yes')) {
-                const result = await self.$store.dispatch('deleteMultipleEmployee');
-                if (result > 0) {
-                    self.$root.$toast.success(self.$t('notice_message.delete_many_success', [result]));
+                const result = await self.$store.dispatch('deleteMultipleInventory');
+                if (result != null) {
+                    self.$root.$toast.success(self.$t('notice_message.delete_many_success'));
+                    this.$store.commit('setListIdSelected', []);
                     self.getInventoryList();
                 } else {
                     self.$root.$toast.error(self.$t('notice_message.delete_many_fail'));
@@ -479,6 +490,13 @@ export default {
         const self = this;
         self.getInventoryList(); // Lấy danh sách hàng hóa
         self.Enum = Enum; // Khởi tạo enum
+    },
+
+    updated() {
+        let me = this;
+        me.inventoriesSelectedByID = this.$store.getters.getListIdSelected;
+        console.log("Value local:", me.inventoriesSelectedByID);
+        console.log("Value list inven:", this.$store.getters.getListInventorySelected);
     },
 }
 </script>

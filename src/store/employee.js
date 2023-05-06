@@ -27,8 +27,9 @@ const employee = {
     async deleteMultipleEmployee({ commit, getters }) {
       try {
         const res = await axios.post(
-          `${process.env.VUE_APP_API_URL}employees/delete-multiple`,
-          getters.getListEmployeeSelected
+          `${process.env.VUE_APP_API_URL}employees/deleteBatch`, {
+            "iDs": getters.getListEmployeeSelected.toString(),
+          }
         );
         if (res) {
           commit("setEmployeeSelected", []);
@@ -62,7 +63,7 @@ const employee = {
      * Author: tttuan 5/3/2023
      */
     isEmployeeSelected(state) {
-      return state.listEmployeeSelected.length > 0;
+      return state.listEmployeeSelected.length > 1;
     },
   },
 };

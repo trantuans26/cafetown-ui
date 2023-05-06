@@ -27,8 +27,9 @@ const inventory = {
     async deleteMultipleInventory({ commit, getters }) {
       try {
         const res = await axios.post(
-          `${process.env.VUE_APP_API_URL}inventorys/delete-multiple`,
-          getters.getListInventorySelected
+          `${process.env.VUE_APP_API_URL}inventorys/deleteBatch`, {
+            "iDs": getters.getListEmployeeSelected.toString(),
+          }
         );
         if (res) {
           commit("setInventorySelected", []);

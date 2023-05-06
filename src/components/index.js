@@ -1,5 +1,6 @@
 // Xuất tất cả các component trong thư mục components
 import VButton from "./base/Button/VButton";
+import BBtnBatch from "./base/Button/BBtnBatch";
 import VInput from "./base/Input/VInput";
 import VCombobox from "./base/Combobox/VCombobox";
 import BCombobox from "./base/Combobox/BCombobox";
@@ -27,6 +28,7 @@ import VFilter from "./base/Filter/VFilter.vue";
 
 export default {
   VButton,
+  BBtnBatch,
   VInput,
   VCombobox,
   BCombobox,

@@ -123,7 +123,7 @@
     "update_fail": "Cập nhật <b>{0}</b> thất bại",
     "delete_success": "Xóa <b>{0}</b> thành công",
     "delete_fail": "Xóa <b>{0}</b> thất bại",
-    "delete_many_success": "Xóa <b>{0}</b> thành công",
+    "delete_many_success": "Xóa nhiều bản ghi thành công",
     "delete_many_fail": "Lỗi khi xóa nhiều",
     "not_found": "Không tìm thấy dữ liệu",
     "unknown_error": "Có lỗi xảy ra, vui lòng thử lại sau",

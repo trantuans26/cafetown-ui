@@ -1,6 +1,6 @@
 <template>
     <v-tooltip :content="$t(`sidebar.${content}`)">
-        <router-link :to="link" class="sidebar__item">
+        <router-link :to="link" class="sidebar__item" @click="resetListId">
             <div class="sidebar__item--icon">
                 <div :class="icon"></div>
             </div>
@@ -27,7 +27,13 @@ export default {
             type: String,
             default: ''
         },
-    }
+    },
+
+    methods: {
+        resetListId() {
+            this.$store.commit('setListIdSelected', []);
+        }
+    },
 }
 </script>
 

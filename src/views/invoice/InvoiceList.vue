@@ -11,11 +11,6 @@
             <div class="employee-body__toolbar">
                 <div class="employee-body__toolbar-left">
                     <slot name="toolbar-left">
-                        <v-dropdown className="secondary-light border-bold rounded" @onSelect="handleAction"
-                            icon="ms-16 ms-icon ms-icon-arrow-down-black opacity-5" :items="bathAction"
-                            :isShow="isInvoiceSelected">
-                            {{ $t('action.batch_action') }}
-                        </v-dropdown>
                     </slot>
                 </div>
                 <div class="employee-body__toolbar-right">
@@ -66,7 +61,6 @@ export default {
             }, // biến này dùng để lưu thông tin phân trang và tìm kiếm
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
-
         };
     },
     computed: {
@@ -90,14 +84,6 @@ export default {
         columns: {
             get() {
                 return [
-                    {
-                        title: '',
-                        key: 'invoiceID',
-                        fixed: true,
-                        checkbox: true,
-                        type: 'checkbox',
-                        width: "40px",
-                    },
                     {
                         title: this.$t(`invoice_table.code`),
                         key: 'invoiceCode',

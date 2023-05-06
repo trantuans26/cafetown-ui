@@ -66,7 +66,6 @@ export default {
             }, // biến này dùng để lưu thông tin phân trang và tìm kiếm
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
-
         };
     },
     computed: {
@@ -185,11 +184,22 @@ export default {
                     }
                 ]; // Khởi tạo danh sách action trên từng dòng
             }
+        },
+
+        employeesSelectedByID: {
+            get() {
+                return this.$store.getters.getListIdSelected;
+            },
         }
-
-
     },
     watch: {
+        employeesSelectedByID: {
+            handler: function (newVal) {
+                this.$store.commit('setEmployeeSelected', newVal);
+            },
+            deep: true,
+        },
+
         /**
          * @description: Lắng nghe sự thay đổi khi người dùng thay đổi liên quan tới phân trang
          * Author: tttuan 06/10/2022
@@ -337,8 +347,9 @@ export default {
             });
             if (confirm == self.$t('confirm_popup.yes')) {
                 const result = await self.$store.dispatch('deleteMultipleEmployee');
-                if (result > 0) {
-                    self.$root.$toast.success(self.$t('notice_message.delete_many_success', [result]));
+                if (result != null) {
+                    this.$store.commit('setListIdSelected', []);
+                    self.$root.$toast.success(self.$t('notice_message.delete_many_success'));
                     self.getEmployeeList();
                 } else {
                     self.$root.$toast.error(self.$t('notice_message.delete_many_fail'));
@@ -497,6 +508,13 @@ export default {
         const self = this;
         self.getEmployeeList(); // Lấy danh sách nhân viên
         self.Enum = Enum; // Khởi tạo enum
+    },
+
+    updated() {
+        let me = this;
+        me.employeesSelectedByID = this.$store.getters.getListIdSelected;
+        console.log("Value local:", me.employeesSelectedByID);
+        console.log("Value list e:", this.$store.getters.getListEmployeeSelected);
     },
 }
 </script>
