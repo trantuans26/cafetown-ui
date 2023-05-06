@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="item__function">
-                        <div class="item__reset" @click="loadSumTotalCosts">
+                        <div class="item__reset" :tooltip="$t('action.reload_data')" @click="loadSumTotalCosts">
                             <i class="icon icon__reset"></i>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="item__function">
-                        <div class="item__reset" @click="loadMinQuantity">
+                        <div class="item__reset" :tooltip="$t('action.reload_data')" @click="loadMinQuantity">
                             <i class="icon icon__reset"></i>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                         <div class="item__date">
                         </div>
 
-                        <div class="item__reset" @click="loadTopInvoices">
+                        <div class="item__reset" :tooltip="$t('action.reload_data')" @click="loadTopInvoices">
                             <i class="icon icon__reset--spray"></i>
                         </div>
                     </div>
@@ -178,6 +178,7 @@
                     <div class="item__function">
                         <div class="item__reset"
                             @click="loadTopInventory"
+                            :tooltip="$t('action.reload_data')"
                         >
                             <i class="icon icon__reset--spray"></i>
                         </div>

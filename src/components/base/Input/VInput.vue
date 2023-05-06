@@ -38,6 +38,7 @@
                 :style="[style, { textAlign: type === 'number' ? 'right' : 'left' }]" @focusout="handleInputFocusOut"
                 :value="valueHeader" @click="hideErrorMessage" @mouseover="showErrorMessage" @input="handleInput"
                 :data-error="`${error ?  errorMess : ''}`"
+                :maxlength="maxLength"
                 @mouseleave="hideErrorMessage" @keydown="handleKeyDown" />
             <!-- Label custom for checkbox -->
             <label class="v-input__checkbox" v-if="type === 'checkbox'" @click="$refs.input.click()">
@@ -310,6 +311,17 @@ export default {
         },
     },
     methods: {
+
+        numbersOnly(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();
+            } else {
+                return true;
+            }
+        },
+
         /**
          * @description: Hàm này dùng để xứ lý khi nhập vào input
          * @param: {any} 

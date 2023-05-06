@@ -70,11 +70,17 @@
                                 </div>
 
                                 <div class="form-group col l-5 md-5">
-                                    <v-input :label="$t('inventory_info.quantity')" v-model="inventory.quantity">
+                                    <v-input :label="$t('inventory_info.quantity')" v-model="formatQuantity"
+                                        type="number"
+                                        :maxLength="10"
+                                    >
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-7 md-7">
-                                    <v-input :label="$t('inventory_info.cost')" v-model="inventory.cost">
+                                    <v-input :label="$t('inventory_info.cost')" v-model="inventory.cost"
+                                        type="number"
+                                        :maxLength="10"
+                                    >
                                     </v-input>
                                 </div>
 
@@ -225,6 +231,17 @@ export default {
                 this.employeeModal.identityNumber = num;
             }
         },
+
+        formatQuantity: {
+            get: function() {
+                return this.inventory.quantity;
+            },
+                // setter
+            set: function(number) {
+                number = parseInt(number);
+                this.inventory.quantity = number;                
+            }
+        },
     },
     watch: {
         /**
@@ -301,6 +318,29 @@ export default {
         },
     },
     methods: {
+
+        numbersOnly(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();
+            } else {
+                return true;
+            }
+        },
+
+        convertQuantity(value) {
+            if (value == null || value == 0 || value == "") return "0";
+            let num = this.formatNum(value + "") + "";
+            return num.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        },
+
+        formatNum(value) {
+            if (value == null || value == 0 || value == "") return "0";
+            let num = value.replace(/[^0-9-]+/g, "");
+            return parseInt(num);
+        },
+
         /**
          * @description: Hàm xử lý sự kiện đóng form nhân viên
          * @param {boolean} foceClose: có bắt buộc đóng form hay không

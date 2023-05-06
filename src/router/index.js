@@ -56,10 +56,10 @@ const router = [
     },
   }, */
   {
-    path: "/quan-ly-hoa-don",
+    path: "/hoa-don-ban-hang",
     component: lazyLoad("invoice/InvoiceList"),
     meta: {
-      title: "Quản lý hóa đơn",
+      title: "Hóa đơn bán hàng",
     },
     sideBar: {
       icon: "ms-icon ms-icon-bill",
@@ -79,7 +79,7 @@ const router = [
       order: 7,
     },
   },
-  {
+/*   {
     path: "/quan-ly-kho",
     component: lazyLoad("warehouse/WarehousePage"),
     meta: {
@@ -90,7 +90,7 @@ const router = [
       title: "manage_stock",
       order: 7,
     },
-  },
+  }, */
   {
     path: "/don-vi-tinh",
     component: lazyLoad("warehouse/unit/UnitPage"),

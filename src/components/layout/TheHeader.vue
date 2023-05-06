@@ -12,27 +12,29 @@
             </v-dropdown>
         </div>
         <div class="d-flex align-items-center flex-shrink">
-            <v-dropdown icon="ms-16 ms-icon ms-icon-chevron-big-down" className="pl-l-1" :items="languages"
-                propKey="language" propValue="title" @onSelect="changeLocale" :value="currentLanguage">
-                {{ $t('common.select_lang') }}
-                <template #item="item">
-                    <flag :iso="item.option.flag" v-bind:squared=false /> {{ item.option.title }}
-                </template>
-            </v-dropdown>
-            <v-tooltip :content="$t('common.notification')">
-                <div class="ms-24 ms-icon ms-icon-bell"></div>
+            <v-tooltip style="display: flex;" :content="$t('common.select_lang')">
+                <v-dropdown icon="ms-16 ms-icon ms-icon-chevron-big-down" className="pl-l-1" :items="languages"
+                    propKey="language" propValue="title" @onSelect="changeLocale" :value="currentLanguage">
+                    {{ $t('common.select_lang') }}
+                    <template #item="item">
+                        <flag :iso="item.option.flag" v-bind:squared=false /> {{ item.option.title }}
+                    </template>
+                </v-dropdown>
             </v-tooltip>
+
             <div class="header__user d-flex align-items-center p-x-3 ml-r-3">
                 <v-tooltip style="display: flex;" :content="$t('login.view')">
                     <div class="ms-32 ms-icon ms-round ms-icon-small-user ms-l-2" @click="showInformationForm"></div>
                     <div class="m-2 font-weight-600 font-size-13 cursor-pointer" @click="showInformationForm"> {{ authen.employeeName }} </div>
                 </v-tooltip>
 
-                <div class="m-2 font-weight-600 font-size-13 cursor-pointer logout">
-                    <router-link to="/dang-nhap">
-                        {{ $t('login.log_out') }}
-                    </router-link>
-                </div>
+                <v-tooltip style="display: flex;" :content="$t('login.log_out')">
+                    <div class="m-2 font-weight-600 font-size-13 cursor-pointer logout">
+                        <router-link to="/dang-nhap">
+                            {{ $t('login.log_out') }}
+                        </router-link>
+                    </div>
+                </v-tooltip>
             </div>
         </div>
     </div>

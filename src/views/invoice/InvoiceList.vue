@@ -3,7 +3,7 @@
         <div class="employee-header">
             <div class="employee-title">{{ $t('invoice_page.title') }}</div>
             <v-button @click="handleAction(Enum.ACTION.ADD)">
-                {{ $t('sales_page.add_sales') }}
+                {{ $t('invoice_page.add') }}
             </v-button>
         </div>
         <div class="employee-body">

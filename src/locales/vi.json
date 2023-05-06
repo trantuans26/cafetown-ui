@@ -32,8 +32,8 @@
     "banking": "Tiền gửi",
     "purchase": "Mua hàng",
     "sales": "Bán hàng",
-    "manage_invoice": "Quản lý hóa đơn",
-    "manage_stock": "Quản lý hàng hóa",
+    "manage_invoice": "Hóa đơn bán hàng",
+    "manage_stock": "Quản lý hàng bán",
     "equipment": "Công cụ",
     "fixed_asset": "Tài sản cố định",
     "tax": "Thuế",
@@ -194,9 +194,9 @@
   "dashboard_page": {
     "title": "Tổng quan",
     "invoice": "Đơn mua hàng",
-    "inventory": "Hàng hóa",
+    "inventory": "Thông tin hàng bán",
     "revenue": "Doanh thu nhiều nhất",
-    "inventory_value": "Giá trị hàng hóa",
+    "inventory_value": "Giá trị hàng bán",
     "current_year": "Năm nay",
     "last_year": "Năm ngoái",
     "current_month": "Tháng này",
@@ -236,7 +236,7 @@
   },
 
   "employee_page": {
-    "title": "Nhân viên",
+    "title": "Danh sách nhân viên",
     "add_employee": "Thêm nhân viên",
     "search_function": "Tìm theo mã, tên, số điện thoại"
   },
@@ -282,8 +282,8 @@
   },
 
   "inventory_page": {
-    "title": "Quản lý hàng hóa",
-    "add_inventory": "Thêm hàng hóa",
+    "title": "Danh sách hàng bán",
+    "add_inventory": "Thêm hàng bán",
     "search_function": "Tìm theo mã, tên hàng"
   },
   "inventory_table": {
@@ -291,15 +291,15 @@
     "name": "Tên hàng",
     "quantity": "Số lượng",
     "cost": "Đơn giá",
-    "inventory_category": "Danh mục hàng hóa",
+    "inventory_category": "Danh mục hàng bán",
     "image": "Hình ảnh",
     "action": "Chức năng"
   },
   "inventory_info": {
-    "title": "Thông tin hàng hóa",
+    "title": "Thông tin hàng bán",
     "code": "Mã",
     "name": "Tên",
-    "inventory_category": "Danh mục hàng hóa",
+    "inventory_category": "Danh mục hàng bán",
     "inventory": "Chọn sản phẩm",
     "quantity": "Số lượng",
     "cost": "Đơn giá",
@@ -333,9 +333,10 @@
   },
 
   "invoice_page": {
-    "title": "Quản lý hóa đơn",
+    "title": "Danh sách hóa đơn",
     "search_function": "Tìm theo mã hóa đơn, người tạo",
-    "filter": "Lọc"
+    "filter": "Lọc",
+    "add": "Bán hàng"
   },
   "invoice_table": {
     "code": "Số hóa đơn",
@@ -346,7 +347,7 @@
     "action": "Chức năng"
   },
   "invoice_info": {
-    "title": "Thông tin hóa đơn",
+    "title": "Hóa đơn bán hàng",
     "customer": "Khách hàng",
     "employee": "Nhân viên bán hàng",
     "purchase_date": "Ngày mua",
