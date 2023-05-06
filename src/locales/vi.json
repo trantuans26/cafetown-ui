@@ -230,7 +230,7 @@
     "is_collected": "Đã thanh toán",
     "is_not_collected": "Chưa thanh toán",
     "invoice": "Hóa đơn",
-    "customer":"Khách hàng",
+    "customer":"Thông tin khách hàng",
     "inventory_code": "Mã hàng",
     "inventory_name": "Tên hàng"
   },
@@ -343,12 +343,12 @@
     "total_cost": "Giá trị hóa đơn",
     "purchase_date": "Ngày mua",
     "employee": "Nhân viên bán hàng",
-    "customer": "Khách hàng",
+    "customer": "Thông tin khách hàng",
     "action": "Chức năng"
   },
   "invoice_info": {
     "title": "Hóa đơn bán hàng",
-    "customer": "Khách hàng",
+    "customer": "Thông tin khách hàng",
     "employee": "Nhân viên bán hàng",
     "purchase_date": "Ngày mua",
     "total_cost": "Tổng tiền thanh toán",
