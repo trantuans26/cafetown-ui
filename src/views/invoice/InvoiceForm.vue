@@ -83,16 +83,14 @@
                                     <v-input :label="$t('invoice_info.invoice_code')"
                                         :required="true"
                                         v-model="invoice.invoiceCode" :validateCheck="true"
-                                        :errorLabel="$t('invoice_info.invoice_code')"
-                                        tooltipPosition="right" :tooltipText="$t('invoice_info.invoice_code')">
+                                        :errorLabel="$t('invoice_info.invoice_code')">
                                     </v-input>
                                 </div>
                                 <div class="fnvoice__item--disable l-5 md-5">
                                     <v-input :label="$t('invoice_info.employee')"
                                         v-model="invoice.createdBy" :validateCheck="true"
                                         :disabled="true"
-                                        :errorLabel="$t('invoice_info.employee')"
-                                        tooltipPosition="right" :tooltipText="$t('invoice_info.employee')">
+                                        :errorLabel="$t('invoice_info.employee')">
                                     </v-input>
                                 </div>
                                 <div class="invoice__item--total">
