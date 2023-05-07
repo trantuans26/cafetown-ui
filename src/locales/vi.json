@@ -22,7 +22,7 @@
       "user": "Tên đăng nhập không được để trống!",
       "password": "Mật khẩu không được để trống!",
       "userAndPassword": "Tên đăng nhập và mật khẩu không được để trống!",
-      "notExists": "Tên đăng nhập và mật khẩu không tồn tại!"
+      "notExists": "Tên đăng nhập hoặc mật khẩu không tồn tại!"
     },
     "forgot_password": "Quên mật khẩu?"
   },
