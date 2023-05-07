@@ -186,10 +186,6 @@ export default {
                     {
                         'key': Enum.ACTION.DELETE,
                         'value': this.$t('action.delete'),
-                    },
-                    {
-                        'key': Enum.ACTION.INACTIVE,
-                        'value': this.$t('action.inactive'),
                     }
                 ]; // Khởi tạo danh sách action trên từng dòng
             }

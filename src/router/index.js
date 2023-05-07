@@ -7,7 +7,7 @@ function lazyLoad(view) {
 const router = [
   {
     path: "/",
-    redirect: "/tong-quan",
+    redirect: "/dang-nhap",
     
   },
   {
