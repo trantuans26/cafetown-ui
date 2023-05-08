@@ -145,7 +145,7 @@
     "developing": "Chức năng <b>{0}</b> đang được phát triển!",
     "page_developing": "Trang {0} đang được phát triển!",
     "confirm_delete": "Bạn có thực sự muốn xóa <b>&lt{0}&gt</b> không?",
-    "confirm_delete_many": "Bạn có thực sự muốn xóa những đã chọn không?",
+    "confirm_delete_many": "Bạn có thực sự muốn xóa những bản ghi đã chọn không?",
     "confirm_data_close": "Dữ liệu đã bị thay đổi. Bạn có muốn Lưu không?",
     "sendmail_success": "Mật khẩu đã được gửi tới email của bạn",
     "sendmail_fail": "Mật khẩu gửi tới mail thất bại"

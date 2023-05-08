@@ -422,6 +422,8 @@ export default {
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
                     me.inventory = { // gán giá trị mặc định cho inventory
                         inventoryCode: response.data,
+                        quantity: 0,
+                        cost: 0,
                     };
                 }
             } catch (error) {
