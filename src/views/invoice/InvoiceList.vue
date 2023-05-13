@@ -50,7 +50,7 @@
             </v-pagination>
         </div>
         <!-- Form sửa và thêm hóa đơn -->
-        <invoice-form v-model="showInvoiceForm" @updateInvoice="updateInvoice"></invoice-form>
+        <invoice-form v-model="showInvoiceForm" @insertInvoice="insertInvoice" @updateInvoice="updateInvoice"></invoice-form>
 
         <!-- Khu vực hiển thị popup và toast thông báo -->
         <v-popup ref="popup"></v-popup>
@@ -449,6 +449,23 @@ export default {
                 console.log(error);
             }
         },
+
+                /**
+         * @description: Hàm này dùng để cập nhật hóa đơn ở bên frontend
+         * Author: tttuan 05/10/2022
+         */
+        insertInvoice(invoice) {
+            const me = this;
+            try {
+                me.invoiceList.data.unshift(invoice); // Thêm hàng hóa vào đầu mảng
+                me.$root.$toast.success(me.$t('notice_message.insert_success', [invoice.invoiceCode]));
+                me.invoiceList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
+            } catch (error) {
+                me.$root.$toast.error(me.$t('notice_message.insert_fail', [invoice.invoiceCode]));
+                console.log(error);
+            }
+        },
+
         /**
          * @description: Hàm này dùng để lấy danh sách hóa đơn
          * Author: tttuan 19/09/2022
