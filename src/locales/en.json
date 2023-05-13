@@ -35,13 +35,13 @@
     "log_in": "Login",
     "view": "View information",
     "error_tooltip": {
-      "user": "Username is no empty!",
-      "password": "Password is no empty!" 
+      "user": "Username is not empty!",
+      "password": "Password is not empty!" 
     },
     "error_message": {
-      "user": "Username is no empty!",
-      "password": "Password is no empty!",
-      "userAndPassword": "Username and password is no empty!",
+      "user": "Username is not empty!",
+      "password": "Password is not empty!",
+      "userAndPassword": "Username and password is not empty!",
       "notExists": "Username or password is not exist!"
     },
     "forgot_password": "Forgot password?"
