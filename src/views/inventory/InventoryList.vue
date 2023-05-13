@@ -83,9 +83,9 @@ export default {
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
             listOptions: [
-                {'key': 2, 'value': 'Tất cả'}, 
-                {'key': 1, 'value': 'Sắp hết hàng'}, 
-                {'key': 0, 'value': 'Hết hàng'}
+                {'key': 2, 'value': this.$t("filter.all")}, 
+                {'key': 1, 'value': this.$t("filter.runnin_out-of-stock")}, 
+                {'key': 0, 'value': this.$t("filter.out-of-stock")}
             ],
             selectedOptions: 2,
         };
@@ -234,15 +234,15 @@ export default {
             * Author: tttuan 23/09/2022
             */
             handler: function (newVal) {
-                const self = this;
-                clearTimeout(self.debounce);
+                const me = this;
+                clearTimeout(me.debounce);
                 if (newVal) {
-                    self.debounce = setTimeout(() => {
-                        self.pagination.keyword = newVal.trim();
+                    me.debounce = setTimeout(() => {
+                        me.pagination.keyword = newVal.trim();
                     }, 500); // triển khai debounce để giảm số lần gọi api
                 } else {
-                    self.debounce = setTimeout(() => {
-                        self.pagination.keyword = "";
+                    me.debounce = setTimeout(() => {
+                        me.pagination.keyword = "";
                     }, 500); // triển khai debounce để giảm số lần gọi api
                 }
 
@@ -286,32 +286,32 @@ export default {
          * Author: tttuan 16/09/2022
          */
         handleAction(action, data) {
-            const self = this;
+            const me = this;
             try {
                 switch (action) {
                     case Enum.ACTION.ADD: // thêm mới hàng hóa
-                        self.showAddInventoryForm();
+                        me.showAddInventoryForm();
                         break;
                     case Enum.ACTION.EDIT: // sửa hàng hóa
-                        self.showEditInventoryForm(data);
+                        me.showEditInventoryForm(data);
                         break;
                     case Enum.ACTION.DELETE: // xóa hàng hóa
-                        self.deleteInventory(data);
+                        me.deleteInventory(data);
                         break;
                     case Enum.ACTION.DELETE_MANY: // xóa nhiều hàng hóa
-                        self.deleteInventoryMany(data);
+                        me.deleteInventoryMany(data);
                         break;
                     case Enum.ACTION.DUPLICATE: // Nhân bản hàng hóa
-                        self.duplicateInventory(data);
+                        me.duplicateInventory(data);
                         break;
                     case Enum.ACTION.INACTIVE:
-                        self.$root.$toast.info(self.$t('notice_message.developing'));
+                        me.$root.$toast.info(me.$t('notice_message.developing'));
                         break;
                     case Enum.ACTION.RELOAD: // Tải lại danh sách hàng hóa
-                        self.reloadData();
+                        me.reloadData();
                         break;
                     case Enum.ACTION.EXPORT: // Xuất file excel
-                        self.exportExcel();
+                        me.exportExcel();
                         break;
                 }
             } catch (error) {
@@ -323,9 +323,9 @@ export default {
          * Author: tttuan 07/10/2022
          */
         showAddInventoryForm() {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
-            self.showInventoryForm = true;
+            const me = this;
+            me.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
+            me.showInventoryForm = true;
         },
         /**
          * @description: Hàm này dùng để sửa hàng hóa
@@ -333,10 +333,10 @@ export default {
          * Author: tttuan 07/10/2022
          */
         showEditInventoryForm(inventory) {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
-            self.$store.dispatch('setInventoryId', inventory.inventoryID);
-            self.showInventoryForm = true;
+            const me = this;
+            me.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
+            me.$store.dispatch('setInventoryId', inventory.inventoryID);
+            me.showInventoryForm = true;
         },
         /**
          * @description: Hàm này dùng để xóa hàng hóa
@@ -344,29 +344,29 @@ export default {
          * Author: tttuan 07/10/2022
          */
         deleteInventory(inventory) {
-            const self = this;
-            self.deleteInventoryBackend(inventory);
+            const me = this;
+            me.deleteInventoryBackend(inventory);
         },
         /**
          * @description: Hàm này dùng để xóa nhiều hàng hóa
          * Author: tttuan 1/3/2023
          */
         async deleteInventoryMany() {
-            const self = this;
-            const confirm = await self.$refs.popup.show({
-                message: self.$t('notice_message.confirm_delete_many'),
+            const me = this;
+            const confirm = await me.$refs.popup.show({
+                message: me.$t('notice_message.confirm_delete_many'),
                 icon: Enum.ICON.WARNING,
-                okButton: self.$t('confirm_popup.yes'),
-                closeButton: self.$t('confirm_popup.cancel'),
+                okButton: me.$t('confirm_popup.yes'),
+                closeButton: me.$t('confirm_popup.cancel'),
             });
-            if (confirm == self.$t('confirm_popup.yes')) {
-                const result = await self.$store.dispatch('deleteMultipleInventory');
+            if (confirm == me.$t('confirm_popup.yes')) {
+                const result = await me.$store.dispatch('deleteMultipleInventory');
                 if (result != null) {
-                    self.$root.$toast.success(self.$t('notice_message.delete_many_success'));
+                    me.$root.$toast.success(me.$t('notice_message.delete_many_success'));
                     this.$store.commit('setListIdSelected', []);
-                    self.getInventoryList();
+                    me.getInventoryList();
                 } else {
-                    self.$root.$toast.error(self.$t('notice_message.delete_many_fail'));
+                    me.$root.$toast.error(me.$t('notice_message.delete_many_fail'));
                 }
             }
         },
@@ -376,22 +376,22 @@ export default {
          * Author: tttuan 07/10/2022
          */
         async duplicateInventory(employee) {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.DUPLICATE);
-            self.$store.dispatch('setInventoryId', employee.inventoryID);
-            self.showInventoryForm = true;
+            const me = this;
+            me.$store.dispatch('setMode', Enum.FORM_MODE.DUPLICATE);
+            me.$store.dispatch('setInventoryId', employee.inventoryID);
+            me.showInventoryForm = true;
         },
         /**
          * @description: Hàm này dùng để tải lại danh sách hàng hóa
          * Author: tttuan 07/10/2022
          */
         async reloadData() {
-            const self = this;
-            const res = await self.getInventoryList();
+            const me = this;
+            const res = await me.getInventoryList();
             if (res) {
-                self.$root.$toast.success(self.$t('notice_message.reload_data_success'));
+                me.$root.$toast.success(me.$t('notice_message.reload_data_success'));
             } else {
-                self.$root.$toast.error(self.$t('notice_message.reload_data_fail'));
+                me.$root.$toast.error(me.$t('notice_message.reload_data_fail'));
             }
         },
         /**
@@ -399,18 +399,18 @@ export default {
          * Author: tttuan 05/10/2022
          */
         async exportExcel() {
-            const self = this;
+            const me = this;
             try {
-                self.$root.$toast.info(self.$t('notice_message.export_excel_processing'));
-                const res = await self.$api.inventory.exportInventories(self.pagination); // kiểm tra xem có dữ liệu không
+                me.$root.$toast.info(me.$t('notice_message.export_excel_processing'));
+                const res = await me.$api.inventory.exportInventories(me.pagination); // kiểm tra xem có dữ liệu không
                 if (res.status == Enum.MISA_CODE.SUCCESS) {
                     const link = document.createElement('a'); // tạo thẻ a để download file
                     link.href = res.request.responseURL; // đường dẫn tải file
                     link.click();
-                    self.$root.$toast.success(self.$t('notice_message.export_excel_success'));
+                    me.$root.$toast.success(me.$t('notice_message.export_excel_success'));
                 }
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.export_excel_fail'));
+                me.$root.$toast.error(me.$t('notice_message.export_excel_fail'));
                 console.log(error);
             }
         },
@@ -420,20 +420,20 @@ export default {
          * Author: tttuan 19/09/2022
          */
         async deleteInventoryBackend(employee) {
-            const self = this;
+            const me = this;
             try {
-                const confirm = await self.$refs.popup.show({
-                    message: self.$t('notice_message.confirm_delete', [employee.inventoryCode]),
+                const confirm = await me.$refs.popup.show({
+                    message: me.$t('notice_message.confirm_delete', [employee.inventoryCode]),
                     icon: Enum.ICON.WARNING,
-                    okButton: self.$t('confirm_popup.yes'),
-                    closeButton: self.$t('confirm_popup.cancel'),
+                    okButton: me.$t('confirm_popup.yes'),
+                    closeButton: me.$t('confirm_popup.cancel'),
                 });
-                if (confirm == self.$t('confirm_popup.yes')) {
-                    const res = await self.$api.inventory.deleteInventory(employee.inventoryID);
+                if (confirm == me.$t('confirm_popup.yes')) {
+                    const res = await me.$api.inventory.deleteInventory(employee.inventoryID);
                     if (res.status == Enum.MISA_CODE.SUCCESS) {
-                        self.deleteInventoryFrontEnd(employee);
+                        me.deleteInventoryFrontEnd(employee);
                     } else {
-                        self.$root.$toast.error(self.$t('notice_message.delete_fail', [employee.inventoryCode]));
+                        me.$root.$toast.error(me.$t('notice_message.delete_fail', [employee.inventoryCode]));
                     }
                 }
             } catch (error) {
@@ -446,17 +446,17 @@ export default {
          * Author: tttuan 22/09/2022
          */
         deleteInventoryFrontEnd(data) {
-            const self = this;
+            const me = this;
             const { inventoryID, inventoryCode } = data;
             try {
-                const index = self.inventoryList.data.findIndex((item) => item.inventoryID === inventoryID);
+                const index = me.inventoryList.data.findIndex((item) => item.inventoryID === inventoryID);
                 if (index !== -1) {
-                    self.inventoryList.data.splice(index, 1);
-                    self.$root.$toast.success(self.$t('notice_message.delete_success', [inventoryCode]));
-                    self.inventoryList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
+                    me.inventoryList.data.splice(index, 1);
+                    me.$root.$toast.success(me.$t('notice_message.delete_success', [inventoryCode]));
+                    me.inventoryList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
                 }
             } catch (error) {
-                self.$root.$toast.success(self.$t('notice_message.delete_fail', [inventoryCode]));
+                me.$root.$toast.success(me.$t('notice_message.delete_fail', [inventoryCode]));
                 console.log(error);
             }
         },
@@ -466,13 +466,13 @@ export default {
          * Author: tttuan 01/10/2022
          */
         insertInventory(inventory) {
-            const self = this;
+            const me = this;
             try {
-                self.inventoryList.data.unshift(inventory); // Thêm hàng hóa vào đầu mảng
-                self.$root.$toast.success(self.$t('notice_message.insert_success', [inventory.inventoryCode]));
-                self.inventoryList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
+                me.inventoryList.data.unshift(inventory); // Thêm hàng hóa vào đầu mảng
+                me.$root.$toast.success(me.$t('notice_message.insert_success', [inventory.inventoryCode]));
+                me.inventoryList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.insert_fail', [inventory.inventoryCode]));
+                me.$root.$toast.error(me.$t('notice_message.insert_fail', [inventory.inventoryCode]));
                 console.log(error);
             }
         },
@@ -481,16 +481,16 @@ export default {
          * Author: tttuan 05/10/2022
          */
         updateInventory(inventory) {
-            const self = this;
+            const me = this;
             try {
-                const index = self.inventoryList.data.findIndex((item) => item.inventoryID === inventory.inventoryID);
+                const index = me.inventoryList.data.findIndex((item) => item.inventoryID === inventory.inventoryID);
                 if (index !== -1) {
-                    self.inventoryList.data.splice(index, 1);
-                    self.inventoryList.data.unshift(inventory);
-                    self.$root.$toast.success(self.$t('notice_message.update_success', [inventory.inventoryCode]));
+                    me.inventoryList.data.splice(index, 1);
+                    me.inventoryList.data.unshift(inventory);
+                    me.$root.$toast.success(me.$t('notice_message.update_success', [inventory.inventoryCode]));
                 }
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.update_fail', [inventory.inventoryCode]));
+                me.$root.$toast.error(me.$t('notice_message.update_fail', [inventory.inventoryCode]));
                 console.log(error);
             }
         },
@@ -499,19 +499,19 @@ export default {
          * Author: tttuan 19/09/2022
          */
         async getInventoryList() {
-            const self = this;
+            const me = this;
             try {
-                self.isDataLoaded = false;
-                const result = await self.$api.inventory.getInventoriesFilter(self.pagination);
+                me.isDataLoaded = false;
+                const result = await me.$api.inventory.getInventoriesFilter(me.pagination);
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
-                    self.inventoryList = result.data;
-                    self.isDataLoaded = true;
+                    me.inventoryList = result.data;
+                    me.isDataLoaded = true;
                     return Promise.resolve(true);
                 } else {
                     return Promise.resolve(false);
                 }
             } catch (error) {
-                self.$refs.popup.showError(self.$t('notice_message.get_employee_list_fail'));
+                me.$refs.popup.showError(me.$t('notice_message.get_employee_list_fail'));
                 console.log(error);
                 return Promise.reject(false);
             }
@@ -519,16 +519,20 @@ export default {
 
     },
     created() { // Hàm này chạy khi component được tạo
-        const self = this;
-        self.getInventoryList(); // Lấy danh sách hàng hóa
-        self.Enum = Enum; // Khởi tạo enum
+        const me = this;
+        me.getInventoryList(); // Lấy danh sách hàng hóa
+        me.Enum = Enum; // Khởi tạo enum
     },
 
     updated() {
         let me = this;
         me.inventoriesSelectedByID = this.$store.getters.getListIdSelected;
-        console.log("Value local:", me.inventoriesSelectedByID);
-        console.log("Value list inven:", this.$store.getters.getListInventorySelected);
+
+        me.listOptions = [
+            {'key': 2, 'value': this.$t("filter.all")}, 
+            {'key': 1, 'value': this.$t("filter.runnin_out-of-stock")}, 
+            {'key': 0, 'value': this.$t("filter.out-of-stock")}
+        ];
     },
 }
 </script>

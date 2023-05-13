@@ -24,6 +24,28 @@
       "expand": "Expand"
     }
   },
+  "login": {
+    "title": "Log in",
+    "placeholder": {
+      "user": "Phone or email",
+      "password": "Password"
+    },
+    "button": "Login",
+    "log_out": "Log out",
+    "log_in": "Login",
+    "view": "View information",
+    "error_tooltip": {
+      "user": "Username is no empty!",
+      "password": "Password is no empty!" 
+    },
+    "error_message": {
+      "user": "Username is no empty!",
+      "password": "Password is no empty!",
+      "userAndPassword": "Username and password is no empty!",
+      "notExists": "Username or password is not exist!"
+    },
+    "forgot_password": "Forgot password?"
+  },
   "employee_page": {
     "title": "Employee List",
     "add_employee": "Add Employee",
@@ -81,7 +103,8 @@
     "quantity": "Quantity",
     "cost": "Cost",
     "inventory_category": "Inventory Category",
-    "image": "Image"
+    "image": "Image",
+    "action": "Action"
   },
   "inventory_info": {
     "title": "Inventory Information",
@@ -89,6 +112,7 @@
     "name": "Inventory Name",
     "inventory_category": "Inventory Category",
     "quantity": "Quantity",
+    "inventory": "Choose inventory",
     "cost": "Cost",
     "description": "Description",
     "image": "Image"
@@ -129,7 +153,8 @@
     "save_and_add": "Save and Add",
     "cancel": "Cancel",
     "close": "Close",
-    "help": "Help"
+    "help": "Help",
+    "add": "Add"
   },
   "pagination": {
     "after": "After",
@@ -173,9 +198,11 @@
     "export_excel_processing": "Exporting employee list to excel, please wait...",
     "developing": "This function is developing, please wait for the next version",
     "page_developing": "This page is developing",
-    "confirm_delete": "Are you sure you want to delete employee <br/><b>&lt{0}&gt</b>?",
-    "confirm_delete_many": "Are you sure you want to delete selected employees?",
-    "confirm_data_close": "Data has been changed, are you sure you want to close?"
+    "confirm_delete": "Are you sure you want to delete <b>&lt{0}&gt</b>?",
+    "confirm_delete_many": "Are you want to delete selected records?",
+    "confirm_data_close": "Data has been changed, are you sure you want to close?",
+    "sendmail_success": "Password has been sent to your email",
+    "sendmail_fail": "Password sent to email failed"
   },
   "confirm_popup": {
     "yes": "Yes",
@@ -220,5 +247,102 @@
       "collapse": "Collapse/Expand menu",
       "show_keyboard_shortcut": "Show keyboard shortcut"
     }
+  },
+
+  "invoice_page": {
+    "title": "Invoice List",
+    "search_function": "Search By Invoice Code, Employee",
+    "filter": "Filter",
+    "add": "Add Invoice"
+  },
+  "invoice_table": {
+    "code": "Invoice Code",
+    "total_cost": "Invoice Value",
+    "purchase_date": "Purchase Date",
+    "employee": "Employee",
+    "customer": "Customer",
+    "action": "Action"
+  },
+  "invoice_info": {
+    "title": "Invoice Information",
+    "customer": "Customer Inforamtion",
+    "employee": "Employee",
+    "purchase_date": "Purchase Date",
+    "total_cost": "Total",
+    "description": "Description",
+    "invoice_code": "Invoice Code",
+    "is_collected": "Is Collected",
+    "list_products": "Item's detail",
+    "code": "Code",
+    "name": "Name",
+    "quantity": "Quantity",
+    "cost": "Cost",
+    "total": "Total"
+  },
+  "authencator_infor": {
+    "title": "Personal Information",
+    "code": "Code",
+    "name": "Name",
+    "department": "Đơn vị",
+    "job_title": "Chức danh",
+    "date_of_birth": "Date of birth",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "identity_card": "Personal ID Number",
+    "identity_card_label": "",
+    "issued_date": "Issued Date",
+    "issued_by": "Issued By",
+    "address": "Address",
+    "phone_number": "Phone number",
+    "phone_number_label": "",
+    "email": "Email",
+    "bank_number": "Bank Account",
+    "bank_name": "Bank's Name",
+    "bank_branch": "Bank's Branch",
+    "is_employee": "Is Employee",
+    "is_manager": "Is Manager",
+    "password": "Password"
+  },
+
+  "filter": {
+    "all": "All",
+    "is_employee":"Employee",
+    "is_manager": "Manager",
+    "is_collected":"Is collected",
+    "is_not_collected": "Isn't collected",
+    "runnin_out-of-stock": "Runnin' out-of-stock",
+    "out-of-stock": "Out-of-stock"
+  },
+
+  "dashboard_page": {
+    "title": "Overview",
+    "invoice": "Invoice",
+    "inventory": "Inventory Information",
+    "revenue": "Inventories with large revenue",
+    "inventory_value": "Inventories with large value",
+    "inventory_warning": "Runnin' out-of-stock",
+    "inventory_empty": "Out-of-stock"
+  },
+
+  "dashboard_form": {
+    "name": "Name",
+    "quantity": "Quantity",
+    "cost": "Cost",
+    "total_cost": "Total",
+    "sum_total_cost": "Invoice value",
+    "is_collected": "Real revenue",
+    "is_not_collected": "Still receivable",
+    "invoice": "Invoice",
+    "customer":"Thông tin khách hàng",
+    "inventory_code": "Inventory code",
+    "inventory_name": "Inventory name"
+  },
+
+  "forgot_password": {
+    "title": "Forgot password",
+    "email": "Email address",
+    "reset_password": "Reset default password"
   }
 }

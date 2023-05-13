@@ -389,8 +389,6 @@
     "address": "Địa chỉ",
     "phone_number": "ĐT di động",
     "phone_number_label": "Điện thoại di động",
-    "home_phone_number": "ĐT cố định",
-    "home_phone_number_label": "Điện thoại cố định",
     "email": "Email",
     "bank_number": "Tài khoản ngân hàng",
     "bank_name": "Tên ngân hàng",
@@ -398,5 +396,15 @@
     "is_employee": "Là nhân viên",
     "is_manager": "Là quản lý",
     "password": "Mật khẩu"
+  },
+
+  "filter": {
+    "all": "Tất cả",
+    "is_employee":"Nhân viên",
+    "is_manager": "Quản lý",
+    "is_collected":"Đã thu tiền",
+    "is_not_collected": "Chưa thu tiền",
+    "runnin_out-of-stock": "Sắp hết hàng",
+    "out-of-stock": "Hết hàng"
   }
 }

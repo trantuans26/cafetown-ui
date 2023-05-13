@@ -188,6 +188,7 @@
                 <div class="item__body item__body--statistic">
                     <div class="statistic__total">
                         <v-skeleton :loading="isLoadTopInventory">
+                            
                             <div></div>
                         </v-skeleton>
                         <div class="statistic__value" v-show="!isLoadTopInventory">
@@ -774,7 +775,7 @@ export default {
     
     &__box {
         width: 50%;
-        padding: 10px 36px;
+        padding: 10px 32px;
         display: flex;
 
         &--left {

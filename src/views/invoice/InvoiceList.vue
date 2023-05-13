@@ -77,9 +77,9 @@ export default {
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
             listCollectedOptions: [
-                {'key': 2, 'value': 'Tất cả'}, 
-                {'key': 1, 'value': 'Đã thu tiền'}, 
-                {'key': 0, 'value': 'Chưa thu tiền'}
+                {'key': 2, 'value': this.$t("filter.all")}, 
+                {'key': 1, 'value': this.$t("filter.is_collected")}, 
+                {'key': 0, 'value': this.$t("filter.is_not_collected")},
             ],
             selectedCollectedOptions: 2,
         };
@@ -218,15 +218,15 @@ export default {
             * Author: tttuan 23/09/2022
             */
             handler: function (newVal) {
-                const self = this;
-                clearTimeout(self.debounce);
+                const me = this;
+                clearTimeout(me.debounce);
                 if (newVal) {
-                    self.debounce = setTimeout(() => {
-                        self.pagination.keyword = newVal.trim();
+                    me.debounce = setTimeout(() => {
+                        me.pagination.keyword = newVal.trim();
                     }, 500); // triển khai debounce để giảm số lần gọi api
                 } else {
-                    self.debounce = setTimeout(() => {
-                        self.pagination.keyword = "";
+                    me.debounce = setTimeout(() => {
+                        me.pagination.keyword = "";
                     }, 500); // triển khai debounce để giảm số lần gọi api
                 }
 
@@ -270,29 +270,29 @@ export default {
          * Author: tttuan 16/09/2022
          */
         handleAction(action, data) {
-            const self = this;
+            const me = this;
             try {
                 switch (action) {
                     case Enum.ACTION.ADD: // thêm mới hàng hóa
-                        self.showAddInvoiceForm();
+                        me.showAddInvoiceForm();
                         break;
                     case Enum.ACTION.EDIT: // xem hóa đơn
-                        self.showViewInvoiceForm(data);
+                        me.showViewInvoiceForm(data);
                         break;
                     case Enum.ACTION.DELETE: // xóa hóa đơn
-                        self.deleteInvoice(data);
+                        me.deleteInvoice(data);
                         break;
                     case Enum.ACTION.DELETE_MANY: // xóa nhiều hóa đơn
-                        self.deleteInvoiceMany(data);
+                        me.deleteInvoiceMany(data);
                         break;
                     case Enum.ACTION.INACTIVE:
-                        self.$root.$toast.info(self.$t('notice_message.developing'));
+                        me.$root.$toast.info(me.$t('notice_message.developing'));
                         break;
                     case Enum.ACTION.RELOAD: // Tải lại danh sách hóa đơn
-                        self.reloadData();
+                        me.reloadData();
                         break;
                     case Enum.ACTION.EXPORT: // Xuất file excel
-                        self.exportExcel();
+                        me.exportExcel();
                         break;
                 }
             } catch (error) {
@@ -304,9 +304,9 @@ export default {
          * Author: tttuan 07/10/2022
          */
         showAddInvoiceForm() {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
-            self.showInvoiceForm = true;
+            const me = this;
+            me.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
+            me.showInvoiceForm = true;
         },
         /**
          * @description: Hàm này dùng để sửa hóa đơn
@@ -314,10 +314,10 @@ export default {
          * Author: tttuan 07/10/2022
          */
         showViewInvoiceForm(invoice) {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
-            self.$store.dispatch('setInvoiceId', invoice.invoiceID);
-            self.showInvoiceForm = true;
+            const me = this;
+            me.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
+            me.$store.dispatch('setInvoiceId', invoice.invoiceID);
+            me.showInvoiceForm = true;
         },
         /**
          * @description: Hàm này dùng để xóa hóa đơn
@@ -325,28 +325,28 @@ export default {
          * Author: tttuan 07/10/2022
          */
         deleteInvoice(invoice) {
-            const self = this;
-            self.deleteInvoiceBackend(invoice);
+            const me = this;
+            me.deleteInvoiceBackend(invoice);
         },
         /**
          * @description: Hàm này dùng để xóa nhiều hóa đơn
          * Author: tttuan 1/3/2023
          */
         async deleteInvoiceMany() {
-            const self = this;
-            const confirm = await self.$refs.popup.show({
-                message: self.$t('notice_message.confirm_delete_many'),
+            const me = this;
+            const confirm = await me.$refs.popup.show({
+                message: me.$t('notice_message.confirm_delete_many'),
                 icon: Enum.ICON.WARNING,
-                okButton: self.$t('confirm_popup.yes'),
-                closeButton: self.$t('confirm_popup.cancel'),
+                okButton: me.$t('confirm_popup.yes'),
+                closeButton: me.$t('confirm_popup.cancel'),
             });
-            if (confirm == self.$t('confirm_popup.yes')) {
-                const result = await self.$store.dispatch('deleteMultipleEmployee');
+            if (confirm == me.$t('confirm_popup.yes')) {
+                const result = await me.$store.dispatch('deleteMultipleEmployee');
                 if (result > 0) {
-                    self.$root.$toast.success(self.$t('notice_message.delete_many_success', [result]));
-                    self.getInvoiceList();
+                    me.$root.$toast.success(me.$t('notice_message.delete_many_success', [result]));
+                    me.getInvoiceList();
                 } else {
-                    self.$root.$toast.error(self.$t('notice_message.delete_many_fail'));
+                    me.$root.$toast.error(me.$t('notice_message.delete_many_fail'));
                 }
             }
         },
@@ -356,12 +356,12 @@ export default {
          * Author: tttuan 07/10/2022
          */
         async reloadData() {
-            const self = this;
-            const res = await self.getInvoiceList();
+            const me = this;
+            const res = await me.getInvoiceList();
             if (res) {
-                self.$root.$toast.success(self.$t('notice_message.reload_data_success'));
+                me.$root.$toast.success(me.$t('notice_message.reload_data_success'));
             } else {
-                self.$root.$toast.error(self.$t('notice_message.reload_data_fail'));
+                me.$root.$toast.error(me.$t('notice_message.reload_data_fail'));
             }
         },
         /**
@@ -369,18 +369,18 @@ export default {
          * Author: tttuan 05/10/2022
          */
         async exportExcel() {
-            const self = this;
+            const me = this;
             try {
-                self.$root.$toast.info(self.$t('notice_message.export_excel_processing'));
-                const res = await self.$api.invoice.exportInventories(self.pagination); // kiểm tra xem có dữ liệu không
+                me.$root.$toast.info(me.$t('notice_message.export_excel_processing'));
+                const res = await me.$api.invoice.exportInventories(me.pagination); // kiểm tra xem có dữ liệu không
                 if (res.status == Enum.MISA_CODE.SUCCESS) {
                     const link = document.createElement('a'); // tạo thẻ a để download file
                     link.href = res.request.responseURL; // đường dẫn tải file
                     link.click();
-                    self.$root.$toast.success(self.$t('notice_message.export_excel_success'));
+                    me.$root.$toast.success(me.$t('notice_message.export_excel_success'));
                 }
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.export_excel_fail'));
+                me.$root.$toast.error(me.$t('notice_message.export_excel_fail'));
                 console.log(error);
             }
         },
@@ -390,20 +390,20 @@ export default {
          * Author: tttuan 19/09/2022
          */
         async deleteInvoiceBackend(employee) {
-            const self = this;
+            const me = this;
             try {
-                const confirm = await self.$refs.popup.show({
-                    message: self.$t('notice_message.confirm_delete', [employee.invoiceCode]),
+                const confirm = await me.$refs.popup.show({
+                    message: me.$t('notice_message.confirm_delete', [employee.invoiceCode]),
                     icon: Enum.ICON.WARNING,
-                    okButton: self.$t('confirm_popup.yes'),
-                    closeButton: self.$t('confirm_popup.cancel'),
+                    okButton: me.$t('confirm_popup.yes'),
+                    closeButton: me.$t('confirm_popup.cancel'),
                 });
-                if (confirm == self.$t('confirm_popup.yes')) {
-                    const res = await self.$api.invoice.deleteInvoice(employee.invoiceID);
+                if (confirm == me.$t('confirm_popup.yes')) {
+                    const res = await me.$api.invoice.deleteInvoice(employee.invoiceID);
                     if (res.status == Enum.MISA_CODE.SUCCESS) {
-                        self.deleteInvoiceFrontEnd(employee);
+                        me.deleteInvoiceFrontEnd(employee);
                     } else {
-                        self.$root.$toast.error(self.$t('notice_message.delete_fail', [employee.invoiceCode]));
+                        me.$root.$toast.error(me.$t('notice_message.delete_fail', [employee.invoiceCode]));
                     }
                 }
             } catch (error) {
@@ -416,17 +416,17 @@ export default {
          * Author: tttuan 22/09/2022
          */
         deleteInvoiceFrontEnd(data) {
-            const self = this;
+            const me = this;
             const { invoiceID, invoiceCode } = data;
             try {
-                const index = self.invoiceList.data.findIndex((item) => item.invoiceID === invoiceID);
+                const index = me.invoiceList.data.findIndex((item) => item.invoiceID === invoiceID);
                 if (index !== -1) {
-                    self.invoiceList.data.splice(index, 1);
-                    self.$root.$toast.success(self.$t('notice_message.delete_success', [invoiceCode]));
-                    self.invoiceList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
+                    me.invoiceList.data.splice(index, 1);
+                    me.$root.$toast.success(me.$t('notice_message.delete_success', [invoiceCode]));
+                    me.invoiceList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
                 }
             } catch (error) {
-                self.$root.$toast.success(self.$t('notice_message.delete_fail', [invoiceCode]));
+                me.$root.$toast.success(me.$t('notice_message.delete_fail', [invoiceCode]));
                 console.log(error);
             }
         },
@@ -436,16 +436,16 @@ export default {
          * Author: tttuan 05/10/2022
          */
         updateInvoice(invoice) {
-            const self = this;
+            const me = this;
             try {
-                const index = self.invoiceList.data.findIndex((item) => item.invoiceID === invoice.invoiceID);
+                const index = me.invoiceList.data.findIndex((item) => item.invoiceID === invoice.invoiceID);
                 if (index !== -1) {
-                    self.invoiceList.data.splice(index, 1);
-                    self.invoiceList.data.unshift(invoice);
-                    self.$root.$toast.success(self.$t('notice_message.update_success', [invoice.invoiceCode]));
+                    me.invoiceList.data.splice(index, 1);
+                    me.invoiceList.data.unshift(invoice);
+                    me.$root.$toast.success(me.$t('notice_message.update_success', [invoice.invoiceCode]));
                 }
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.update_fail', [invoice.invoiceCode]));
+                me.$root.$toast.error(me.$t('notice_message.update_fail', [invoice.invoiceCode]));
                 console.log(error);
             }
         },
@@ -454,19 +454,19 @@ export default {
          * Author: tttuan 19/09/2022
          */
         async getInvoiceList() {
-            const self = this;
+            const me = this;
             try {
-                self.isDataLoaded = false;
-                const result = await self.$api.invoice.getInvoicesFilter(self.pagination);
+                me.isDataLoaded = false;
+                const result = await me.$api.invoice.getInvoicesFilter(me.pagination);
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
-                    self.invoiceList = result.data;
-                    self.isDataLoaded = true;
+                    me.invoiceList = result.data;
+                    me.isDataLoaded = true;
                     return Promise.resolve(true);
                 } else {
                     return Promise.resolve(false);
                 }
             } catch (error) {
-                self.$refs.popup.showError(self.$t('notice_message.get_employee_list_fail'));
+                me.$refs.popup.showError(me.$t('notice_message.get_employee_list_fail'));
                 console.log(error);
                 return Promise.reject(false);
             }
@@ -474,9 +474,18 @@ export default {
 
     },
     created() { // Hàm này chạy khi component được tạo
-        const self = this;
-        self.getInvoiceList(); // Lấy danh sách hóa đơn
-        self.Enum = Enum; // Khởi tạo enum
+        const me = this;
+        me.getInvoiceList(); // Lấy danh sách hóa đơn
+        me.Enum = Enum; // Khởi tạo enum
+    },
+
+    updated() {
+        let me = this;
+        me.listCollectedOptions = [
+            {'key': 2, 'value': this.$t("filter.all")}, 
+            {'key': 1, 'value': this.$t("filter.is_collected")}, 
+            {'key': 0, 'value': this.$t("filter.is_not_collected")},
+        ];
     },
 }
 </script>

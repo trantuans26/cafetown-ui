@@ -85,9 +85,9 @@ export default {
             debounce: null, // biến này dùng để lưu hàm debounce,
             isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
             listOptions: [
-                {'key': 2, 'value': 'Tất cả'}, 
-                {'key': 1, 'value': 'Quản lý'}, 
-                {'key': 0, 'value': 'Nhân viên'}
+                {'key': 2, 'value': this.$t("filter.all")}, 
+                {'key': 1, 'value': this.$t("filter.is_manager")}, 
+                {'key': 0, 'value': this.$t("filter.is_employee")}
             ],
             selectedOptions: 2,
         };
@@ -249,15 +249,15 @@ export default {
             * Author: tttuan 23/09/2022
             */
             handler: function (newVal) {
-                const self = this;
-                clearTimeout(self.debounce);
+                const me = this;
+                clearTimeout(me.debounce);
                 if (newVal) {
-                    self.debounce = setTimeout(() => {
-                        self.pagination.keyword = newVal.trim();
+                    me.debounce = setTimeout(() => {
+                        me.pagination.keyword = newVal.trim();
                     }, 500); // triển khai debounce để giảm số lần gọi api
                 } else {
-                    self.debounce = setTimeout(() => {
-                        self.pagination.keyword = "";
+                    me.debounce = setTimeout(() => {
+                        me.pagination.keyword = "";
                     }, 500); // triển khai debounce để giảm số lần gọi api
                 }
 
@@ -301,32 +301,32 @@ export default {
          * Author: tttuan 16/09/2022
          */
         handleAction(action, data) {
-            const self = this;
+            const me = this;
             try {
                 switch (action) {
                     case Enum.ACTION.ADD: // thêm mới nhân viên
-                        self.showAddEmployeeForm();
+                        me.showAddEmployeeForm();
                         break;
                     case Enum.ACTION.EDIT: // sửa nhân viên
-                        self.showEditEmployeeForm(data);
+                        me.showEditEmployeeForm(data);
                         break;
                     case Enum.ACTION.DELETE: // xóa nhân viên
-                        self.deleteEmployee(data);
+                        me.deleteEmployee(data);
                         break;
                     case Enum.ACTION.DELETE_MANY: // xóa nhiều nhân viên
-                        self.deleteManyEmployee(data);
+                        me.deleteManyEmployee(data);
                         break;
                     case Enum.ACTION.DUPLICATE: // Nhân bản nhân viên
-                        self.duplicateEmployee(data);
+                        me.duplicateEmployee(data);
                         break;
                     case Enum.ACTION.INACTIVE:
-                        self.$root.$toast.info(self.$t('notice_message.developing'));
+                        me.$root.$toast.info(me.$t('notice_message.developing'));
                         break;
                     case Enum.ACTION.RELOAD: // Tải lại danh sách nhân viên
-                        self.reloadData();
+                        me.reloadData();
                         break;
                     case Enum.ACTION.EXPORT: // Xuất file excel
-                        self.exportExcel();
+                        me.exportExcel();
                         break;
                 }
             } catch (error) {
@@ -338,9 +338,9 @@ export default {
          * Author: tttuan 07/10/2022
          */
         showAddEmployeeForm() {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
-            self.showEmployeeForm = true;
+            const me = this;
+            me.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
+            me.showEmployeeForm = true;
         },
         /**
          * @description: Hàm này dùng để sửa nhân viên
@@ -348,10 +348,10 @@ export default {
          * Author: tttuan 07/10/2022
          */
         showEditEmployeeForm(employee) {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
-            self.$store.dispatch('setEmployeeId', employee.employeeID);
-            self.showEmployeeForm = true;
+            const me = this;
+            me.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
+            me.$store.dispatch('setEmployeeId', employee.employeeID);
+            me.showEmployeeForm = true;
         },
         /**
          * @description: Hàm này dùng để xóa nhân viên
@@ -359,29 +359,29 @@ export default {
          * Author: tttuan 07/10/2022
          */
         deleteEmployee(employee) {
-            const self = this;
-            self.deleteEmployeeBackend(employee);
+            const me = this;
+            me.deleteEmployeeBackend(employee);
         },
         /**
          * @description: Hàm này dùng để xóa nhiều nhân viên
          * Author: tttuan 1/3/2023
          */
         async deleteManyEmployee() {
-            const self = this;
-            const confirm = await self.$refs.popup.show({
-                message: self.$t('notice_message.confirm_delete_many'),
+            const me = this;
+            const confirm = await me.$refs.popup.show({
+                message: me.$t('notice_message.confirm_delete_many'),
                 icon: Enum.ICON.WARNING,
-                okButton: self.$t('confirm_popup.yes'),
-                closeButton: self.$t('confirm_popup.cancel'),
+                okButton: me.$t('confirm_popup.yes'),
+                closeButton: me.$t('confirm_popup.cancel'),
             });
-            if (confirm == self.$t('confirm_popup.yes')) {
-                const result = await self.$store.dispatch('deleteMultipleEmployee');
+            if (confirm == me.$t('confirm_popup.yes')) {
+                const result = await me.$store.dispatch('deleteMultipleEmployee');
                 if (result != null) {
                     this.$store.commit('setListIdSelected', []);
-                    self.$root.$toast.success(self.$t('notice_message.delete_many_success'));
-                    self.getEmployeeList();
+                    me.$root.$toast.success(me.$t('notice_message.delete_many_success'));
+                    me.getEmployeeList();
                 } else {
-                    self.$root.$toast.error(self.$t('notice_message.delete_many_fail'));
+                    me.$root.$toast.error(me.$t('notice_message.delete_many_fail'));
                 }
             }
         },
@@ -391,22 +391,22 @@ export default {
          * Author: tttuan 07/10/2022
          */
         async duplicateEmployee(employee) {
-            const self = this;
-            self.$store.dispatch('setMode', Enum.FORM_MODE.DUPLICATE);
-            self.$store.dispatch('setEmployeeId', employee.employeeID);
-            self.showEmployeeForm = true;
+            const me = this;
+            me.$store.dispatch('setMode', Enum.FORM_MODE.DUPLICATE);
+            me.$store.dispatch('setEmployeeId', employee.employeeID);
+            me.showEmployeeForm = true;
         },
         /**
          * @description: Hàm này dùng để tải lại danh sách nhân viên
          * Author: tttuan 07/10/2022
          */
         async reloadData() {
-            const self = this;
-            const res = await self.getEmployeeList();
+            const me = this;
+            const res = await me.getEmployeeList();
             if (res) {
-                self.$root.$toast.success(self.$t('notice_message.reload_data_success'));
+                me.$root.$toast.success(me.$t('notice_message.reload_data_success'));
             } else {
-                self.$root.$toast.error(self.$t('notice_message.reload_data_fail'));
+                me.$root.$toast.error(me.$t('notice_message.reload_data_fail'));
             }
         },
         /**
@@ -414,18 +414,18 @@ export default {
          * Author: tttuan 05/10/2022
          */
         async exportExcel() {
-            const self = this;
+            const me = this;
             try {
-                self.$root.$toast.info(self.$t('notice_message.export_excel_processing'));
-                const res = await self.$api.employee.exportEmployees(self.pagination); // kiểm tra xem có dữ liệu không
+                me.$root.$toast.info(me.$t('notice_message.export_excel_processing'));
+                const res = await me.$api.employee.exportEmployees(me.pagination); // kiểm tra xem có dữ liệu không
                 if (res.status == Enum.MISA_CODE.SUCCESS) {
                     const link = document.createElement('a'); // tạo thẻ a để download file
                     link.href = res.request.responseURL; // đường dẫn tải file
                     link.click();
-                    self.$root.$toast.success(self.$t('notice_message.export_excel_success'));
+                    me.$root.$toast.success(me.$t('notice_message.export_excel_success'));
                 }
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.export_excel_fail'));
+                me.$root.$toast.error(me.$t('notice_message.export_excel_fail'));
                 console.log(error);
             }
         },
@@ -435,20 +435,20 @@ export default {
          * Author: tttuan 19/09/2022
          */
         async deleteEmployeeBackend(employee) {
-            const self = this;
+            const me = this;
             try {
-                const confirm = await self.$refs.popup.show({
-                    message: self.$t('notice_message.confirm_delete', [employee.employeeCode]),
+                const confirm = await me.$refs.popup.show({
+                    message: me.$t('notice_message.confirm_delete', [employee.employeeCode]),
                     icon: Enum.ICON.WARNING,
-                    okButton: self.$t('confirm_popup.yes'),
-                    closeButton: self.$t('confirm_popup.cancel'),
+                    okButton: me.$t('confirm_popup.yes'),
+                    closeButton: me.$t('confirm_popup.cancel'),
                 });
-                if (confirm == self.$t('confirm_popup.yes')) {
-                    const res = await self.$api.employee.deleteEmployee(employee.employeeID);
+                if (confirm == me.$t('confirm_popup.yes')) {
+                    const res = await me.$api.employee.deleteEmployee(employee.employeeID);
                     if (res.status == Enum.MISA_CODE.SUCCESS) {
-                        self.deleteEmployeeFrontEnd(employee);
+                        me.deleteEmployeeFrontEnd(employee);
                     } else {
-                        self.$root.$toast.error(self.$t('notice_message.delete_fail', [employee.employeeCode]));
+                        me.$root.$toast.error(me.$t('notice_message.delete_fail', [employee.employeeCode]));
                     }
                 }
             } catch (error) {
@@ -461,17 +461,17 @@ export default {
          * Author: tttuan 22/09/2022
          */
         deleteEmployeeFrontEnd(data) {
-            const self = this;
+            const me = this;
             const { employeeID, employeeCode } = data;
             try {
-                const index = self.employeeList.data.findIndex((item) => item.employeeID === employeeID);
+                const index = me.employeeList.data.findIndex((item) => item.employeeID === employeeID);
                 if (index !== -1) {
-                    self.employeeList.data.splice(index, 1);
-                    self.$root.$toast.success(self.$t('notice_message.delete_success', [employeeCode]));
-                    self.employeeList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
+                    me.employeeList.data.splice(index, 1);
+                    me.$root.$toast.success(me.$t('notice_message.delete_success', [employeeCode]));
+                    me.employeeList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
                 }
             } catch (error) {
-                self.$root.$toast.success(self.$t('notice_message.delete_fail', [employeeCode]));
+                me.$root.$toast.success(me.$t('notice_message.delete_fail', [employeeCode]));
                 console.log(error);
             }
         },
@@ -481,13 +481,13 @@ export default {
          * Author: tttuan 01/10/2022
          */
         insertEmployee(employee) {
-            const self = this;
+            const me = this;
             try {
-                self.employeeList.data.unshift(employee); // Thêm nhân viên vào đầu mảng
-                self.$root.$toast.success(self.$t('notice_message.insert_success', [employee.employeeCode]));
-                self.employeeList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
+                me.employeeList.data.unshift(employee); // Thêm nhân viên vào đầu mảng
+                me.$root.$toast.success(me.$t('notice_message.insert_success', [employee.employeeCode]));
+                me.employeeList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.insert_fail', [employee.employeeCode]));
+                me.$root.$toast.error(me.$t('notice_message.insert_fail', [employee.employeeCode]));
                 console.log(error);
             }
         },
@@ -496,16 +496,16 @@ export default {
          * Author: tttuan 05/10/2022
          */
         updateEmployee(employee) {
-            const self = this;
+            const me = this;
             try {
-                const index = self.employeeList.data.findIndex((item) => item.employeeID === employee.employeeID);
+                const index = me.employeeList.data.findIndex((item) => item.employeeID === employee.employeeID);
                 if (index !== -1) {
-                    self.employeeList.data.splice(index, 1);
-                    self.employeeList.data.unshift(employee);
-                    self.$root.$toast.success(self.$t('notice_message.update_success', [employee.employeeCode]));
+                    me.employeeList.data.splice(index, 1);
+                    me.employeeList.data.unshift(employee);
+                    me.$root.$toast.success(me.$t('notice_message.update_success', [employee.employeeCode]));
                 }
             } catch (error) {
-                self.$root.$toast.error(self.$t('notice_message.update_fail', [employee.employeeCode]));
+                me.$root.$toast.error(me.$t('notice_message.update_fail', [employee.employeeCode]));
                 console.log(error);
             }
         },
@@ -514,19 +514,19 @@ export default {
          * Author: tttuan 19/09/2022
          */
         async getEmployeeList() {
-            const self = this;
+            const me = this;
             try {
-                self.isDataLoaded = false;
-                const result = await self.$api.employee.getEmployeesFilter(self.pagination);
+                me.isDataLoaded = false;
+                const result = await me.$api.employee.getEmployeesFilter(me.pagination);
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
-                    self.employeeList = result.data;
-                    self.isDataLoaded = true;
+                    me.employeeList = result.data;
+                    me.isDataLoaded = true;
                     return Promise.resolve(true);
                 } else {
                     return Promise.resolve(false);
                 }
             } catch (error) {
-                self.$refs.popup.showError(self.$t('notice_message.get_employee_list_fail'));
+                me.$refs.popup.showError(me.$t('notice_message.get_employee_list_fail'));
                 console.log(error);
                 return Promise.reject(false);
             }
@@ -534,16 +534,20 @@ export default {
 
     },
     created() { // Hàm này chạy khi component được tạo
-        const self = this;
-        self.getEmployeeList(); // Lấy danh sách nhân viên
-        self.Enum = Enum; // Khởi tạo enum
+        const me = this;
+        me.getEmployeeList(); // Lấy danh sách nhân viên
+        me.Enum = Enum; // Khởi tạo enum
     },
 
     updated() {
         let me = this;
         me.employeesSelectedByID = this.$store.getters.getListIdSelected;
-        console.log("Value local:", me.employeesSelectedByID);
-        console.log("Value list e:", this.$store.getters.getListEmployeeSelected);
+
+        me.listOptions = [
+            {'key': 2, 'value': this.$t("filter.all")}, 
+            {'key': 1, 'value': this.$t("filter.is_manager")}, 
+            {'key': 0, 'value': this.$t("filter.is_employee")}
+        ];
     },
 }
 </script>
