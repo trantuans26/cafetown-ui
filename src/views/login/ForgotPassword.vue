@@ -110,13 +110,15 @@ export default {
         async forgotPassword() {
             let me = this;
             me.isLoaded = true;
-            const response = await me.$api.employee.forgotPassword(me.email);
-            if (response.status == Enum.MISA_CODE.SUCCESS) {
+
+            setTimeout(function() {
                 me.isLoaded = false;
                 me.email = null;
                 me.$emit("update:modelValue", false);
                 me.$emit("resetPasswordSuccess", true); 
-            }
+            }, 1000);
+
+            await me.$api.employee.forgotPassword(me.email);
         },
 
 
